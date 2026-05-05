@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -12,10 +12,11 @@
 
 # testing
 /coverage
+TestResults/
 
-# next.js
-/.next/
-/out/
+# next.js (web app)
+web/.next/
+web/out/
 
 # production
 /build
@@ -38,4 +39,25 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+web/next-env.d.ts
+
+# IDE / editors
+.vs/
+.idea/
+*.rsuser
+*.DotSettings.user
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# .NET / MSBuild / Visual Studio
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
