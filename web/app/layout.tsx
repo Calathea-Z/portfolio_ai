@@ -13,10 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "zach.dev — AI-powered developer portfolio",
+  title: "zach.dev — Developer portfolio",
   description:
-    "Ask anything about Zach's background, projects, and what he's looking for — answers stream from Claude with a real system prompt, not RAG.",
+    "Chat assistant grounded in Zach Sykes's resume and bio. For recruiting or detailed conversations, contact Zach directly—email and LinkedIn are on the site.",
 };
+
+const themeBootstrap = `(()=>{try{const s=localStorage.getItem('theme');const m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='dark'||(!s&&m))document.documentElement.classList.add('dark');}catch(e){}})()`;
 
 export default function RootLayout({
   children,
@@ -26,9 +28,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-screen flex-col bg-zinc-100 dark:bg-black">{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+      </head>
+      <body className="flex min-h-screen flex-col bg-bg text-text transition-colors duration-300">
+        {children}
+      </body>
     </html>
   );
 }

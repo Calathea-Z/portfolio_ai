@@ -1,7 +1,7 @@
 export function TypingIndicator() {
   return (
     <div
-      className="flex items-center gap-1.5 px-1 py-2 text-zinc-500 dark:text-zinc-400"
+      className="flex items-center gap-1.5 px-1 py-2 text-primary"
       aria-live="polite"
       aria-label="Assistant is typing"
     >

@@ -13,13 +13,13 @@ export function MessageBubble({ message }: Props) {
       aria-label={isUser ? "You" : "Assistant"}
     >
       <div
-        className={`max-w-[min(100%,42rem)] rounded-2xl px-4 py-3 text-[15px] leading-relaxed ${
+        className={`max-w-[min(100%,42rem)] rounded-2xl px-4 py-3 text-[15px] leading-relaxed shadow-sm transition-colors ${
           isUser
-            ? "bg-zinc-800 text-zinc-50 dark:bg-zinc-200 dark:text-zinc-900"
-            : "bg-zinc-100 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"
+            ? "bg-primary text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] dark:shadow-[0_4px_14px_rgb(184_165_255/0.2)]"
+            : "border border-border-soft/70 bg-surface-alt text-text"
         }`}
       >
-        <p className="whitespace-pre-wrap break-words">{message.content}</p>
+        <p className="whitespace-pre-wrap wrap-break-word">{message.content}</p>
       </div>
     </div>
   );

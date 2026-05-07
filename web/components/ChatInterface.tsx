@@ -5,6 +5,7 @@ import type { ChatTurn } from "@/lib/chat-stream";
 import { streamChat } from "@/lib/chat-stream";
 import { MessageBubble } from "@/components/MessageBubble";
 import { StarterPrompts } from "@/components/StarterPrompts";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { TypingIndicator } from "@/components/TypingIndicator";
 
 function uid() {
@@ -92,12 +93,18 @@ export function ChatInterface() {
   };
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-white dark:bg-zinc-950">
-      <div className="border-b border-zinc-200 px-4 py-3 dark:border-zinc-800 md:px-6">
-        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">Ask the portfolio</h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          I answer from my real background—kitchens to code, DITA pipelines, and what I want next.
-        </p>
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-surface transition-colors duration-300">
+      <div className="flex items-start justify-between gap-4 border-b border-border-soft bg-surface/80 px-4 py-3 backdrop-blur-md md:px-6">
+        <div className="min-w-0">
+          <h2 className="text-lg font-semibold text-text">Ask about Zach</h2>
+          <p className="text-sm text-muted">
+            This assistant is based on Zach&apos;s resume and bio—not a live DM. For hiring or anything sensitive,
+            reach out by email or LinkedIn anytime.
+          </p>
+        </div>
+        <div className="hidden shrink-0 md:block">
+          <ThemeToggle />
+        </div>
       </div>
 
       <div
@@ -119,7 +126,7 @@ export function ChatInterface() {
 
           {error ? (
             <p
-              className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
+              className="rounded-lg border border-red-300/60 bg-red-50/80 px-3 py-2 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-200"
               role="alert"
             >
               {error}
@@ -130,7 +137,7 @@ export function ChatInterface() {
 
       <form
         onSubmit={onSubmit}
-        className="border-t border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900 md:px-6"
+        className="border-t border-border-soft bg-surface-alt/80 p-4 backdrop-blur-md md:px-6"
       >
         <div className="mx-auto flex max-w-3xl gap-2">
           <label htmlFor="chat-input" className="sr-only">
@@ -149,12 +156,12 @@ export function ChatInterface() {
             }}
             placeholder="Ask anything about Zach…"
             disabled={isStreaming}
-            className="min-h-11 flex-1 resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none ring-emerald-700/30 placeholder:text-zinc-400 focus:border-emerald-700 focus:ring-2 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-emerald-500"
+            className="min-h-11 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-(--ring) disabled:opacity-60"
           />
           <button
             type="submit"
             disabled={isStreaming || !input.trim()}
-            className="self-end rounded-xl bg-emerald-800 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-emerald-700 dark:hover:bg-emerald-600"
+            className="self-end rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
           >
             Send
           </button>
