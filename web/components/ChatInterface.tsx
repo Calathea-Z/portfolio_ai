@@ -92,81 +92,149 @@ export function ChatInterface() {
     void send(input);
   };
 
+  const clearChat = () => {
+    if (isStreaming) return;
+    setMessages([]);
+    setError(null);
+  };
+
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-surface transition-colors duration-300">
-      <div className="flex items-start justify-between gap-4 border-b border-border-soft bg-surface/80 px-4 py-3 backdrop-blur-md md:px-6">
-        <div className="min-w-0">
-          <h2 className="text-lg font-semibold text-text">Ask about Zach</h2>
-          <p className="text-sm text-muted">
-            This assistant is based on Zach&apos;s resume and bio—not a live DM. For hiring or anything sensitive,
-            reach out by email or LinkedIn anytime.
-          </p>
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-transparent transition-colors duration-300">
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-1 flex-col gap-4 px-4 py-4 md:gap-6 md:px-6 md:py-5">
+        <div className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-4 shadow-sm backdrop-blur-md">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <h2 className="text-lg font-semibold text-text">Ask about Zach</h2>
+              <p className="text-sm text-muted">
+                Ask about shipped projects, architecture decisions, leadership style, and role fit.
+              </p>
+            </div>
+            <div className="hidden shrink-0 items-center gap-2 md:flex">
+              <span className="rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
+                Open to remote full-stack roles
+              </span>
+              <ThemeToggle />
+            </div>
+          </div>
         </div>
-        <div className="hidden shrink-0 md:block">
-          <ThemeToggle />
+
+        <div
+          ref={messagesScrollRef}
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-border-soft/70 bg-surface/70 p-3 shadow-sm backdrop-blur-md md:p-5"
+        >
+          <div className="mx-auto flex max-w-4xl flex-col gap-4">
+            {showStarters ? (
+              <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft/80 bg-surface-alt/80 p-4 duration-300">
+                <h3 className="text-xl font-semibold tracking-tight text-text">
+                  Hi, I&apos;m Zach - full-stack engineer shipping React/.NET on Azure.
+                </h3>
+                <p className="mt-2 text-sm text-muted">
+                  Grounded in Zach&apos;s resume and project context. I build production full-stack systems with clear
+                  ownership from UI to cloud.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <a
+                    href="/resume"
+                    className="rounded-xl bg-primary px-3 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover"
+                  >
+                    View Resume
+                  </a>
+                  <a
+                    href="mailto:hello@zach.dev"
+                    className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt"
+                  >
+                    Email Zach
+                  </a>
+                  <a
+                    href="https://www.linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
+                    3+ years professional engineering
+                  </span>
+                  <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
+                    Next.js + .NET 8 + Azure
+                  </span>
+                  <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
+                    Remote-first collaborator
+                  </span>
+                </div>
+              </section>
+            ) : (
+              <div className="rounded-xl border border-border-soft/70 bg-surface-alt/70 px-3 py-2 text-xs text-muted">
+                Resume-grounded assistant
+              </div>
+            )}
+
+            {showStarters ? (
+              <StarterPrompts disabled={isStreaming} onPick={(t) => void send(t)} />
+            ) : null}
+
+            {messages.map((m) => (
+              <div key={m.id} className="animate-in fade-in slide-in-from-bottom-1 duration-200">
+                <MessageBubble message={{ role: m.role, content: m.content }} />
+              </div>
+            ))}
+
+            {isStreaming && messages.at(-1)?.role === "assistant" && messages.at(-1)?.content === "" ? (
+              <TypingIndicator />
+            ) : null}
+
+            {error ? (
+              <p
+                className="rounded-lg border border-red-300/60 bg-red-50/80 px-3 py-2 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-200"
+                role="alert"
+              >
+                {error}
+              </p>
+            ) : null}
+          </div>
         </div>
-      </div>
 
-      <div
-        ref={messagesScrollRef}
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 md:px-6"
-      >
-        <div className="mx-auto flex max-w-3xl flex-col gap-4">
-          {showStarters ? (
-            <StarterPrompts disabled={isStreaming} onPick={(t) => void send(t)} />
-          ) : null}
-
-          {messages.map((m) => (
-            <MessageBubble key={m.id} message={{ role: m.role, content: m.content }} />
-          ))}
-
-          {isStreaming && messages.at(-1)?.role === "assistant" && messages.at(-1)?.content === "" ? (
-            <TypingIndicator />
-          ) : null}
-
-          {error ? (
-            <p
-              className="rounded-lg border border-red-300/60 bg-red-50/80 px-3 py-2 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-200"
-              role="alert"
+        <form onSubmit={onSubmit} className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-4 shadow-sm backdrop-blur-md">
+          <div className="mx-auto flex max-w-4xl gap-2">
+            <label htmlFor="chat-input" className="sr-only">
+              Message
+            </label>
+            <textarea
+              id="chat-input"
+              rows={2}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  void send(input);
+                }
+              }}
+              placeholder="Ask anything about Zach..."
+              disabled={isStreaming}
+              className="min-h-11 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-(--ring) disabled:opacity-60"
+            />
+            <button
+              type="button"
+              onClick={clearChat}
+              disabled={isStreaming || messages.length === 0}
+              className="self-end rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {error}
-            </p>
-          ) : null}
-        </div>
+              Clear
+            </button>
+            <button
+              type="submit"
+              disabled={isStreaming || !input.trim()}
+              className="self-end rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
+            >
+              Send
+            </button>
+          </div>
+        </form>
       </div>
-
-      <form
-        onSubmit={onSubmit}
-        className="border-t border-border-soft bg-surface-alt/80 p-4 backdrop-blur-md md:px-6"
-      >
-        <div className="mx-auto flex max-w-3xl gap-2">
-          <label htmlFor="chat-input" className="sr-only">
-            Message
-          </label>
-          <textarea
-            id="chat-input"
-            rows={2}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                void send(input);
-              }
-            }}
-            placeholder="Ask anything about Zach…"
-            disabled={isStreaming}
-            className="min-h-11 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-(--ring) disabled:opacity-60"
-          />
-          <button
-            type="submit"
-            disabled={isStreaming || !input.trim()}
-            className="self-end rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
-          >
-            Send
-          </button>
-        </div>
-      </form>
     </div>
   );
 }

@@ -10,22 +10,44 @@ const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@zach.dev";
 
 export function SidePanel() {
   const [open, setOpen] = useState(false);
+  const skills = ["Next.js", "TypeScript", ".NET 8", "Azure", "PostgreSQL"];
 
   const panelInner = (
     <div className="flex h-full flex-col gap-6 p-5">
-      <div>
+      <div className="rounded-2xl border border-border-soft/70 bg-surface/70 p-4">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-sm font-semibold text-primary">
+            ZS
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+              zach.dev
+            </p>
+            <h1 className="text-lg font-semibold tracking-tight text-text">
+              Zach Sykes
+            </h1>
+          </div>
+        </div>
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-          zach.dev
+          Full-stack developer
         </p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-text">
-          Zach Sykes
-        </h1>
         <p className="mt-1 text-sm text-muted">
           Full-stack developer · Denver (remote-first)
         </p>
+        <div className="mt-3 inline-flex rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
+          Open to remote full-stack roles
+        </div>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {skills.map((skill) => (
+            <span key={skill} className="rounded-full border border-border-soft bg-surface px-2 py-0.5 text-[11px] text-muted">
+              {skill}
+            </span>
+          ))}
+        </div>
       </div>
 
       <nav className="flex flex-col gap-2 text-sm">
+        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted">Connect</p>
         <a
           href={github}
           target="_blank"
@@ -57,9 +79,9 @@ export function SidePanel() {
         <a
           href="/Sykes_Zach_Resume_2026_Default.docx"
           download
-          className="mt-1 inline-flex w-fit items-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:border-primary/60 hover:shadow-md"
+          className="mt-2 inline-flex w-fit items-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-md"
         >
-          Download resume
+          ↓ Download resume
         </a>
       </nav>
 
