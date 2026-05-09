@@ -15,29 +15,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "zach.dev — Developer portfolio",
+  title: "zachsykes.dev — Developer portfolio",
   description:
     "Chat assistant grounded in Zach Sykes's resume and bio. For recruiting or detailed conversations, contact Zach directly—email and LinkedIn are on the site.",
-  metadataBase: new URL("https://zach.dev"),
+  metadataBase: new URL("https://zachsykes.dev"),
   openGraph: {
-    title: "zach.dev — Developer portfolio",
+    title: "zachsykes.dev — Developer portfolio",
     description:
       "Chat with a resume-grounded assistant about Zach Sykes's experience, projects, and engineering approach.",
-    url: "https://zach.dev",
-    siteName: "zach.dev",
+    url: "https://zachsykes.dev",
+    siteName: "zachsykes.dev",
     type: "website",
     images: [
       {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "zach.dev developer portfolio preview",
+        alt: "zachsykes.dev developer portfolio preview",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "zach.dev — Developer portfolio",
+    title: "zachsykes.dev — Developer portfolio",
     description:
       "Resume-grounded portfolio chat for recruiters and hiring managers.",
     images: ["/og-image.svg"],
