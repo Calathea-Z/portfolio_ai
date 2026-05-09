@@ -62,3 +62,22 @@ body {
   color: var(--text);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+/* Interactive affordances: Tailwind utilities can still override when needed */
+@layer base {
+  a[href] {
+    cursor: pointer;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  textarea {
+    cursor: text;
+  }
+}
