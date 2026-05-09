@@ -4,9 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const github = process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com";
-const linkedin = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com";
+const github = process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/Calathea-Z";
+const linkedin = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com/in/zach-sykes/";
 const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@zach.dev";
+const resumePdf = process.env.NEXT_PUBLIC_RESUME_PDF_URL?.trim();
+const hasResumePdf = Boolean(resumePdf);
+const resumeDownload = hasResumePdf ? resumePdf : "/Sykes_Zach_Resume_2026_Default.docx";
+const resumeLabel = hasResumePdf ? "PDF" : "DOCX";
 
 export function SidePanel() {
   const [open, setOpen] = useState(false);
@@ -77,11 +81,11 @@ export function SidePanel() {
           Traditional resume
         </Link>
         <a
-          href="/Sykes_Zach_Resume_2026_Default.docx"
+          href={resumeDownload}
           download
           className="mt-2 inline-flex w-fit items-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-md"
         >
-          ↓ Download resume
+          ↓ Download resume ({resumeLabel})
         </a>
       </nav>
 

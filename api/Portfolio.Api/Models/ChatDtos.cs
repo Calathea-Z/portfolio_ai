@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Portfolio.Api;
+namespace Portfolio.Api.Models;
 
 public sealed class ChatRequest
 {

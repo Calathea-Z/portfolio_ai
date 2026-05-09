@@ -1,0 +1,18 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0B1020" />
+  <circle cx="160" cy="120" r="220" fill="#7C5CFF" fill-opacity="0.18" />
+  <circle cx="1050" cy="540" r="260" fill="#4F8CFF" fill-opacity="0.14" />
+  <rect x="86" y="92" width="1028" height="446" rx="30" fill="#11182B" stroke="#29324A" />
+  <text x="150" y="230" fill="#9B8BFF" font-family="Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="0.12em">
+    ZACH.DEV
+  </text>
+  <text x="150" y="310" fill="#F2F5FF" font-family="Arial, sans-serif" font-size="64" font-weight="700">
+    Zach Sykes
+  </text>
+  <text x="150" y="370" fill="#CDD5EA" font-family="Arial, sans-serif" font-size="36" font-weight="500">
+    Full-stack Engineer
+  </text>
+  <text x="150" y="432" fill="#9FAAC4" font-family="Arial, sans-serif" font-size="30">
+    React &#8226; Next.js &#8226; .NET 8 &#8226; Azure
+  </text>
+</svg>

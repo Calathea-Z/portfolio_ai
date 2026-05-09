@@ -1,93 +1,33 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import type { ChatTurn } from "@/lib/chat-stream";
-import { streamChat } from "@/lib/chat-stream";
+import { useState, type SubmitEvent } from "react";
 import { MessageBubble } from "@/components/MessageBubble";
 import { StarterPrompts } from "@/components/StarterPrompts";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { TypingIndicator } from "@/components/TypingIndicator";
+import { ChatEmptyHero } from "@/components/ChatEmptyHero";
+import { ChatInterfaceHeader } from "@/components/ChatInterfaceHeader";
+import { useChatSend } from "@/hooks/useChatSend";
+import { useLockDocumentOverflow } from "@/hooks/useLockDocumentOverflow";
+import { usePersistedChatMessages } from "@/hooks/usePersistedChatMessages";
+import { useStickToBottom } from "@/hooks/useStickToBottom";
 
-function uid() {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-}
-
-export type UiMessage = ChatTurn & { id: string };
+export type { UiMessage } from "@/lib/chat-history-storage";
 
 export function ChatInterface() {
-  const [messages, setMessages] = useState<UiMessage[]>([]);
+  const { messages, setMessages } = usePersistedChatMessages();
   const [input, setInput] = useState("");
-  const [isStreaming, setIsStreaming] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const messagesScrollRef = useRef<HTMLDivElement>(null);
-  const abortRef = useRef<AbortController | null>(null);
+  const { send, isStreaming, error, setError } = useChatSend(messages, setMessages);
+
+  useLockDocumentOverflow();
+  const messagesScrollRef = useStickToBottom(messages, isStreaming);
 
   const showStarters = messages.length === 0;
+  const showTyping =
+    isStreaming &&
+    messages.at(-1)?.role === "assistant" &&
+    messages.at(-1)?.content === "";
 
-  useLayoutEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    return () => {
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    const el = messagesScrollRef.current;
-    if (!el) return;
-    el.scrollTop = el.scrollHeight;
-  }, [messages, isStreaming]);
-
-  const send = useCallback(
-    async (text: string) => {
-      const trimmed = text.trim();
-      if (!trimmed || isStreaming) return;
-
-      setError(null);
-      const userMsg: UiMessage = { id: uid(), role: "user", content: trimmed };
-      const assistantId = uid();
-      const assistantMsg: UiMessage = { id: assistantId, role: "assistant", content: "" };
-
-      const history: ChatTurn[] = [...messages.map(({ role, content }) => ({ role, content })), userMsg];
-
-      setMessages((m) => [...m, userMsg, assistantMsg]);
-      setInput("");
-      setIsStreaming(true);
-
-      abortRef.current?.abort();
-      abortRef.current = new AbortController();
-
-      try {
-        await streamChat(
-          history,
-          (delta) => {
-            if (!delta) return;
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === assistantId ? { ...msg, content: msg.content + delta } : msg
-              )
-            );
-          },
-          abortRef.current.signal
-        );
-      } catch (e) {
-        const message = e instanceof Error ? e.message : "Something went wrong.";
-        setError(message);
-        setMessages((prev) => prev.filter((m) => m.id !== assistantId));
-      } finally {
-        setIsStreaming(false);
-        abortRef.current = null;
-      }
-    },
-    [isStreaming, messages]
-  );
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     void send(input);
   };
@@ -101,22 +41,7 @@ export function ChatInterface() {
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-transparent transition-colors duration-300">
       <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-1 flex-col gap-4 px-4 py-4 md:gap-6 md:px-6 md:py-5">
-        <div className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-4 shadow-sm backdrop-blur-md">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <h2 className="text-lg font-semibold text-text">Ask about Zach</h2>
-              <p className="text-sm text-muted">
-                Ask about shipped projects, architecture decisions, leadership style, and role fit.
-              </p>
-            </div>
-            <div className="hidden shrink-0 items-center gap-2 md:flex">
-              <span className="rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
-                Open to remote full-stack roles
-              </span>
-              <ThemeToggle />
-            </div>
-          </div>
-        </div>
+        <ChatInterfaceHeader />
 
         <div
           ref={messagesScrollRef}
@@ -124,48 +49,7 @@ export function ChatInterface() {
         >
           <div className="mx-auto flex max-w-4xl flex-col gap-4">
             {showStarters ? (
-              <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft/80 bg-surface-alt/80 p-4 duration-300">
-                <h3 className="text-xl font-semibold tracking-tight text-text">
-                  Hi, I&apos;m Zach - full-stack engineer shipping React/.NET on Azure.
-                </h3>
-                <p className="mt-2 text-sm text-muted">
-                  Grounded in Zach&apos;s resume and project context. I build production full-stack systems with clear
-                  ownership from UI to cloud.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <a
-                    href="/resume"
-                    className="rounded-xl bg-primary px-3 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover"
-                  >
-                    View Resume
-                  </a>
-                  <a
-                    href="mailto:hello@zach.dev"
-                    className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt"
-                  >
-                    Email Zach
-                  </a>
-                  <a
-                    href="https://www.linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
-                    3+ years professional engineering
-                  </span>
-                  <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
-                    Next.js + .NET 8 + Azure
-                  </span>
-                  <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
-                    Remote-first collaborator
-                  </span>
-                </div>
-              </section>
+              <ChatEmptyHero />
             ) : (
               <div className="rounded-xl border border-border-soft/70 bg-surface-alt/70 px-3 py-2 text-xs text-muted">
                 Resume-grounded assistant
@@ -182,9 +66,7 @@ export function ChatInterface() {
               </div>
             ))}
 
-            {isStreaming && messages.at(-1)?.role === "assistant" && messages.at(-1)?.content === "" ? (
-              <TypingIndicator />
-            ) : null}
+            {showTyping ? <TypingIndicator /> : null}
 
             {error ? (
               <p
@@ -197,7 +79,10 @@ export function ChatInterface() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-4 shadow-sm backdrop-blur-md">
+        <form
+          onSubmit={onSubmit}
+          className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-4 shadow-sm backdrop-blur-md"
+        >
           <div className="mx-auto flex max-w-4xl gap-2">
             <label htmlFor="chat-input" className="sr-only">
               Message

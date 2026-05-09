@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore .NET projects
+        run: dotnet restore Portfolio.slnx
+
+      - name: Build .NET projects
+        run: dotnet build Portfolio.slnx --configuration Release --no-restore
+
+      - name: Run API tests
+        run: dotnet test api/Portfolio.Api.Tests/Portfolio.Api.Tests.csproj --configuration Release --no-build
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Install web dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: web
+
+      - name: Lint web app
+        run: pnpm lint
+        working-directory: web
+
+      - name: Typecheck web app
+        run: pnpm typecheck
+        working-directory: web
+
+      - name: Build web app
+        run: pnpm build
+        working-directory: web

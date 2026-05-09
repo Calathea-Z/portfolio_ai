@@ -1,4 +1,6 @@
-namespace Portfolio.Api;
+using Portfolio.Api.Models;
+
+namespace Portfolio.Api.Validation;
 
 public static class ChatValidation
 {

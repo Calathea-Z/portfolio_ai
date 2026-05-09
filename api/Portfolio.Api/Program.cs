@@ -1,19 +1,22 @@
-using Portfolio.Api;
+using System.Threading.RateLimiting;
+using Microsoft.Extensions.Options;
+using Portfolio.Api.Infrastructure;
+using Portfolio.Api.Options;
+using Portfolio.Api.Services;
+
+// -----------------------------------------------------------------------------
+// Pipeline: configure services, build the app, register middleware, map routes.
+// -----------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --- Anthropic (Messages API): bind appsettings + enforce ApiKey/Model at startup ---
 builder
     .Services.AddOptions<AnthropicOptions>()
     .Configure<IConfiguration>(
         (options, configuration) =>
         {
             configuration.GetSection(AnthropicOptions.SectionName).Bind(options);
-
-            // Backward-compatible fallback for accidental "Anthrpic" key typo in secrets.
-            if (string.IsNullOrWhiteSpace(options.ApiKey) || string.IsNullOrWhiteSpace(options.Model))
-            {
-                configuration.GetSection("Anthrpic").Bind(options);
-            }
         }
     )
     .ValidateDataAnnotations()
@@ -26,13 +29,46 @@ builder
         "Anthropic:Model must be configured."
     )
     .ValidateOnStart();
+
+// --- Typed HttpClient + chat-related singletons ---
 builder.Services.AddHttpClient("anthropic");
 builder.Services.AddSingleton<AnthropicStreamService>();
+builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
+builder.Services.AddSingleton<DailyTokenBudgetService>();
+builder.Services.AddScoped<ChatOrchestrationService>();
 
+// --- MVC-style API controllers (see Controllers/) ---
+builder.Services.AddControllers();
+
+// --- OpenAPI / Swagger (development only; see middleware below) ---
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// --- Per-IP short-window rate limit (see ChatProtection:RequestsPerMinutePerIp) ---
+builder.Services.AddRateLimiter(options =>
+{
+    var permitLimit = builder.Configuration.GetValue("ChatProtection:RequestsPerMinutePerIp", 20);
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("chat-per-ip", context =>
+    {
+        var key = ClientIdentity.ForRateLimit(context);
+        return RateLimitPartition.GetFixedWindowLimiter(
+            key,
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = permitLimit,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0,
+                AutoReplenishment = true,
+            }
+        );
+    });
+});
+
+// --- CORS: web UI origin(s); must align with NEXT_PUBLIC_CHAT_API_URL on the client ---
 const string CorsPolicy = "web";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -40,7 +76,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins("http://localhost:3000", "https://zach.dev")
+                .WithOrigins(allowedOrigins ?? ["http://localhost:3000", "https://zach.dev"])
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -48,7 +84,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// --- Middleware order: CORS before rate limiting; both run before endpoints ---
 app.UseCors(CorsPolicy);
+app.UseRateLimiter();
 
 if (app.Environment.IsDevelopment())
 {
@@ -58,36 +96,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost(
-        "/chat",
-        async (HttpContext http, ChatRequest body, AnthropicStreamService anthropic, CancellationToken ct) =>
-        {
-            var validationError = ChatValidation.Validate(body);
-            if (validationError is not null)
-            {
-                http.Response.StatusCode = StatusCodes.Status400BadRequest;
-                await http.Response.WriteAsJsonAsync(new { error = validationError }, cancellationToken: ct);
-                return;
-            }
-
-            http.Response.ContentType = "text/plain; charset=utf-8";
-            http.Response.Headers.CacheControl = "no-store";
-
-            try
-            {
-                await anthropic.StreamChatAsync(body.Messages, http.Response.Body, ct);
-            }
-            catch (Exception ex)
-            {
-                if (http.Response.HasStarted) throw;
-
-                http.Response.StatusCode = StatusCodes.Status502BadGateway;
-                http.Response.ContentType = "application/json; charset=utf-8";
-                await http.Response.WriteAsJsonAsync(new { error = ex.Message }, cancellationToken: ct);
-            }
-        })
-    .WithName("Chat")
-    .WithOpenApi()
-    .DisableAntiforgery();
+// --- Attribute-routed controllers ---
+app.MapControllers();
 
 app.Run();

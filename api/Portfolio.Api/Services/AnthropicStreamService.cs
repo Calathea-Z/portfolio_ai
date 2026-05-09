@@ -1,16 +1,29 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
+using Portfolio.Api.Models;
+using Portfolio.Api.Options;
 
-namespace Portfolio.Api;
+namespace Portfolio.Api.Services;
 
+/// <summary>
+/// Calls the Anthropic Messages API with streaming enabled and forwards assistant <c>text_delta</c> chunks to the response body as raw UTF-8.
+/// </summary>
 public sealed class AnthropicStreamService(
     IHttpClientFactory httpClientFactory,
     IOptions<AnthropicOptions> optionsAccessor
 )
 {
+    private const string MessagesApiUrl = "https://api.anthropic.com/v1/messages";
+    private const string AnthropicVersionHeader = "2023-06-01";
+
     private readonly AnthropicOptions _options = optionsAccessor.Value;
 
+    /// <summary>
+    /// POSTs the conversation to Anthropic and copies streamed plain text into <paramref name="responseBody"/>.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Upstream returned an error event or the API key is missing.</exception>
+    /// <exception cref="HttpRequestException">Non-success HTTP status from Anthropic.</exception>
     public async Task StreamChatAsync(
         IReadOnlyList<ChatMessageDto> messages,
         Stream responseBody,
@@ -23,22 +36,12 @@ public sealed class AnthropicStreamService(
         var system = SystemPromptLoader.Load();
         var client = httpClientFactory.CreateClient("anthropic");
 
-        var payload = new Dictionary<string, JsonElement>
-        {
-            ["model"] = JsonSerializer.SerializeToElement(_options.Model),
-            ["max_tokens"] = JsonSerializer.SerializeToElement(_options.MaxTokens),
-            ["stream"] = JsonSerializer.SerializeToElement(true),
-            ["system"] = JsonSerializer.SerializeToElement(system),
-            ["messages"] = JsonSerializer.SerializeToElement(
-                messages.Select(m => new { role = m.Role, content = m.Content }).ToList()
-            ),
-        };
-
+        var payload = BuildMessagesPayload(messages, system);
         var json = JsonSerializer.Serialize(payload);
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.anthropic.com/v1/messages");
+        using var request = new HttpRequestMessage(HttpMethod.Post, MessagesApiUrl);
         request.Headers.TryAddWithoutValidation("x-api-key", _options.ApiKey);
-        request.Headers.TryAddWithoutValidation("anthropic-version", "2023-06-01");
+        request.Headers.TryAddWithoutValidation("anthropic-version", AnthropicVersionHeader);
         request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
         using var response = await client.SendAsync(
@@ -57,6 +60,21 @@ public sealed class AnthropicStreamService(
         await ForwardTextDeltasAsync(upstream, responseBody, cancellationToken);
     }
 
+    private Dictionary<string, JsonElement> BuildMessagesPayload(IReadOnlyList<ChatMessageDto> messages, string system)
+    {
+        return new Dictionary<string, JsonElement>
+        {
+            ["model"] = JsonSerializer.SerializeToElement(_options.Model),
+            ["max_tokens"] = JsonSerializer.SerializeToElement(_options.MaxTokens),
+            ["stream"] = JsonSerializer.SerializeToElement(true),
+            ["system"] = JsonSerializer.SerializeToElement(system),
+            ["messages"] = JsonSerializer.SerializeToElement(
+                messages.Select(m => new { role = m.Role, content = m.Content }).ToList()
+            ),
+        };
+    }
+
+    /// <summary>Parses SSE lines; Anthropic sends JSON objects in <c>data:</c> lines terminated by blank lines.</summary>
     private static async Task ForwardTextDeltasAsync(
         Stream upstream,
         Stream responseBody,
@@ -64,8 +82,17 @@ public sealed class AnthropicStreamService(
     )
     {
         using var reader = new StreamReader(upstream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false);
-
         var dataBuffer = new List<string>();
+
+        async Task FlushDataEventsAsync()
+        {
+            if (dataBuffer.Count == 0) return;
+
+            var dataJson = string.Join("\n", dataBuffer);
+            dataBuffer.Clear();
+            await ProcessSseDataLineAsync(dataJson, responseBody, cancellationToken);
+        }
+
         while (await reader.ReadLineAsync(cancellationToken) is { } line)
         {
             if (line.StartsWith("data:", StringComparison.Ordinal))
@@ -74,19 +101,11 @@ public sealed class AnthropicStreamService(
                 continue;
             }
 
-            if (line.Length == 0 && dataBuffer.Count > 0)
-            {
-                var dataJson = string.Join("\n", dataBuffer);
-                dataBuffer.Clear();
-                await ProcessSseDataLineAsync(dataJson, responseBody, cancellationToken);
-            }
+            if (line.Length == 0)
+                await FlushDataEventsAsync();
         }
 
-        if (dataBuffer.Count > 0)
-        {
-            var dataJson = string.Join("\n", dataBuffer);
-            await ProcessSseDataLineAsync(dataJson, responseBody, cancellationToken);
-        }
+        await FlushDataEventsAsync();
     }
 
     private static async Task ProcessSseDataLineAsync(
@@ -105,12 +124,11 @@ public sealed class AnthropicStreamService(
         var type = typeEl.GetString();
         if (type == "error")
         {
-            var msg = root.TryGetProperty("error", out var err)
-                ? err.TryGetProperty("message", out var m)
-                    ? m.GetString()
-                    : dataJson
-                : dataJson;
-            throw new InvalidOperationException(msg ?? "Anthropic stream error");
+            string? message = null;
+            if (root.TryGetProperty("error", out var errorObj) && errorObj.TryGetProperty("message", out var msgEl))
+                message = msgEl.GetString();
+
+            throw new InvalidOperationException(message ?? dataJson);
         }
 
         if (type == "content_block_delta" && root.TryGetProperty("delta", out var delta))

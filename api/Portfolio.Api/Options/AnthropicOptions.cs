@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Portfolio.Api;
+namespace Portfolio.Api.Options;
 
 public sealed class AnthropicOptions
 {

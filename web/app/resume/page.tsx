@@ -5,10 +5,15 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Resume · Zach Sykes",
-  description: "Traditional resume view — download the Word file from /public when needed.",
+  description: "Traditional resume view with linked PDF and Word versions.",
 };
 
 export default function ResumePage() {
+  const resumePdf = process.env.NEXT_PUBLIC_RESUME_PDF_URL?.trim();
+  const hasResumePdf = Boolean(resumePdf);
+  const primaryResumeHref = hasResumePdf ? resumePdf : "/Sykes_Zach_Resume_2026_Default.docx";
+  const primaryResumeLabel = hasResumePdf ? "Download resume (.pdf)" : "Download resume (.docx)";
+
   return (
     <div className="relative min-h-full bg-bg text-text">
       <BackgroundOrbs />
@@ -22,12 +27,21 @@ export default function ResumePage() {
           </Link>
           <div className="flex items-center gap-3">
             <a
-              href="/Sykes_Zach_Resume_2026_Default.docx"
+              href={primaryResumeHref}
               download
               className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
             >
-              Download resume (.docx)
+              {primaryResumeLabel}
             </a>
+            {hasResumePdf ? (
+              <a
+                href="/Sykes_Zach_Resume_2026_Default.docx"
+                download
+                className="rounded-lg border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-primary/60 hover:bg-surface-alt"
+              >
+                Download (.docx)
+              </a>
+            ) : null}
             <ThemeToggle />
           </div>
         </div>
@@ -74,13 +88,37 @@ export default function ResumePage() {
           <h2 className="text-xs font-semibold uppercase tracking-widest text-primary">
             Selected projects
           </h2>
-          <ul className="mt-4 list-disc space-y-3 pl-5 text-sm text-text/90 marker:text-primary/70">
+          <ul className="mt-4 space-y-4 text-sm text-text/90">
             <li>
-              <span className="font-medium text-text">Calathea Web Design</span> (freelance,
-              calathea.design, 2024–present) — client sites and e-commerce with Next.js, TypeScript, and full-stack
-              delivery.
+              <p className="font-medium text-text">Calathea Web Design (freelance) · Next.js + TypeScript + Stripe</p>
+              <p className="mt-1">
+                Built and launched marketing and e-commerce sites end-to-end for small-business clients, including
+                architecture, implementation, deployment, and iteration with direct client feedback.{" "}
+                <a
+                  href="https://www.calathea.design/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline-offset-4 hover:underline"
+                >
+                  www.calathea.design
+                </a>
+                .
+              </p>
             </li>
-            <li>This portfolio — Next.js UI, .NET streaming API, Claude system prompt.</li>
+            <li>
+              <p className="font-medium text-text">Planning Poker platform · React + .NET 8 + WebSockets + Azure</p>
+              <p className="mt-1">
+                Designed and shipped a real-time internal estimation tool for distributed teams; delivered reliable
+                live collaboration and production deployment with observability.
+              </p>
+            </li>
+            <li>
+              <p className="font-medium text-text">This portfolio chat app · Next.js 16 + ASP.NET Core + Anthropic</p>
+              <p className="mt-1">
+                Implemented a streaming resume-grounded assistant with API validation, per-IP abuse protection, and
+                responsive UX optimized for recruiter evaluation workflows.
+              </p>
+            </li>
           </ul>
         </section>
 
