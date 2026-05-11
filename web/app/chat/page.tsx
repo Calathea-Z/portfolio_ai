@@ -11,10 +11,12 @@ export const metadata: Metadata = {
 
 export default function ChatPage() {
   return (
-    <div className="relative flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden overscroll-none bg-bg">
+    <div className="relative flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden overscroll-none">
       <BackgroundOrbs />
-      <SidePanel />
-      <ChatInterface />
+      <div className="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col">
+        <SidePanel />
+        <ChatInterface />
+      </div>
     </div>
   );
 }

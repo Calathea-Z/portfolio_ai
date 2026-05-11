@@ -15,9 +15,10 @@ export const metadata: Metadata = {
 
 export default function AgenticChatProjectPage() {
   return (
-    <div className="relative min-h-screen w-full bg-bg text-text">
+    <div className="relative min-h-screen w-full text-text">
       <BackgroundOrbs />
 
+      <div className="relative z-10">
       <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 md:px-6">
           <Link
@@ -194,6 +195,7 @@ export default function AgenticChatProjectPage() {
           </a>
         </section>
       </main>
+      </div>
     </div>
   );
 }

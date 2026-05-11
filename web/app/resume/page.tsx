@@ -15,8 +15,9 @@ export default function ResumePage() {
   const primaryResumeLabel = hasResumePdf ? "Download resume (.pdf)" : "Download resume (.docx)";
 
   return (
-    <div className="relative min-h-full bg-bg text-text">
+    <div className="relative min-h-full text-text">
       <BackgroundOrbs />
+      <div className="relative z-10">
       <header className="sticky top-0 z-10 border-b border-border-subtle bg-surface/80 px-6 py-4 backdrop-blur-md">
         <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3">
           <Link
@@ -163,6 +164,7 @@ export default function ResumePage() {
           .
         </p>
       </main>
+      </div>
     </div>
   );
 }

@@ -10,18 +10,20 @@ import { StickyNav } from "@/components/sections/StickyNav";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen w-full bg-bg text-text">
+    <div className="relative min-h-screen w-full text-text">
       <BackgroundOrbs />
-      <StickyNav />
-      <main className="relative">
-        <Hero />
-        <About />
-        <ChatSection />
-        <FeaturedProjects />
-        <Experience />
-        <Contact />
-      </main>
-      <SidePanel mobileMenu={false} />
+      <div className="relative z-10">
+        <StickyNav />
+        <main className="relative">
+          <Hero />
+          <About />
+          <ChatSection />
+          <FeaturedProjects />
+          <Experience />
+          <Contact />
+        </main>
+        <SidePanel mobileMenu={false} />
+      </div>
     </div>
   );
 }

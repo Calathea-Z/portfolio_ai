@@ -40,6 +40,19 @@
   --shadow-btn-hover: 0 6px 20px rgb(124 92 255 / 0.35);
   --orb-1: rgb(199 183 255 / 0.55);
   --orb-2: rgb(255 211 168 / 0.45);
+  /* Ambient geometry (see BackgroundOrbs) */
+  --ambient-diag-a: rgb(188 170 255 / 0.48);
+  --ambient-diag-b: rgb(255 205 175 / 0.4);
+  --ambient-diag-c: rgb(120 210 195 / 0.2);
+  --ambient-slab-fill: linear-gradient(
+    152deg,
+    rgb(255 255 255 / 0.72) 0%,
+    rgb(210 198 255 / 0.45) 38%,
+    rgb(255 228 205 / 0.35) 72%,
+    rgb(255 255 255 / 0.25) 100%
+  );
+  --ambient-slab-border: rgb(124 92 255 / 0.16);
+  --ambient-slab-glow: rgb(124 92 255 / 0.14);
 }
 
 /* ─── Dark theme: cool neutrals + restrained purple brand ─── */
@@ -80,6 +93,18 @@
   --shadow-btn-hover: 0 6px 20px rgb(168 150 240 / 0.32);
   --orb-1: rgb(130 120 200 / 0.18);
   --orb-2: rgb(220 170 120 / 0.1);
+  --ambient-diag-a: rgb(130 110 210 / 0.32);
+  --ambient-diag-b: rgb(80 165 185 / 0.18);
+  --ambient-diag-c: rgb(170 145 220 / 0.12);
+  --ambient-slab-fill: linear-gradient(
+    152deg,
+    rgb(28 32 48 / 0.55) 0%,
+    rgb(75 65 130 / 0.28) 42%,
+    rgb(45 95 110 / 0.14) 78%,
+    rgb(20 22 34 / 0.35) 100%
+  );
+  --ambient-slab-border: rgb(190 175 255 / 0.1);
+  --ambient-slab-glow: rgb(100 85 180 / 0.2);
 }
 
 @theme inline {
