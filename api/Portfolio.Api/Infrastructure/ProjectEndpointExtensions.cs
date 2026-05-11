@@ -18,7 +18,7 @@ public static class ProjectEndpointExtensions
     /// <c>chat-per-ip</c> rate limiter so abuse protection stays consistent across project demos.
     /// </summary>
     /// <param name="endpoints">The endpoint route builder (typically the <see cref="WebApplication"/>).</param>
-    /// <param name="slug">The project slug segment, e.g. <c>"pr-review"</c>.</param>
+    /// <param name="slug">The project slug segment, e.g. <c>"trace-viewer"</c>.</param>
     /// <param name="handler">Minimal API handler delegate.</param>
     /// <returns>The <see cref="RouteHandlerBuilder"/> so callers can attach further conventions (e.g. <c>WithName</c>).</returns>
     public static RouteHandlerBuilder MapProjectDemo(

@@ -35,7 +35,7 @@ export type ChatEvent =
   | { kind: "error"; message: string };
 
 export type StreamChatOptions = {
-  /** API endpoint relative to the chat API base URL (e.g. "/chat" or "/projects/pr-review"). */
+  /** API endpoint relative to the chat API base URL (e.g. "/chat" or "/projects/trace-viewer"). */
   endpoint: string;
   /** Conversation history to send. */
   messages: ChatTurn[];

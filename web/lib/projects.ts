@@ -40,14 +40,14 @@ export const projects: Project[] = [
     href: "/projects/agentic-chat",
   },
   {
-    slug: "pr-review",
-    title: "PR Reviewer",
+    slug: "trace-viewer",
+    title: "Trace / observability viewer",
     blurb:
-      "Paste a diff, get a rubric-driven review grouped by severity (correctness, perf, security, style, testing) — streamed back inline.",
+      "The API already emits trace_span events. A \"replay this conversation\" page that renders those spans as a flame chart or timeline — observability as proof you treat the agent like a distributed system, not a black box.",
     capability:
-      "I ship AI tools that engineering teams actually adopt — here's the simplest version of what I mean.",
+      "I treat AI as a distributed system — here are my spans.",
     status: "planned",
-    href: "/projects/pr-review",
+    href: "/projects/trace-viewer",
   },
   {
     slug: "mcp-server",
