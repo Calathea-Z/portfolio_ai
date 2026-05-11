@@ -34,7 +34,7 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
   const showTyping =
     isStreaming &&
     messages.at(-1)?.role === "assistant" &&
-    messages.at(-1)?.content === "";
+    (messages.at(-1)?.chunks.length ?? 0) === 0;
 
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,14 +49,14 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
 
   return (
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-transparent transition-colors duration-300">
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-1 flex-col gap-4 px-4 py-4 md:gap-6 md:px-6 md:py-5">
-        <ChatInterfaceHeader />
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-1 flex-col gap-2 px-3 py-3 sm:gap-4 sm:px-4 sm:py-4 md:gap-6 md:px-6 md:py-5">
+        {!embedded ? <ChatInterfaceHeader /> : null}
 
         <div
           ref={messagesScrollRef}
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-border-soft/70 bg-surface/70 p-3 shadow-sm backdrop-blur-md md:p-5"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-border-soft/70 bg-surface/70 p-2.5 shadow-sm backdrop-blur-md sm:p-3 md:p-5"
         >
-          <div className="mx-auto flex max-w-4xl flex-col gap-4">
+          <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:gap-4">
             {showStarters ? (
               <ChatEmptyHero />
             ) : (
@@ -71,7 +71,7 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
 
             {messages.map((m) => (
               <div key={m.id} className="animate-in fade-in slide-in-from-bottom-1 duration-200">
-                <MessageBubble message={{ role: m.role, content: m.content }} />
+                <MessageBubble message={m} />
               </div>
             ))}
 
@@ -90,9 +90,9 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
 
         <form
           onSubmit={onSubmit}
-          className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-4 shadow-sm backdrop-blur-md"
+          className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-3 shadow-sm backdrop-blur-md sm:p-4"
         >
-          <div className="mx-auto flex max-w-4xl gap-2">
+          <div className="mx-auto flex max-w-4xl flex-col gap-2 sm:flex-row sm:gap-2">
             <label htmlFor="chat-input" className="sr-only">
               Message
             </label>
@@ -109,23 +109,25 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
               }}
               placeholder="Ask anything about Zach..."
               disabled={isStreaming}
-              className="min-h-11 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-(--ring) disabled:opacity-60"
+              className="min-h-10 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-(--ring) disabled:opacity-60 sm:min-h-11"
             />
-            <button
-              type="button"
-              onClick={clearChat}
-              disabled={isStreaming || messages.length === 0}
-              className="self-end rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Clear
-            </button>
-            <button
-              type="submit"
-              disabled={isStreaming || !input.trim()}
-              className="self-end rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
-            >
-              Send
-            </button>
+            <div className="flex shrink-0 justify-end gap-2 sm:self-end">
+              <button
+                type="button"
+                onClick={clearChat}
+                disabled={isStreaming || messages.length === 0}
+                className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Clear
+              </button>
+              <button
+                type="submit"
+                disabled={isStreaming || !input.trim()}
+                className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
+              >
+                Send
+              </button>
+            </div>
           </div>
         </form>
       </div>

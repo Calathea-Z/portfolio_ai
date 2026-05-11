@@ -43,6 +43,8 @@ builder.Services.AddHttpClient("anthropic");
 builder.Services.AddSingleton<AnthropicStreamService>();
 builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 builder.Services.AddSingleton<DailyTokenBudgetService>();
+builder.Services.AddSingleton<ResumeDataService>();
+builder.Services.AddSingleton<ResumeTools>();
 builder.Services.AddScoped<ChatOrchestrationService>();
 
 // --- MVC-style API controllers (see Controllers/) ---

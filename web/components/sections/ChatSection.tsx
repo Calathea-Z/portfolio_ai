@@ -23,7 +23,8 @@ export function ChatSection() {
           which technologies I&apos;ve shipped, or what I&apos;m looking for next.
         </p>
 
-        <div className="mt-8 flex h-[640px] flex-col overflow-hidden rounded-2xl border border-border-soft/70 bg-surface/50 shadow-sm">
+        {/* Tall embed: more room for empty state + thread; inner "Ask about Zach" header hidden when embedded. */}
+        <div className="mt-8 flex h-[min(88dvh,860px)] min-h-[600px] flex-col overflow-hidden rounded-2xl border border-border-soft/70 bg-surface/50 shadow-sm md:h-[720px] md:min-h-0">
           <ChatInterface embedded />
         </div>
       </div>

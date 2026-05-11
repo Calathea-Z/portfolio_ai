@@ -57,12 +57,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <head>
+      <body className="flex min-h-screen flex-col bg-bg text-text transition-colors duration-300">
+        {/* beforeInteractive: inject early without nesting <script> under <head> in React tree (avoids client render warnings). */}
         <Script id="theme-bootstrap" strategy="beforeInteractive">
           {themeBootstrap}
         </Script>
-      </head>
-      <body className="flex min-h-screen flex-col bg-bg text-text transition-colors duration-300">
         {children}
         <Analytics />
       </body>

@@ -3,12 +3,22 @@ using System.Text.Json;
 using Microsoft.Extensions.Options;
 using Portfolio.Api.Models;
 using Portfolio.Api.Options;
+using Portfolio.Api.Services.Anthropic;
 
 namespace Portfolio.Api.Services;
 
 /// <summary>
-/// Calls the Anthropic Messages API with streaming enabled and forwards assistant <c>text_delta</c> chunks to the response body as raw UTF-8.
+/// Calls the Anthropic Messages API with streaming + tool use enabled and
+/// forwards events to the response body as newline-delimited JSON (see
+/// <see cref="ChatEvent"/>).
 /// </summary>
+/// <remarks>
+/// Implements the agentic loop: stream a round, collect any <c>tool_use</c>
+/// blocks, run them via <see cref="ResumeTools"/>, append <c>tool_result</c>
+/// blocks back to the conversation, and stream the next round until the model
+/// stops with <c>stop_reason != "tool_use"</c> or we hit <see cref="MaxRounds"/>.
+/// SSE parsing lives in <see cref="AnthropicSseRoundParser"/>.
+/// </remarks>
 public sealed class AnthropicStreamService(
     IHttpClientFactory httpClientFactory,
     IOptions<AnthropicOptions> optionsAccessor
@@ -16,16 +26,17 @@ public sealed class AnthropicStreamService(
 {
     private const string MessagesApiUrl = "https://api.anthropic.com/v1/messages";
     private const string AnthropicVersionHeader = "2023-06-01";
+    private const int MaxRounds = 5;
 
     private readonly AnthropicOptions _options = optionsAccessor.Value;
 
     /// <summary>
-    /// POSTs the conversation to Anthropic and copies streamed plain text into <paramref name="responseBody"/>.
+    /// Runs the agentic chat loop and streams <see cref="ChatEvent"/>s into
+    /// <paramref name="responseBody"/>.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Upstream returned an error event or the API key is missing.</exception>
-    /// <exception cref="HttpRequestException">Non-success HTTP status from Anthropic.</exception>
     public async Task StreamChatAsync(
         IReadOnlyList<ChatMessageDto> messages,
+        ResumeTools tools,
         Stream responseBody,
         CancellationToken cancellationToken
     )
@@ -33,12 +44,89 @@ public sealed class AnthropicStreamService(
         if (string.IsNullOrWhiteSpace(_options.ApiKey))
             throw new InvalidOperationException("Anthropic API key is not configured.");
 
+        var ndjson = new NdjsonWriter(responseBody);
         var system = SystemPromptLoader.Load("chat");
-        var client = httpClientFactory.CreateClient("anthropic");
+        var conversation = new List<object>(
+            messages.Select(m => (object)new { role = m.Role, content = m.Content })
+        );
 
-        var payload = BuildMessagesPayload(messages, system);
+        try
+        {
+            for (var round = 0; round < MaxRounds; round++)
+            {
+                var outcome = await RunRoundAsync(conversation, system, ndjson, cancellationToken);
+                conversation.Add(AnthropicConversationPayload.BuildAssistantMessage(outcome.Blocks));
+
+                if (outcome.StopReason != "tool_use" || outcome.ToolUseCalls.Count == 0)
+                {
+                    await ndjson.WriteAsync(new DoneChatEvent(), cancellationToken);
+                    return;
+                }
+
+                var toolResultBlocks = await RunToolsAsync(outcome.ToolUseCalls, tools, ndjson, cancellationToken);
+                conversation.Add(new { role = "user", content = toolResultBlocks });
+            }
+
+            await ndjson.WriteAsync(new DoneChatEvent(), cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            try { await ndjson.WriteAsync(new ErrorChatEvent(ex.Message), cancellationToken); }
+            catch { /* fall through; outer caller decides what to do. */ }
+            throw;
+        }
+    }
+
+    private async Task<List<object>> RunToolsAsync(
+        IReadOnlyList<AnthropicToolUseCall> toolCalls,
+        ResumeTools tools,
+        NdjsonWriter ndjson,
+        CancellationToken cancellationToken
+    )
+    {
+        var results = new List<object>();
+        foreach (var call in toolCalls)
+        {
+            JsonElement output;
+            string? error = null;
+            try
+            {
+                output = await tools.RunAsync(call.Name, call.Input, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                output = JsonSerializer.SerializeToElement(new { error = ex.Message });
+            }
+
+            await ndjson.WriteAsync(new ToolResultChatEvent(call.Id, output, error), cancellationToken);
+
+            results.Add(new
+            {
+                type = "tool_result",
+                tool_use_id = call.Id,
+                content = JsonSerializer.Serialize(output),
+                is_error = error is not null,
+            });
+        }
+        return results;
+    }
+
+    private async Task<AnthropicRoundResult> RunRoundAsync(
+        IReadOnlyList<object> conversation,
+        string system,
+        NdjsonWriter ndjson,
+        CancellationToken cancellationToken
+    )
+    {
+        var payload = BuildPayload(conversation, system);
         var json = JsonSerializer.Serialize(payload);
 
+        var client = httpClientFactory.CreateClient("anthropic");
         using var request = new HttpRequestMessage(HttpMethod.Post, MessagesApiUrl);
         request.Headers.TryAddWithoutValidation("x-api-key", _options.ApiKey);
         request.Headers.TryAddWithoutValidation("anthropic-version", AnthropicVersionHeader);
@@ -57,10 +145,10 @@ public sealed class AnthropicStreamService(
         }
 
         await using var upstream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        await ForwardTextDeltasAsync(upstream, responseBody, cancellationToken);
+        return await AnthropicSseRoundParser.ParseAsync(upstream, ndjson, cancellationToken);
     }
 
-    private Dictionary<string, JsonElement> BuildMessagesPayload(IReadOnlyList<ChatMessageDto> messages, string system)
+    private Dictionary<string, JsonElement> BuildPayload(IReadOnlyList<object> conversation, string system)
     {
         return new Dictionary<string, JsonElement>
         {
@@ -68,85 +156,8 @@ public sealed class AnthropicStreamService(
             ["max_tokens"] = JsonSerializer.SerializeToElement(_options.MaxTokens),
             ["stream"] = JsonSerializer.SerializeToElement(true),
             ["system"] = JsonSerializer.SerializeToElement(system),
-            ["messages"] = JsonSerializer.SerializeToElement(
-                messages.Select(m => new { role = m.Role, content = m.Content }).ToList()
-            ),
+            ["tools"] = JsonSerializer.SerializeToElement(ResumeToolDefinitions.All),
+            ["messages"] = JsonSerializer.SerializeToElement(conversation),
         };
-    }
-
-    /// <summary>Parses SSE lines; Anthropic sends JSON objects in <c>data:</c> lines terminated by blank lines.</summary>
-    private static async Task ForwardTextDeltasAsync(
-        Stream upstream,
-        Stream responseBody,
-        CancellationToken cancellationToken
-    )
-    {
-        using var reader = new StreamReader(upstream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false);
-        var dataBuffer = new List<string>();
-
-        async Task FlushDataEventsAsync()
-        {
-            if (dataBuffer.Count == 0) return;
-
-            var dataJson = string.Join("\n", dataBuffer);
-            dataBuffer.Clear();
-            await ProcessSseDataLineAsync(dataJson, responseBody, cancellationToken);
-        }
-
-        while (await reader.ReadLineAsync(cancellationToken) is { } line)
-        {
-            if (line.StartsWith("data:", StringComparison.Ordinal))
-            {
-                dataBuffer.Add(line[5..].Trim());
-                continue;
-            }
-
-            if (line.Length == 0)
-                await FlushDataEventsAsync();
-        }
-
-        await FlushDataEventsAsync();
-    }
-
-    private static async Task ProcessSseDataLineAsync(
-        string dataJson,
-        Stream responseBody,
-        CancellationToken cancellationToken
-    )
-    {
-        if (string.IsNullOrWhiteSpace(dataJson)) return;
-
-        using var doc = JsonDocument.Parse(dataJson);
-        var root = doc.RootElement;
-
-        if (!root.TryGetProperty("type", out var typeEl)) return;
-
-        var type = typeEl.GetString();
-        if (type == "error")
-        {
-            string? message = null;
-            if (root.TryGetProperty("error", out var errorObj) && errorObj.TryGetProperty("message", out var msgEl))
-                message = msgEl.GetString();
-
-            throw new InvalidOperationException(message ?? dataJson);
-        }
-
-        if (type == "content_block_delta" && root.TryGetProperty("delta", out var delta))
-        {
-            if (
-                delta.TryGetProperty("type", out var dt)
-                && dt.GetString() == "text_delta"
-                && delta.TryGetProperty("text", out var textEl)
-            )
-            {
-                var text = textEl.GetString();
-                if (!string.IsNullOrEmpty(text))
-                {
-                    var bytes = Encoding.UTF8.GetBytes(text);
-                    await responseBody.WriteAsync(bytes, cancellationToken);
-                    await responseBody.FlushAsync(cancellationToken);
-                }
-            }
-        }
     }
 }

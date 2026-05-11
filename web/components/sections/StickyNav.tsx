@@ -26,7 +26,7 @@ export function StickyNav() {
           {siteConfig.name}
         </Link>
 
-        <ul className="-mx-1 flex min-w-0 flex-1 items-center gap-1 overflow-x-auto px-1 text-sm sm:justify-center">
+        <ul className="hidden min-w-0 flex-1 items-center justify-center gap-1 text-sm md:flex">
           {links.map(({ label, href }) => (
             <li key={href} className="shrink-0">
               <a

@@ -11,6 +11,7 @@ namespace Portfolio.Api.Services;
 /// </summary>
 public sealed class ChatOrchestrationService(
     AnthropicStreamService anthropic,
+    ResumeTools resumeTools,
     DailyTokenBudgetService budgetService,
     IConfiguration configuration,
     IOptions<AnthropicOptions> anthropicOptions,
@@ -53,12 +54,12 @@ public sealed class ChatOrchestrationService(
             remaining
         );
 
-        http.Response.ContentType = "text/plain; charset=utf-8";
+        http.Response.ContentType = "application/x-ndjson; charset=utf-8";
         http.Response.Headers.CacheControl = "no-store";
 
         try
         {
-            await anthropic.StreamChatAsync(body.Messages, http.Response.Body, ct);
+            await anthropic.StreamChatAsync(body.Messages, resumeTools, http.Response.Body, ct);
         }
         catch (Exception ex)
         {
