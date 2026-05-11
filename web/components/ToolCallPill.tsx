@@ -26,10 +26,10 @@ export function ToolCallPill({ name, input, inputPreview, result, error }: ToolC
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="group inline-flex max-w-full items-center gap-2 rounded-full border border-border-soft/70 bg-surface-alt/80 px-3 py-1 text-xs text-text shadow-sm transition-all hover:border-primary/60 hover:bg-surface-alt"
+        className="group inline-flex max-w-full items-center gap-2 rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs text-text shadow-sm transition-all hover:border-border-strong hover:bg-surface-raised"
       >
         <StatusIndicator status={status} />
-        <span className="font-mono text-[12px] text-primary">{name}</span>
+        <span className="font-mono text-[12px] text-code-fg">{name}</span>
         <span className="truncate font-mono text-[12px] text-muted">
           ({summarizeToolArgs(input, inputPreview, result, error)})
         </span>
@@ -42,7 +42,7 @@ export function ToolCallPill({ name, input, inputPreview, result, error }: ToolC
       </button>
 
       {open ? (
-        <div className="mt-2 space-y-2 rounded-xl border border-border-soft/70 bg-surface/80 p-3 text-xs">
+        <div className="mt-2 space-y-2 rounded-xl border border-border-soft bg-surface-raised p-3 text-xs">
           <DetailRow
             label="Input"
             json={input}
@@ -75,10 +75,10 @@ function StatusIndicator({ status }: { status: ToolStatus }) {
     );
   }
   if (status === "error") {
-    return <WarningIcon size={12} weight="fill" className="shrink-0 text-amber-500" aria-label="Error" />;
+    return <WarningIcon size={12} weight="fill" className="shrink-0 text-error-fg" aria-label="Error" />;
   }
-  return (
-    <MagnifyingGlassIcon size={12} weight="bold" className="shrink-0 text-primary" aria-label="Done" />
+    return (
+    <MagnifyingGlassIcon size={12} weight="bold" className="shrink-0 text-success-fg" aria-label="Done" />
   );
 }
 
@@ -102,8 +102,8 @@ function DetailRow({
       <pre
         className={`overflow-x-auto rounded-lg border px-2 py-1 font-mono text-[11px] leading-snug whitespace-pre-wrap ${
           tone === "error"
-            ? "border-amber-400/40 bg-amber-50/60 text-amber-900 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-200"
-            : "border-border-soft/60 bg-surface-alt text-text/90"
+            ? "border-error-border bg-error-bg text-error-fg"
+            : "border-border-soft bg-surface-well font-mono text-secondary"
         }`}
       >
         {body}

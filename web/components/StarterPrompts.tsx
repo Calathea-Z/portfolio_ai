@@ -38,7 +38,7 @@ export function StarterPrompts({ onPick, disabled }: Props) {
             type="button"
             disabled={disabled}
             onClick={() => onPick(text)}
-            className="group flex items-start gap-2.5 rounded-xl border border-border-soft bg-surface p-2.5 text-left text-sm text-text shadow-sm transition-all hover:border-primary/60 hover:bg-surface-alt hover:shadow-md sm:gap-3 sm:p-3 sm:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
+            className="group flex items-start gap-2.5 rounded-xl border border-border-soft bg-surface p-2.5 text-left text-sm text-text shadow-sm transition-all hover:border-primary/40 hover:bg-surface-alt hover:shadow-md sm:gap-3 sm:p-3 sm:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
           >
             <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
               <IconComponent size={16} weight="bold" aria-hidden />

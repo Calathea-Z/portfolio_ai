@@ -17,7 +17,7 @@ export function AgenticChatDemo() {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col gap-3 md:gap-4">
-      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border-soft/70 bg-surface/50 shadow-sm">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border-soft bg-surface shadow-sm">
         <ChatInterface embedded projectChat={projectChat} />
       </div>
       <ChatTelemetryPanel

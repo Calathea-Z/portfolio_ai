@@ -32,8 +32,8 @@ export function MessageBubble({ message }: Props) {
         <div
           className={`rounded-2xl px-4 py-3 text-[15px] leading-relaxed shadow-sm transition-all ${
             isUser
-              ? "bg-primary text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] dark:shadow-[0_4px_14px_rgb(184_165_255/0.2)]"
-              : "border border-border-soft/70 border-l-4 border-l-accent bg-linear-to-br from-surface-alt to-surface text-text"
+              ? "bg-primary text-primary-contrast shadow-[var(--shadow-btn)]"
+              : "border border-border-soft border-l-[3px] border-l-primary/45 bg-surface-raised text-text"
           }`}
         >
           {message.chunks.map((chunk, idx) => (
@@ -123,14 +123,14 @@ function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
         blockquote: ({ children }) => (
           <blockquote
             className={`mb-3 border-l-2 pl-3 italic last:mb-0 ${
-              isUser ? "border-primary-contrast/40" : "border-primary/50"
+              isUser ? "border-primary-contrast/40" : "border-primary/35"
             }`}
           >
             {children}
           </blockquote>
         ),
         hr: () => (
-          <hr className={`my-3 ${isUser ? "border-primary-contrast/20" : "border-border-soft"}`} />
+          <hr className={`my-3 ${isUser ? "border-primary-contrast/20" : "border-border-subtle"}`} />
         ),
         a: ({ href, children }) => (
           <a
@@ -154,7 +154,7 @@ function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
                 className={`mb-3 block overflow-x-auto rounded-xl border px-3 py-2 text-[13px] last:mb-0 ${
                   isUser
                     ? "border-primary-contrast/20 bg-black/15 text-primary-contrast"
-                    : "border-border-soft bg-surface text-text"
+                    : "border-border-soft bg-surface-well font-mono text-code-fg"
                 }`}
               >
                 {children}
@@ -163,7 +163,7 @@ function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
           }
           return (
             <code
-              className={`rounded px-1 py-0.5 text-[13px] ${isUser ? "bg-black/15" : "bg-surface"}`}
+              className={`rounded px-1 py-0.5 text-[13px] font-mono ${isUser ? "bg-black/15" : "border border-border-subtle bg-code-bg text-code-fg"}`}
             >
               {children}
             </code>

@@ -2,7 +2,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function ChatInterfaceHeader() {
   return (
-    <div className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-3 shadow-sm backdrop-blur-md sm:p-4">
+    <div className="shrink-0 rounded-2xl border border-border-soft bg-surface-raised p-3 shadow-sm backdrop-blur-md sm:p-4">
       <div className="flex items-start justify-between gap-3 sm:gap-4">
         <div className="min-w-0">
           <h2 className="text-base font-semibold text-text sm:text-lg">Ask about Zach</h2>

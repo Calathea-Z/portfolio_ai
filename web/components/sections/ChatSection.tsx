@@ -6,7 +6,7 @@ export function ChatSection() {
     <section
       id={sectionIds.chat}
       aria-labelledby="chat-heading"
-      className="scroll-mt-24 border-t border-border-soft/70"
+      className="scroll-mt-24 border-t border-border-subtle"
     >
       <div className="mx-auto max-w-5xl px-4 py-16 md:px-6 md:py-20">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -24,7 +24,7 @@ export function ChatSection() {
         </p>
 
         {/* Tall embed: more room for empty state + thread; inner "Ask about Zach" header hidden when embedded. */}
-        <div className="mt-8 flex h-[min(88dvh,860px)] min-h-[600px] flex-col overflow-hidden rounded-2xl border border-border-soft/70 bg-surface/50 shadow-sm md:h-[720px] md:min-h-0">
+        <div className="mt-8 flex h-[min(88dvh,860px)] min-h-[600px] flex-col overflow-hidden rounded-2xl border border-border-soft bg-surface shadow-sm md:h-[720px] md:min-h-0">
           <ChatInterface embedded />
         </div>
       </div>

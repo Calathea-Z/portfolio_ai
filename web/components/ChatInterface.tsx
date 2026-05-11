@@ -129,13 +129,13 @@ function ChatInterfaceCore({
 
         <div
           ref={messagesScrollRef}
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-border-soft/70 bg-surface/70 p-2.5 shadow-sm backdrop-blur-md sm:p-3 md:p-5"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-border-soft bg-surface p-2.5 shadow-sm backdrop-blur-md sm:p-3 md:p-5"
         >
           <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:gap-4">
             {showStarters ? (
               <ChatEmptyHero />
             ) : (
-              <div className="rounded-xl border border-border-soft/70 bg-surface-alt/70 px-3 py-2 text-xs text-muted">
+              <div className="rounded-xl border border-border-soft bg-surface-alt px-3 py-2 text-xs text-muted">
                 Resume-grounded assistant
               </div>
             )}
@@ -154,7 +154,7 @@ function ChatInterfaceCore({
 
             {error ? (
               <p
-                className="rounded-lg border border-red-300/60 bg-red-50/80 px-3 py-2 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-200"
+                className="rounded-lg border border-error-border bg-error-bg px-3 py-2 text-sm text-error-fg"
                 role="alert"
               >
                 {error}
@@ -165,7 +165,7 @@ function ChatInterfaceCore({
 
         <form
           onSubmit={onSubmit}
-          className="shrink-0 rounded-2xl border border-border-soft/70 bg-surface/85 p-3 shadow-sm backdrop-blur-md sm:p-4"
+          className="shrink-0 rounded-2xl border border-border-soft bg-surface-raised p-3 shadow-sm backdrop-blur-md sm:p-4"
         >
           <div className="mx-auto flex max-w-4xl flex-col gap-2 sm:flex-row sm:gap-2">
             <label htmlFor="chat-input" className="sr-only">
@@ -184,21 +184,21 @@ function ChatInterfaceCore({
               }}
               placeholder="Ask anything about Zach..."
               disabled={isStreaming}
-              className="min-h-10 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-(--ring) disabled:opacity-60 sm:min-h-11"
+              className="min-h-10 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-border-focus focus:ring-2 focus:ring-(--ring) disabled:opacity-60 sm:min-h-11"
             />
             <div className="flex shrink-0 justify-end gap-2 sm:self-end">
               <button
                 type="button"
                 onClick={clearChat}
                 disabled={isStreaming || messages.length === 0}
-                className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-border-strong hover:bg-surface-alt disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Clear
               </button>
               <button
                 type="submit"
                 disabled={isStreaming || !input.trim()}
-                className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] disabled:cursor-not-allowed disabled:opacity-50 dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
+                className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Send
               </button>

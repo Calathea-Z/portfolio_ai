@@ -32,7 +32,7 @@ export function Contact() {
     <section
       id={sectionIds.contact}
       aria-labelledby="contact-heading"
-      className="scroll-mt-24 border-t border-border-soft/70 bg-surface/30"
+      className="scroll-mt-24 border-t border-border-subtle bg-surface/30"
     >
       <div className="mx-auto max-w-5xl px-4 py-16 md:px-6 md:py-24">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -44,7 +44,7 @@ export function Contact() {
         >
           Email is the fastest way to reach me.
         </h2>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-secondary">
           For recruiting, interviewing, or any conversation that needs actual
           back-and-forth, please email or LinkedIn. The chat assistant is for
           quick context, not for replies from me.
@@ -56,7 +56,7 @@ export function Contact() {
               <a
                 href={href}
                 {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="flex h-full flex-col gap-1 rounded-2xl border border-border-soft/70 bg-surface p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-md"
+                className="flex h-full flex-col gap-1 rounded-2xl border border-border-soft bg-surface p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-md"
               >
                 <span className="text-xs font-semibold uppercase tracking-widest text-primary">
                   {label}
@@ -71,7 +71,7 @@ export function Contact() {
           <a
             href={siteConfig.resume.href}
             download
-            className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
+            className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)]"
           >
             ↓ Download resume ({siteConfig.resume.label})
           </a>
@@ -79,7 +79,7 @@ export function Contact() {
             <a
               href={siteConfig.resume.fallbackDocxHref}
               download
-              className="rounded-xl border border-border-soft bg-surface px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-primary/60 hover:bg-surface-alt"
+              className="rounded-xl border border-border-soft bg-surface px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
             >
               Download (.docx)
             </a>

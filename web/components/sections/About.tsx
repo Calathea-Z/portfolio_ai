@@ -5,7 +5,7 @@ export function About() {
     <section
       id={sectionIds.about}
       aria-labelledby="about-heading"
-      className="scroll-mt-24 border-t border-border-soft/70 bg-surface/30"
+      className="scroll-mt-24 border-t border-border-subtle bg-surface/30"
     >
       <div className="mx-auto max-w-5xl px-4 py-16 md:px-6 md:py-20">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -17,7 +17,7 @@ export function About() {
         >
           What I do, and what I&apos;m looking for.
         </h2>
-        <div className="mt-6 grid gap-6 text-base leading-relaxed text-text/90 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 text-base leading-relaxed text-secondary md:grid-cols-2">
           <p>
             I&apos;m a full-stack engineer working day-to-day in React, TypeScript, and Blazor on the front end and C# / .NET 8 on Azure for
             everything behind it. I care more about reliability and clear

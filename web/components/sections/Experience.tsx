@@ -41,7 +41,7 @@ export function Experience() {
     <section
       id={sectionIds.experience}
       aria-labelledby="experience-heading"
-      className="scroll-mt-24 border-t border-border-soft/70"
+      className="scroll-mt-24 border-t border-border-subtle"
     >
       <div className="mx-auto max-w-5xl px-4 py-16 md:px-6 md:py-20">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
@@ -54,7 +54,7 @@ export function Experience() {
           Career so far.
         </h2>
 
-        <ol className="mt-10 space-y-8 border-l border-border-soft/70 pl-6">
+        <ol className="mt-10 space-y-8 border-l border-border-subtle pl-6">
           {timeline.map((entry, idx) => (
             <li key={`${entry.org}-${idx}`} className="relative">
               <span
@@ -70,7 +70,7 @@ export function Experience() {
                 </p>
               </div>
               <p className="text-sm font-medium text-primary">{entry.org}</p>
-              <p className="mt-2 text-sm leading-relaxed text-text/90">{entry.body}</p>
+              <p className="mt-2 text-sm leading-relaxed text-secondary">{entry.body}</p>
             </li>
           ))}
         </ol>

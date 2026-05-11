@@ -77,7 +77,7 @@ type SnapshotCardProps = {
 
 function SnapshotCard({ onCloseMobile }: SnapshotCardProps = {}) {
   return (
-    <div className="rounded-2xl border border-border-soft/70 bg-surface/90 p-4 shadow-sm backdrop-blur-md">
+    <div className="rounded-2xl border border-border-soft bg-surface-raised p-4 shadow-sm backdrop-blur-md">
       <div className="flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-sm font-semibold text-primary">
           ZS
@@ -132,7 +132,7 @@ function SnapshotCard({ onCloseMobile }: SnapshotCardProps = {}) {
       <a
         href={siteConfig.resume.href}
         download
-        className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-md"
+        className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"
       >
         ↓ Download resume ({siteConfig.resume.label})
       </a>

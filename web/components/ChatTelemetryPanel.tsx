@@ -57,7 +57,7 @@ export function ChatTelemetryPanel({
   const footClass = isBelow ? "mt-2 text-[11px] leading-snug text-muted/90 md:text-xs" : "mt-1.5 text-[10px] leading-snug text-muted/90";
 
   const cardShell =
-    "flex min-h-[6.5rem] min-w-0 flex-col rounded-xl border border-border-soft/70 bg-surface-alt/70 p-3 shadow-sm md:min-h-[7.25rem] md:p-4";
+    "flex min-h-[6.5rem] min-w-0 flex-col rounded-xl border border-border-soft bg-surface-alt p-3 shadow-sm md:min-h-[7.25rem] md:p-4";
 
   return (
     <div
@@ -100,7 +100,7 @@ export function ChatTelemetryPanel({
             <p className={valueClass}>—</p>
           )}
           <p className={`${subClass} line-clamp-2`}>
-            {isStreaming && replyDisplay ? <span className="text-primary/90">Live · </span> : null}
+            {isStreaming && replyDisplay ? <span className="text-info-fg">Live · </span> : null}
             {replySecondary}
           </p>
           <p className={`${footClass} mt-auto`}>One assistant response · resets on your next send</p>

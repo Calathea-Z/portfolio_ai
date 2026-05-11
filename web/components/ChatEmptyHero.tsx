@@ -8,7 +8,7 @@ import { CaretRightIcon } from "@phosphor-icons/react";
  */
 export function ChatEmptyHero() {
   return (
-    <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft/80 bg-surface-alt/80 p-3 duration-300 sm:p-4">
+    <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft bg-surface-alt p-3 duration-300 sm:p-4">
       <h3 className="text-base font-semibold leading-snug tracking-tight text-text sm:text-lg md:text-xl">
         Hi, I&apos;m Zach &mdash; full-stack engineer shipping React/.NET on Azure.
       </h3>
@@ -25,7 +25,7 @@ export function ChatEmptyHero() {
       </p>
 
       {/* Tool names: collapsed on small screens to cut visual noise */}
-      <details className="group mt-3 rounded-xl border border-border-soft/60 bg-surface/50 md:hidden">
+      <details className="group mt-3 rounded-xl border border-border-soft bg-surface md:hidden">
         <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-sm font-medium text-text [&::-webkit-details-marker]:hidden">
           <CaretRightIcon
             className="shrink-0 text-muted transition-transform group-open:rotate-90"
@@ -36,7 +36,7 @@ export function ChatEmptyHero() {
           <span>Which resume tools run?</span>
           <span className="ml-auto font-mono text-[10px] text-muted">4 tools</span>
         </summary>
-        <div className="flex flex-wrap gap-1.5 border-t border-border-soft/50 px-3 pb-3 pt-2">
+        <div className="flex flex-wrap gap-1.5 border-t border-border-subtle bg-surface-well px-3 pb-3 pt-2">
           <ToolPill>get_role</ToolPill>
           <ToolPill>list_projects_by_skill</ToolPill>
           <ToolPill>get_metrics</ToolPill>
@@ -56,7 +56,7 @@ export function ChatEmptyHero() {
 
 function ToolPill({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-full border border-border-soft bg-surface px-2.5 py-0.5 font-mono text-[10px] text-muted sm:px-3 sm:py-1 sm:text-[11px]">
+    <span className="rounded-full border border-border-subtle bg-code-bg px-2.5 py-0.5 font-mono text-[10px] text-code-fg sm:px-3 sm:py-1 sm:text-[11px]">
       {children}
     </span>
   );

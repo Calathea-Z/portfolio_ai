@@ -18,7 +18,7 @@ export default function AgenticChatProjectPage() {
     <div className="relative min-h-screen w-full bg-bg text-text">
       <BackgroundOrbs />
 
-      <header className="sticky top-0 z-30 border-b border-border-soft/70 bg-surface/80 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 md:px-6">
           <Link
             href="/"
@@ -36,7 +36,7 @@ export default function AgenticChatProjectPage() {
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">
               Featured project
             </p>
-            <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-300">
+            <span className="rounded-full border border-success-border bg-success-bg px-2 py-0.5 text-[11px] font-medium text-success-fg">
               Shipped
             </span>
           </div>
@@ -46,16 +46,16 @@ export default function AgenticChatProjectPage() {
           >
             {project.title}
           </h1>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-text/90">
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-secondary">
             <span className="font-medium text-primary">What this shows:</span>{" "}
             {project.capability}
           </p>
-          <p className="mt-2 max-w-3xl text-base leading-relaxed text-muted">{project.blurb}</p>
+          <p className="mt-2 max-w-3xl text-base leading-relaxed text-secondary">{project.blurb}</p>
         </section>
 
         <section
           aria-labelledby="how-it-works"
-          className="mt-12 rounded-2xl border border-border-soft/70 bg-surface/60 p-6 shadow-sm"
+          className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
         >
           <h2
             id="how-it-works"
@@ -63,26 +63,37 @@ export default function AgenticChatProjectPage() {
           >
             How it works
           </h2>
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 text-sm text-secondary">
             The chat backend runs a bounded tool-use loop instead of one-shot prompting. Each
-            round is a streamed Anthropic request; the server intercepts <code className="font-mono text-[12px] text-primary">tool_use</code> blocks, runs the
-            handler, appends the <code className="font-mono text-[12px] text-primary">tool_result</code>, and continues until the model stops asking for
+            round is a streamed Anthropic request; the server intercepts{" "}
+            <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
+              tool_use
+            </code>{" "}
+            blocks, runs the handler, appends the{" "}
+            <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
+              tool_result
+            </code>
+            , and continues until the model stops asking for
             tools or we hit the round cap.
           </p>
 
-          <p className="mt-4 text-sm text-muted">
-            Optional <span className="font-mono text-primary">Reflection:PlannerEnabled</span> in API
+          <p className="mt-4 text-sm text-secondary">
+            Optional{" "}
+            <span className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
+              Reflection:PlannerEnabled
+            </span>{" "}
+            in API
             config appends a short planning instruction to the system prompt (second, uncached block when
             prompt caching is on) so the model states which tools it intends to use before the first tool
             call. Enable for demos; defaults off in production configs.
           </p>
 
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 text-sm text-secondary">
             Estimated token usage and cost for the demo update live under the chat in two summary cards (session total
             + latest reply).
           </p>
 
-          <ol className="mt-6 space-y-3 text-sm text-text/90">
+          <ol className="mt-6 space-y-3 text-sm text-secondary">
             <Step
               n={1}
               title="Conversation + tools out"
@@ -117,7 +128,7 @@ export default function AgenticChatProjectPage() {
             ].map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-border-soft bg-surface-alt px-2 py-0.5 text-muted"
+                className="rounded-full border border-border-subtle bg-surface-alt px-2 py-0.5 text-muted"
               >
                 {tag}
               </span>
@@ -132,7 +143,7 @@ export default function AgenticChatProjectPage() {
           >
             Try it
           </h2>
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 text-sm text-secondary">
             Start with one of the seeded prompts to see a tool call fire, then ask a follow-up
             of your own. Click any pill to expand the input and the JSON the tool returned.
           </p>
@@ -142,26 +153,34 @@ export default function AgenticChatProjectPage() {
           </div>
         </section>
 
-        <section aria-labelledby="source" className="mt-12 border-t border-border-soft/70 pt-8">
+        <section aria-labelledby="source" className="mt-12 border-t border-border-subtle pt-8">
           <h2 id="source" className="text-xl font-semibold tracking-tight text-text">
             Source
           </h2>
           <p className="mt-2 text-sm text-muted">The interesting files for this project:</p>
           <ul className="mt-3 space-y-1 text-sm">
             <li>
-              <code className="font-mono text-primary">api/Portfolio.Api/Services/AnthropicStreamService.cs</code>{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
+                api/Portfolio.Api/Services/AnthropicStreamService.cs
+              </code>{" "}
               — the streaming tool-use loop.
             </li>
             <li>
-              <code className="font-mono text-primary">api/Portfolio.Api/Services/ResumeTools.cs</code>{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
+                api/Portfolio.Api/Services/ResumeTools.cs
+              </code>{" "}
               — the four tool handlers.
             </li>
             <li>
-              <code className="font-mono text-primary">api/Portfolio.Api/Data/resume.json</code>{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
+                api/Portfolio.Api/Data/resume.json
+              </code>{" "}
               — the structured resume the tools query.
             </li>
             <li>
-              <code className="font-mono text-primary">web/components/ToolCallPill.tsx</code>{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
+                web/components/ToolCallPill.tsx
+              </code>{" "}
               — the inline tool-call UI.
             </li>
           </ul>
@@ -169,7 +188,7 @@ export default function AgenticChatProjectPage() {
             href={siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-primary/60 hover:bg-surface-alt"
+            className="mt-4 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
           >
             View on GitHub →
           </a>
@@ -187,7 +206,7 @@ function Step({ n, title, body }: { n: number; title: string; body: string }) {
       </span>
       <div>
         <p className="font-medium text-text">{title}</p>
-        <p className="mt-1 leading-relaxed text-muted">{body}</p>
+        <p className="mt-1 leading-relaxed text-secondary">{body}</p>
       </div>
     </li>
   );

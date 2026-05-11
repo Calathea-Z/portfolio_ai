@@ -17,10 +17,10 @@ export function Hero() {
         >
           {siteConfig.name}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-secondary sm:text-xl">
           {siteConfig.positioning}
         </p>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text/80">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary">
           Three years building production software full-time, plus a decade of
           operations leadership before that. The featured projects below are
           where the AI engineering side gets shown off — not described.
@@ -29,13 +29,13 @@ export function Hero() {
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <a
             href={`#${sectionIds.projects}`}
-            className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover hover:shadow-[0_6px_20px_rgb(124_92_255/0.35)] dark:shadow-[0_4px_14px_rgb(184_165_255/0.25)] dark:hover:shadow-[0_6px_20px_rgb(184_165_255/0.35)]"
+            className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)]"
           >
             See projects
           </a>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="rounded-xl border border-border-soft bg-surface px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-primary/60 hover:bg-surface-alt"
+            className="rounded-xl border border-border-soft bg-surface px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
           >
             Email me
           </a>
