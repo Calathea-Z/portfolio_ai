@@ -23,7 +23,7 @@ const timeline: TimelineEntry[] = [
     body: "Solo practice building production marketing and e-commerce sites for small-business clients end-to-end — requirements through deployment. Next.js, TypeScript, Stripe.",
   },
   {
-    title: "Kitchen Manager (from line cook)",
+    title: "Head Chef / Kitchen Manager (from line cook)",
     org: "Asheville Pizza & Brewing Company",
     period: "2012 – 2022",
     body: "Roughly a decade in high-volume kitchens, moving into leadership of 40+ person teams. Hiring, scheduling, cost and workflow improvements — the same clarity-and-reliability discipline I apply to production engineering today.",

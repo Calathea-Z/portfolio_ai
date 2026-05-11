@@ -74,7 +74,7 @@ export default function ResumePage() {
               </p>
             </li>
             <li>
-              <p className="font-medium text-text">Kitchen Manager (from line cook)</p>
+              <p className="font-medium text-text">Head Chef / Kitchen Manager (from line cook)</p>
               <p className="text-muted">Asheville Pizza &amp; Brewing Company · 2012–2022</p>
               <p className="mt-2">
                 High-volume operations: team leadership (40+ people), scheduling, cost and workflow improvements—same

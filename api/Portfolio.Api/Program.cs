@@ -1,5 +1,8 @@
+using System.Net;
 using System.Threading.RateLimiting;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Extensions.Http;
 using Portfolio.Api.Infrastructure;
 using Portfolio.Api.Options;
 using Portfolio.Api.Services;
@@ -38,9 +41,23 @@ builder
     )
     .ValidateOnStart();
 
+builder.Services.Configure<ReflectionOptions>(builder.Configuration.GetSection(ReflectionOptions.SectionName));
+builder.Services.Configure<EvalOptions>(builder.Configuration.GetSection(EvalOptions.SectionName));
+
 // --- Typed HttpClient + chat-related singletons ---
-builder.Services.AddHttpClient("anthropic");
+// Retries apply only to SendAsync before the response body is consumed (ResponseHeadersRead in stream service).
+builder
+    .Services.AddHttpClient("anthropic")
+    .ConfigureHttpClient(c => c.Timeout = TimeSpan.FromSeconds(120))
+    .AddPolicyHandler(
+        HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .OrResult(r => r.StatusCode == HttpStatusCode.TooManyRequests)
+            .WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)))
+    );
+
 builder.Services.AddSingleton<AnthropicStreamService>();
+builder.Services.AddSingleton<IAgenticChatRunner>(sp => sp.GetRequiredService<AnthropicStreamService>());
 builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 builder.Services.AddSingleton<DailyTokenBudgetService>();
 builder.Services.AddSingleton<ResumeDataService>();

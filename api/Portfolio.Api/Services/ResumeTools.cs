@@ -5,52 +5,48 @@ namespace Portfolio.Api.Services;
 
 /// <summary>
 /// Pure handlers backing the chat agent's tool calls. Each takes the model's
-/// JSON input, queries <see cref="ResumeDataService"/>, and returns a
-/// JSON-serializable result the model can quote back to the user.
+/// JSON input, validates against <see cref="ResumeToolInputValidator"/>, then
+/// queries <see cref="ResumeDataService"/> and returns JSON the model can cite.
 /// </summary>
-/// <remarks>
-/// Handlers MUST NOT throw on bad input. Unknown tool names and validation
-/// failures yield an <c>{ "error": "..." }</c> payload so the streaming loop
-/// can surface the failure as a <c>tool_result</c> event and let the model
-/// recover (e.g. by trying a different tool).
-/// </remarks>
 public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvider timeProvider)
 {
     private readonly ResumeData _resume = resumeDataService.Data;
     private readonly TimeProvider _time = timeProvider;
 
     /// <summary>
-    /// Dispatch by tool name. Unknown names return a structured error rather
-    /// than throwing so the agent loop can keep streaming.
+    /// Dispatch by tool name. Unknown names and validation failures yield structured
+    /// <c>{ "error": ... }</c> payloads so the streaming loop can emit recoverable tool_result rows.
     /// </summary>
     public Task<JsonElement> RunAsync(string name, JsonElement input, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        if (!ResumeToolInputValidator.TryValidate(name, input, out var schemaError))
+            return Task.FromResult(ValidationError(schemaError!));
+
         JsonElement result = name switch
         {
-            ResumeToolDefinitions.GetRole => GetRole(input),
-            ResumeToolDefinitions.ListProjectsBySkill => ListProjectsBySkill(input),
-            ResumeToolDefinitions.GetMetrics => GetMetrics(input),
-            ResumeToolDefinitions.ListRecentShipped => ListRecentShipped(input),
+            ResumeToolDefinitions.GetRole => RunGetRole(input),
+            ResumeToolDefinitions.ListProjectsBySkill => RunListProjectsBySkill(input),
+            ResumeToolDefinitions.GetMetrics => RunGetMetrics(input),
+            ResumeToolDefinitions.ListRecentShipped => RunListRecentShipped(input),
             _ => Error($"Unknown tool '{name}'."),
         };
 
         return Task.FromResult(result);
     }
 
-    private JsonElement GetRole(JsonElement input)
+    private JsonElement RunGetRole(JsonElement input)
     {
-        var id = TryGetString(input, "id");
-        var org = TryGetString(input, "org");
-        var year = TryGetInt(input, "year");
+        if (!ResumeToolInputValidator.TryDeserializeGetRole(input, out var model, out var err) || model is null)
+            return ValidationError(err ?? "deserialize_failed");
 
-        if (id is null && org is null && year is null)
+        if (model.Id is null && model.Org is null && model.Year is null)
             return Error("Provide at least one of: id, org, year.");
 
         var currentYear = _time.GetUtcNow().Year;
         var matches = _resume.Roles
-            .Where(r => MatchesRole(r, id, org, year, currentYear))
+            .Where(r => MatchesRole(r, model.Id, model.Org, model.Year, currentYear))
             .Select(r => (object)new
             {
                 id = r.Id,
@@ -86,12 +82,15 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         return true;
     }
 
-    private JsonElement ListProjectsBySkill(JsonElement input)
+    private JsonElement RunListProjectsBySkill(JsonElement input)
     {
-        var skill = TryGetString(input, "skill");
-        if (string.IsNullOrWhiteSpace(skill))
+        if (!ResumeToolInputValidator.TryDeserializeListProjectsBySkill(input, out var model, out var err) || model is null)
+            return ValidationError(err ?? "deserialize_failed");
+
+        if (string.IsNullOrWhiteSpace(model.Skill))
             return Error("'skill' is required.");
 
+        var skill = model.Skill;
         var matches = _resume.Projects
             .Where(p => p.Tech.Any(t => t.Equals(skill, StringComparison.OrdinalIgnoreCase)))
             .Select(ProjectToObject)
@@ -100,9 +99,12 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         return JsonSerializer.SerializeToElement(new { skill, items = matches, count = matches.Count });
     }
 
-    private JsonElement GetMetrics(JsonElement input)
+    private JsonElement RunGetMetrics(JsonElement input)
     {
-        var id = TryGetString(input, "id");
+        if (!ResumeToolInputValidator.TryDeserializeGetMetrics(input, out var model, out var err) || model is null)
+            return ValidationError(err ?? "deserialize_failed");
+
+        var id = model.Id;
 
         var items = (id is null
                 ? _resume.Metrics
@@ -120,9 +122,12 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         return JsonSerializer.SerializeToElement(new { items, count = items.Count });
     }
 
-    private JsonElement ListRecentShipped(JsonElement input)
+    private JsonElement RunListRecentShipped(JsonElement input)
     {
-        var limit = TryGetInt(input, "limit") ?? 5;
+        if (!ResumeToolInputValidator.TryDeserializeListRecentShipped(input, out var model, out var err) || model is null)
+            return ValidationError(err ?? "deserialize_failed");
+
+        var limit = model.Limit ?? 5;
         if (limit < 1) limit = 1;
         if (limit > 20) limit = 20;
 
@@ -148,20 +153,8 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         tech = p.Tech,
     };
 
-    private static string? TryGetString(JsonElement input, string name) =>
-        input.ValueKind == JsonValueKind.Object
-        && input.TryGetProperty(name, out var prop)
-        && prop.ValueKind == JsonValueKind.String
-            ? prop.GetString()
-            : null;
-
-    private static int? TryGetInt(JsonElement input, string name) =>
-        input.ValueKind == JsonValueKind.Object
-        && input.TryGetProperty(name, out var prop)
-        && prop.ValueKind == JsonValueKind.Number
-        && prop.TryGetInt32(out var value)
-            ? value
-            : null;
+    private static JsonElement ValidationError(string details) =>
+        JsonSerializer.SerializeToElement(new { error = "validation_failed", details });
 
     private static JsonElement Error(string message) =>
         JsonSerializer.SerializeToElement(new { error = message });

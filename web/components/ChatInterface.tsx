@@ -1,17 +1,26 @@
 "use client";
 
+import type { Dispatch, SetStateAction } from "react";
 import { useState, type SubmitEvent } from "react";
 import { MessageBubble } from "@/components/MessageBubble";
 import { StarterPrompts } from "@/components/StarterPrompts";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { ChatEmptyHero } from "@/components/ChatEmptyHero";
 import { ChatInterfaceHeader } from "@/components/ChatInterfaceHeader";
+import { ChatTelemetryPanel } from "@/components/ChatTelemetryPanel";
 import { useLockDocumentOverflow } from "@/hooks/useLockDocumentOverflow";
-import { usePersistedChatMessages } from "@/hooks/usePersistedChatMessages";
 import { useStickToBottom } from "@/hooks/useStickToBottom";
+import { usePersistedChatMessages } from "@/hooks/usePersistedChatMessages";
 import { useStreamingChat } from "@/lib/use-streaming-chat";
+import type { UiMessage } from "@/lib/chat-history-storage";
 
 export type { UiMessage } from "@/lib/chat-history-storage";
+
+export type ProjectChatLift = {
+  messages: UiMessage[];
+  setMessages: Dispatch<SetStateAction<UiMessage[]>>;
+  streaming: ReturnType<typeof useStreamingChat>;
+};
 
 type ChatInterfaceProps = {
   /**
@@ -20,12 +29,73 @@ type ChatInterfaceProps = {
    * the outer height — the component fills it.
    */
   embedded?: boolean;
+  /** Optional headers on the streaming POST (e.g. <c>X-Chat-Trace</c> for NDJSON telemetry). */
+  streamHeaders?: Record<string, string>;
+  /** When true, shows telemetry inside the chat column (homepage / standalone chat). */
+  showDebugPanel?: boolean;
+  /**
+   * When set, message + streaming state are owned by the parent (e.g. project page).
+   * Telemetry is not rendered here — render <ChatTelemetryPanel /> below the chat card.
+   */
+  projectChat?: ProjectChatLift;
 };
 
-export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
+/**
+ * Standalone: owns persistence + streaming. Optional inline telemetry.
+ */
+function ChatInterfaceStandalone({
+  embedded = false,
+  streamHeaders,
+  showDebugPanel = false,
+}: Omit<ChatInterfaceProps, "projectChat">) {
   const { messages, setMessages } = usePersistedChatMessages();
+  const streaming = useStreamingChat({ messages, setMessages, streamHeaders });
+  return (
+    <ChatInterfaceCore
+      embedded={embedded}
+      messages={messages}
+      setMessages={setMessages}
+      streaming={streaming}
+      telemetry={showDebugPanel ? "inside" : "none"}
+    />
+  );
+}
+
+/**
+ * Lifted state from parent — chat UI only (no telemetry block).
+ */
+function ChatInterfaceLifted({ embedded = false, projectChat }: { embedded?: boolean; projectChat: ProjectChatLift }) {
+  return (
+    <ChatInterfaceCore
+      embedded={embedded}
+      messages={projectChat.messages}
+      setMessages={projectChat.setMessages}
+      streaming={projectChat.streaming}
+      telemetry="none"
+    />
+  );
+}
+
+type TelemetryPlacement = "none" | "inside";
+
+type ChatInterfaceCoreProps = {
+  embedded: boolean;
+  messages: UiMessage[];
+  setMessages: Dispatch<SetStateAction<UiMessage[]>>;
+  streaming: ReturnType<typeof useStreamingChat>;
+  telemetry: TelemetryPlacement;
+};
+
+function ChatInterfaceCore({
+  embedded,
+  messages,
+  setMessages,
+  streaming,
+  telemetry,
+}: ChatInterfaceCoreProps) {
   const [input, setInput] = useState("");
-  const { send, isStreaming, error, setError } = useStreamingChat({ messages, setMessages });
+  const { send, isStreaming, error, setError, lastReplyUsage, inFlightReplyUsage, sessionTotals, resetSessionTelemetry } =
+    streaming;
 
   useLockDocumentOverflow(!embedded);
   const messagesScrollRef = useStickToBottom(messages, isStreaming);
@@ -36,15 +106,20 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
     messages.at(-1)?.role === "assistant" &&
     (messages.at(-1)?.chunks.length ?? 0) === 0;
 
+  const sendThenClearOnSuccess = async (text: string) => {
+    if (await send(text)) setInput("");
+  };
+
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    void send(input);
+    void sendThenClearOnSuccess(input);
   };
 
   const clearChat = () => {
     if (isStreaming) return;
     setMessages([]);
     setError(null);
+    resetSessionTelemetry();
   };
 
   return (
@@ -66,7 +141,7 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
             )}
 
             {showStarters ? (
-              <StarterPrompts disabled={isStreaming} onPick={(t) => void send(t)} />
+              <StarterPrompts disabled={isStreaming} onPick={(t) => void sendThenClearOnSuccess(t)} />
             ) : null}
 
             {messages.map((m) => (
@@ -104,7 +179,7 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  void send(input);
+                  void sendThenClearOnSuccess(input);
                 }
               }}
               placeholder="Ask anything about Zach..."
@@ -130,7 +205,25 @@ export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
             </div>
           </div>
         </form>
+
+        {telemetry === "inside" ? (
+          <ChatTelemetryPanel
+            variant="inside-chat"
+            isStreaming={isStreaming}
+            lastReplyUsage={lastReplyUsage}
+            inFlightReplyUsage={inFlightReplyUsage}
+            sessionTotals={sessionTotals}
+          />
+        ) : null}
       </div>
     </div>
   );
+}
+
+export function ChatInterface(props: ChatInterfaceProps = {}) {
+  const { embedded = false, streamHeaders, showDebugPanel = false, projectChat } = props;
+  if (projectChat) {
+    return <ChatInterfaceLifted embedded={embedded} projectChat={projectChat} />;
+  }
+  return <ChatInterfaceStandalone embedded={embedded} streamHeaders={streamHeaders} showDebugPanel={showDebugPanel} />;
 }

@@ -94,6 +94,16 @@ public class ResumeToolsTests
     }
 
     [Fact]
+    public async Task ListProjectsBySkill_SkillWrongType_ReturnsValidationFailed()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.ListProjectsBySkill, Input("""{ "skill": 42 }"""), default);
+
+        Assert.Equal("validation_failed", result.GetProperty("error").GetString());
+    }
+
+    [Fact]
     public async Task GetMetrics_WithoutId_ReturnsAll()
     {
         var tools = BuildTools();

@@ -55,6 +55,7 @@ function ChunkRenderer({ chunk, isUser }: { chunk: MessageChunk; isUser: boolean
       <ToolCallPill
         name={chunk.name}
         input={chunk.input}
+        inputPreview={chunk.inputPreview}
         result={chunk.result}
         error={chunk.error}
       />

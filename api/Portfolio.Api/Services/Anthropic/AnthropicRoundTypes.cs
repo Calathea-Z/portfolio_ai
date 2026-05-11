@@ -3,7 +3,6 @@ using System.Text.Json;
 
 namespace Portfolio.Api.Services.Anthropic;
 
-/// <summary>Mutable builder for one assistant content block while SSE deltas arrive.</summary>
 internal sealed class AnthropicContentBlockBuilder
 {
     public string Type { get; set; } = "text";
@@ -14,22 +13,50 @@ internal sealed class AnthropicContentBlockBuilder
     public JsonElement ParsedToolInput { get; set; }
 }
 
-/// <summary>Completed <c>tool_use</c> from one streamed round.</summary>
 internal sealed record AnthropicToolUseCall(string Id, string Name, JsonElement Input);
 
-/// <summary>Outcome of parsing a single streamed assistant turn.</summary>
+/// <summary>Best-effort token counts from streamed <c>message_delta</c> usage patches.</summary>
+internal sealed class RoundTokenUsage
+{
+    public int? InputTokens { get; set; }
+    public int? OutputTokens { get; set; }
+    public int? CacheCreationInputTokens { get; set; }
+    public int? CacheReadInputTokens { get; set; }
+
+    public bool HasAny =>
+        InputTokens is not null
+        || OutputTokens is not null
+        || CacheCreationInputTokens is not null
+        || CacheReadInputTokens is not null;
+
+    public void MergeFromUsageObject(JsonElement usage)
+    {
+        if (usage.ValueKind != JsonValueKind.Object) return;
+
+        if (usage.TryGetProperty("input_tokens", out var it) && it.TryGetInt32(out var iv))
+            InputTokens = iv;
+        if (usage.TryGetProperty("output_tokens", out var ot) && ot.TryGetInt32(out var ov))
+            OutputTokens = ov;
+        if (usage.TryGetProperty("cache_creation_input_tokens", out var cc) && cc.TryGetInt32(out var ccv))
+            CacheCreationInputTokens = ccv;
+        if (usage.TryGetProperty("cache_read_input_tokens", out var cr) && cr.TryGetInt32(out var crv))
+            CacheReadInputTokens = crv;
+    }
+}
+
 internal sealed record AnthropicRoundResult(
     string? StopReason,
     IReadOnlyList<AnthropicContentBlockBuilder> Blocks,
-    IReadOnlyList<AnthropicToolUseCall> ToolUseCalls
+    IReadOnlyList<AnthropicToolUseCall> ToolUseCalls,
+    RoundTokenUsage? TokenUsage
 );
 
-/// <summary>Tracks open and finalized content blocks while reading SSE lines.</summary>
 internal sealed class AnthropicSseRoundAccumulator
 {
     public Dictionary<int, AnthropicContentBlockBuilder> OpenBlocks { get; } = new();
     public List<AnthropicContentBlockBuilder> FinalizedBlocks { get; } = [];
     public string? StopReason { get; set; }
+    public RoundTokenUsage TokenUsage { get; } = new();
 
     public void FinalizeBlock(int index)
     {
@@ -49,11 +76,11 @@ internal sealed class AnthropicSseRoundAccumulator
             .Select(b => new AnthropicToolUseCall(b.ToolUseId, b.ToolName, b.ParsedToolInput))
             .ToList();
 
-        return new AnthropicRoundResult(StopReason, FinalizedBlocks, toolUses);
+        var usage = TokenUsage.HasAny ? TokenUsage : null;
+        return new AnthropicRoundResult(StopReason, FinalizedBlocks, toolUses, usage);
     }
 }
 
-/// <summary>Builds the JSON shape Anthropic expects for a prior assistant turn.</summary>
 internal static class AnthropicConversationPayload
 {
     public static object BuildAssistantMessage(IReadOnlyList<AnthropicContentBlockBuilder> blocks)

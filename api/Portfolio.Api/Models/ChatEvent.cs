@@ -5,45 +5,77 @@ using System.Text.Json.Serialization;
 namespace Portfolio.Api.Models;
 
 /// <summary>
-/// Discriminated union of events the chat backend streams to the browser as
-/// newline-delimited JSON (NDJSON, <c>application/x-ndjson</c>).
+/// Discriminated union of events the chat backend streams as NDJSON (<c>application/x-ndjson</c>).
+/// Additive <c>kind</c> values are forward-compatible if clients ignore unknown kinds.
 /// </summary>
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "kind")]
-[JsonDerivedType(typeof(TextChatEvent),       "text")]
-[JsonDerivedType(typeof(ToolCallChatEvent),   "tool_call")]
+[JsonDerivedType(typeof(TextChatEvent), "text")]
+[JsonDerivedType(typeof(ToolCallStartChatEvent), "tool_call_start")]
+[JsonDerivedType(typeof(ToolInputDeltaChatEvent), "tool_input_delta")]
+[JsonDerivedType(typeof(ToolCallChatEvent), "tool_call")]
 [JsonDerivedType(typeof(ToolResultChatEvent), "tool_result")]
-[JsonDerivedType(typeof(DoneChatEvent),       "done")]
-[JsonDerivedType(typeof(ErrorChatEvent),      "error")]
+[JsonDerivedType(typeof(UsageRoundChatEvent), "usage")]
+[JsonDerivedType(typeof(UsageTotalChatEvent), "usage_total")]
+[JsonDerivedType(typeof(TraceSpanChatEvent), "trace_span")]
+[JsonDerivedType(typeof(DoneChatEvent), "done")]
+[JsonDerivedType(typeof(ErrorChatEvent), "error")]
 public abstract record ChatEvent;
 
-/// <summary>An incremental text delta from the assistant.</summary>
 public sealed record TextChatEvent([property: JsonPropertyName("text")] string Text) : ChatEvent;
 
-/// <summary>A completed tool_use block: the model has finished assembling input JSON and is asking the server to invoke <paramref name="Name"/>.</summary>
+/// <summary>First frame for a <c>tool_use</c> block; client can show a live pill before JSON completes.</summary>
+public sealed record ToolCallStartChatEvent(
+    [property: JsonPropertyName("id")] string Id,
+    [property: JsonPropertyName("name")] string Name
+) : ChatEvent;
+
+/// <summary>Incremental partial JSON for the current tool_use block.</summary>
+public sealed record ToolInputDeltaChatEvent(
+    [property: JsonPropertyName("id")] string Id,
+    [property: JsonPropertyName("fragment")] string Fragment
+) : ChatEvent;
+
 public sealed record ToolCallChatEvent(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("input")] JsonElement Input
 ) : ChatEvent;
 
-/// <summary>Result of running a tool, keyed by the originating tool_use id.</summary>
 public sealed record ToolResultChatEvent(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("output")] JsonElement Output,
     [property: JsonPropertyName("error")] string? Error
 ) : ChatEvent;
 
-/// <summary>End-of-stream marker.</summary>
+/// <summary>Token usage for one assistant round (best-effort from streaming <c>message_delta</c>).</summary>
+public sealed record UsageRoundChatEvent(
+    [property: JsonPropertyName("round")] int Round,
+    [property: JsonPropertyName("inputTokens")] int? InputTokens,
+    [property: JsonPropertyName("outputTokens")] int? OutputTokens,
+    [property: JsonPropertyName("cacheCreationInputTokens")] int? CacheCreationInputTokens,
+    [property: JsonPropertyName("cacheReadInputTokens")] int? CacheReadInputTokens,
+    [property: JsonPropertyName("estimatedCostUsd")] decimal? EstimatedCostUsd
+) : ChatEvent;
+
+/// <summary>Aggregated usage across all rounds in this HTTP request.</summary>
+public sealed record UsageTotalChatEvent(
+    [property: JsonPropertyName("inputTokens")] int InputTokens,
+    [property: JsonPropertyName("outputTokens")] int OutputTokens,
+    [property: JsonPropertyName("estimatedCostUsd")] decimal? EstimatedCostUsd
+) : ChatEvent;
+
+/// <summary>Lightweight span for debug / trace UI (capped attributes server-side).</summary>
+public sealed record TraceSpanChatEvent(
+    [property: JsonPropertyName("name")] string Name,
+    [property: JsonPropertyName("round")] int Round,
+    [property: JsonPropertyName("durationMs")] double DurationMs,
+    [property: JsonPropertyName("attributes")] JsonElement? Attributes
+) : ChatEvent;
+
 public sealed record DoneChatEvent : ChatEvent;
 
-/// <summary>A non-recoverable error happened mid-stream.</summary>
 public sealed record ErrorChatEvent([property: JsonPropertyName("message")] string Message) : ChatEvent;
 
-/// <summary>
-/// Serializes <see cref="ChatEvent"/> instances as NDJSON lines into a
-/// destination stream. Each call writes <c>{...}\n</c> and flushes so the
-/// browser can show incremental progress.
-/// </summary>
 public sealed class NdjsonWriter(Stream destination)
 {
     private static readonly JsonSerializerOptions JsonOptions = new()

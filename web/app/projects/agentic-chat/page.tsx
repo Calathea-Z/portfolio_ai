@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BackgroundOrbs } from "@/components/BackgroundOrbs";
-import { ChatInterface } from "@/components/ChatInterface";
+import { AgenticChatDemo } from "@/components/AgenticChatDemo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { getProject } from "@/lib/projects";
 import { siteConfig } from "@/lib/site-config";
@@ -70,6 +70,18 @@ export default function AgenticChatProjectPage() {
             tools or we hit the round cap.
           </p>
 
+          <p className="mt-4 text-sm text-muted">
+            Optional <span className="font-mono text-primary">Reflection:PlannerEnabled</span> in API
+            config appends a short planning instruction to the system prompt (second, uncached block when
+            prompt caching is on) so the model states which tools it intends to use before the first tool
+            call. Enable for demos; defaults off in production configs.
+          </p>
+
+          <p className="mt-2 text-sm text-muted">
+            Estimated token usage and cost for the demo update live under the chat in two summary cards (session total
+            + latest reply).
+          </p>
+
           <ol className="mt-6 space-y-3 text-sm text-text/90">
             <Step
               n={1}
@@ -125,8 +137,8 @@ export default function AgenticChatProjectPage() {
             of your own. Click any pill to expand the input and the JSON the tool returned.
           </p>
 
-          <div className="mt-6 flex h-[min(88dvh,860px)] min-h-[600px] flex-col overflow-hidden rounded-2xl border border-border-soft/70 bg-surface/50 shadow-sm md:h-[720px] md:min-h-0">
-            <ChatInterface embedded />
+          <div className="mt-6 flex h-[min(88dvh,860px)] min-h-[600px] max-w-full flex-col overflow-x-hidden md:h-[720px] md:min-h-0">
+            <AgenticChatDemo />
           </div>
         </section>
 

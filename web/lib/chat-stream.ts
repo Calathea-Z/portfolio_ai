@@ -5,8 +5,32 @@ export type ChatTurn = { role: "user" | "assistant"; content: string };
 
 export type ChatEvent =
   | { kind: "text"; text: string }
+  | { kind: "tool_call_start"; id: string; name: string }
+  | { kind: "tool_input_delta"; id: string; fragment: string }
   | { kind: "tool_call"; id: string; name: string; input: unknown }
   | { kind: "tool_result"; id: string; output: unknown; error?: string }
+  | {
+      kind: "usage";
+      round: number;
+      inputTokens?: number;
+      outputTokens?: number;
+      cacheCreationInputTokens?: number;
+      cacheReadInputTokens?: number;
+      estimatedCostUsd?: number;
+    }
+  | {
+      kind: "usage_total";
+      inputTokens: number;
+      outputTokens: number;
+      estimatedCostUsd?: number;
+    }
+  | {
+      kind: "trace_span";
+      name: string;
+      round: number;
+      durationMs: number;
+      attributes?: unknown;
+    }
   | { kind: "done" }
   | { kind: "error"; message: string };
 
@@ -19,6 +43,8 @@ export type StreamChatOptions = {
   onEvent: (event: ChatEvent) => void;
   /** Optional abort signal — cancel the request mid-stream. */
   signal?: AbortSignal;
+  /** Optional extra headers (e.g. <c>X-Chat-Trace</c> for debug telemetry). */
+  headers?: Record<string, string>;
 };
 
 /**
@@ -31,6 +57,7 @@ export async function streamChat({
   messages,
   onEvent,
   signal,
+  headers,
 }: StreamChatOptions): Promise<void> {
   try {
     const response = await apiClient.post<ReadableStream<Uint8Array>>(
@@ -39,6 +66,7 @@ export async function streamChat({
       {
         responseType: "stream",
         signal,
+        ...(headers ? { headers } : {}),
       }
     );
 

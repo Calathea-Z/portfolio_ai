@@ -16,4 +16,10 @@ public sealed class AnthropicOptions
 
     [Range(1, 8192)]
     public int MaxTokens { get; set; } = 4096;
+
+    /// <summary>Optional rough USD per 1M input tokens for debug usage estimates only.</summary>
+    public decimal? EstimatedInputUsdPerMillionTokens { get; set; }
+
+    /// <summary>Optional rough USD per 1M output tokens for debug usage estimates only.</summary>
+    public decimal? EstimatedOutputUsdPerMillionTokens { get; set; }
 }

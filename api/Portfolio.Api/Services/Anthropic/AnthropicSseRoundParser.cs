@@ -4,10 +4,6 @@ using Portfolio.Api.Models;
 
 namespace Portfolio.Api.Services.Anthropic;
 
-/// <summary>
-/// Reads one SSE round from the Anthropic Messages streaming API and forwards
-/// <see cref="ChatEvent"/> instances to the NDJSON writer.
-/// </summary>
 internal static class AnthropicSseRoundParser
 {
     public static async Task<AnthropicRoundResult> ParseAsync(
@@ -59,6 +55,10 @@ internal static class AnthropicSseRoundParser
 
         switch (typeEl.GetString())
         {
+            case "message_start":
+                HandleMessageStart(root, state);
+                break;
+
             case "error":
                 var message = root.TryGetProperty("error", out var errorObj)
                     && errorObj.TryGetProperty("message", out var msgEl)
@@ -67,7 +67,7 @@ internal static class AnthropicSseRoundParser
                 throw new InvalidOperationException(message ?? dataJson);
 
             case "content_block_start":
-                HandleContentBlockStart(root, state);
+                await HandleContentBlockStartAsync(root, state, ndjson, cancellationToken);
                 break;
 
             case "content_block_delta":
@@ -79,17 +79,40 @@ internal static class AnthropicSseRoundParser
                 break;
 
             case "message_delta":
-                if (root.TryGetProperty("delta", out var delta)
-                    && delta.TryGetProperty("stop_reason", out var stopReason)
-                    && stopReason.ValueKind == JsonValueKind.String)
-                {
-                    state.StopReason = stopReason.GetString();
-                }
+                await HandleMessageDeltaAsync(root, state, cancellationToken);
                 break;
         }
     }
 
-    private static void HandleContentBlockStart(JsonElement root, AnthropicSseRoundAccumulator state)
+    private static void HandleMessageStart(JsonElement root, AnthropicSseRoundAccumulator state)
+    {
+        if (!root.TryGetProperty("message", out var msg)) return;
+        if (!msg.TryGetProperty("usage", out var usage)) return;
+        state.TokenUsage.MergeFromUsageObject(usage);
+    }
+
+    private static async Task HandleMessageDeltaAsync(
+        JsonElement root,
+        AnthropicSseRoundAccumulator state,
+        CancellationToken cancellationToken
+    )
+    {
+        _ = cancellationToken;
+        if (!root.TryGetProperty("delta", out var delta)) return;
+
+        if (delta.TryGetProperty("stop_reason", out var stopReason) && stopReason.ValueKind == JsonValueKind.String)
+            state.StopReason = stopReason.GetString();
+
+        if (delta.TryGetProperty("usage", out var usage))
+            state.TokenUsage.MergeFromUsageObject(usage);
+    }
+
+    private static async Task HandleContentBlockStartAsync(
+        JsonElement root,
+        AnthropicSseRoundAccumulator state,
+        NdjsonWriter ndjson,
+        CancellationToken cancellationToken
+    )
     {
         if (!root.TryGetProperty("index", out var idxEl)) return;
         if (!root.TryGetProperty("content_block", out var blockEl)) return;
@@ -106,12 +129,19 @@ internal static class AnthropicSseRoundParser
         {
             var id = blockEl.TryGetProperty("id", out var idEl) ? idEl.GetString() : null;
             var name = blockEl.TryGetProperty("name", out var nameEl) ? nameEl.GetString() : null;
+            var toolId = id ?? string.Empty;
+            var toolName = name ?? string.Empty;
             state.OpenBlocks[index] = new AnthropicContentBlockBuilder
             {
                 Type = "tool_use",
-                ToolUseId = id ?? string.Empty,
-                ToolName = name ?? string.Empty,
+                ToolUseId = toolId,
+                ToolName = toolName,
             };
+
+            if (!string.IsNullOrEmpty(toolId) && !string.IsNullOrEmpty(toolName))
+            {
+                await ndjson.WriteAsync(new ToolCallStartChatEvent(toolId, toolName), cancellationToken);
+            }
         }
     }
 
@@ -146,7 +176,13 @@ internal static class AnthropicSseRoundParser
             case "input_json_delta":
                 if (delta.TryGetProperty("partial_json", out var pj) && pj.ValueKind == JsonValueKind.String)
                 {
-                    block.PartialJsonBuilder.Append(pj.GetString());
+                    var frag = pj.GetString();
+                    if (!string.IsNullOrEmpty(frag))
+                    {
+                        block.PartialJsonBuilder.Append(frag);
+                        if (!string.IsNullOrEmpty(block.ToolUseId))
+                            await ndjson.WriteAsync(new ToolInputDeltaChatEvent(block.ToolUseId, frag), cancellationToken);
+                    }
                 }
                 break;
         }
@@ -165,10 +201,18 @@ internal static class AnthropicSseRoundParser
 
         if (block.Type == "tool_use")
         {
-            var raw = block.PartialJsonBuilder.ToString();
-            var input = string.IsNullOrWhiteSpace(raw)
-                ? JsonSerializer.SerializeToElement(new { })
-                : JsonDocument.Parse(raw).RootElement.Clone();
+            JsonElement input;
+            try
+            {
+                var raw = block.PartialJsonBuilder.ToString();
+                input = string.IsNullOrWhiteSpace(raw)
+                    ? JsonSerializer.SerializeToElement(new { })
+                    : JsonDocument.Parse(raw).RootElement.Clone();
+            }
+            catch (JsonException)
+            {
+                input = JsonSerializer.SerializeToElement(new { error = "invalid_tool_input_json" });
+            }
 
             block.ParsedToolInput = input;
             await ndjson.WriteAsync(

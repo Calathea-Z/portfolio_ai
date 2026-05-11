@@ -9,6 +9,8 @@ export type MessageChunk =
       id: string;
       name: string;
       input: unknown;
+      /** Raw partial JSON while the model is still streaming tool arguments. */
+      inputPreview?: string;
       result?: unknown;
       error?: string;
     };
@@ -84,7 +86,11 @@ function isValidChunk(chunk: unknown): chunk is MessageChunk {
   }
   if (c.kind === "tool_call") {
     const tc = c as Partial<Extract<MessageChunk, { kind: "tool_call" }>>;
-    return typeof tc.id === "string" && typeof tc.name === "string";
+    return (
+      typeof tc.id === "string" &&
+      typeof tc.name === "string" &&
+      (tc.inputPreview === undefined || typeof tc.inputPreview === "string")
+    );
   }
   return false;
 }

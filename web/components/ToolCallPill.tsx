@@ -6,6 +6,8 @@ import { useState } from "react";
 type ToolCallPillProps = {
   name: string;
   input: unknown;
+  /** Streaming partial JSON before the final <c>input</c> object is available. */
+  inputPreview?: string;
   result?: unknown;
   error?: string;
 };
@@ -14,7 +16,7 @@ type ToolCallPillProps = {
  * Inline pill that surfaces an agentic tool call in the assistant transcript.
  * Collapsed by default; expands to show the raw input and output JSON.
  */
-export function ToolCallPill({ name, input, result, error }: ToolCallPillProps) {
+export function ToolCallPill({ name, input, inputPreview, result, error }: ToolCallPillProps) {
   const [open, setOpen] = useState(false);
   const status: ToolStatus = error ? "error" : result === undefined ? "pending" : "done";
 
@@ -29,7 +31,7 @@ export function ToolCallPill({ name, input, result, error }: ToolCallPillProps) 
         <StatusIndicator status={status} />
         <span className="font-mono text-[12px] text-primary">{name}</span>
         <span className="truncate font-mono text-[12px] text-muted">
-          ({summarizeInput(input)})
+          ({summarizeToolArgs(input, inputPreview, result, error)})
         </span>
         <CaretDownIcon
           size={12}
@@ -41,7 +43,15 @@ export function ToolCallPill({ name, input, result, error }: ToolCallPillProps) 
 
       {open ? (
         <div className="mt-2 space-y-2 rounded-xl border border-border-soft/70 bg-surface/80 p-3 text-xs">
-          <DetailRow label="Input" json={input} />
+          <DetailRow
+            label="Input"
+            json={input}
+            raw={
+              inputPreview && result === undefined && !error
+                ? `${inputPreview}…`
+                : undefined
+            }
+          />
           {status === "error" ? (
             <DetailRow label="Error" raw={error ?? "Unknown error"} tone="error" />
           ) : (
@@ -103,6 +113,19 @@ function DetailRow({
 }
 
 const MAX_SUMMARY_LENGTH = 56;
+
+function summarizeToolArgs(
+  input: unknown,
+  inputPreview: string | undefined,
+  result: unknown,
+  error: string | undefined
+): string {
+  if (result === undefined && !error && inputPreview) {
+    const frag = inputPreview.length > MAX_SUMMARY_LENGTH - 2 ? `${inputPreview.slice(0, MAX_SUMMARY_LENGTH - 2)}…` : inputPreview;
+    return `${frag}…`;
+  }
+  return summarizeInput(input);
+}
 
 function summarizeInput(input: unknown): string {
   if (!input || typeof input !== "object" || Array.isArray(input)) return "";
