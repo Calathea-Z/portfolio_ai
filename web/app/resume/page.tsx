@@ -154,7 +154,7 @@ export default function ResumePage() {
         <p className="text-xs text-muted">
           Canonical facts for the chat assistant live in{" "}
           <code className="rounded bg-surface-alt px-1 text-text/90">
-            api/Portfolio.Api/Prompts/system-prompt.txt
+            api/Portfolio.Api/Prompts/chat.md
           </code>
           . Source resume file:{" "}
           <code className="rounded bg-surface-alt px-1 text-text/90">

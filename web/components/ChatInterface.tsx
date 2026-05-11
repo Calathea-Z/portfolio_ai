@@ -6,19 +6,28 @@ import { StarterPrompts } from "@/components/StarterPrompts";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { ChatEmptyHero } from "@/components/ChatEmptyHero";
 import { ChatInterfaceHeader } from "@/components/ChatInterfaceHeader";
-import { useChatSend } from "@/hooks/useChatSend";
 import { useLockDocumentOverflow } from "@/hooks/useLockDocumentOverflow";
 import { usePersistedChatMessages } from "@/hooks/usePersistedChatMessages";
 import { useStickToBottom } from "@/hooks/useStickToBottom";
+import { useStreamingChat } from "@/lib/use-streaming-chat";
 
 export type { UiMessage } from "@/lib/chat-history-storage";
 
-export function ChatInterface() {
+type ChatInterfaceProps = {
+  /**
+   * When true, render as a self-contained block (no document overflow lock)
+   * suitable for embedding inside the homepage scroll layout. Caller controls
+   * the outer height — the component fills it.
+   */
+  embedded?: boolean;
+};
+
+export function ChatInterface({ embedded = false }: ChatInterfaceProps = {}) {
   const { messages, setMessages } = usePersistedChatMessages();
   const [input, setInput] = useState("");
-  const { send, isStreaming, error, setError } = useChatSend(messages, setMessages);
+  const { send, isStreaming, error, setError } = useStreamingChat({ messages, setMessages });
 
-  useLockDocumentOverflow();
+  useLockDocumentOverflow(!embedded);
   const messagesScrollRef = useStickToBottom(messages, isStreaming);
 
   const showStarters = messages.length === 0;

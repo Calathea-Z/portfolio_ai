@@ -1,17 +1,34 @@
 import { useCallback, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { ChatTurn } from "@/lib/chat-stream";
-import { streamChat } from "@/lib/chat-stream";
-import type { UiMessage } from "@/lib/chat-history-storage";
-import { uid } from "@/lib/chat-history-storage";
+import { streamChat, type ChatTurn } from "@/lib/chat-stream";
+import { uid, type UiMessage } from "@/lib/chat-history-storage";
 
 type SetMessages = Dispatch<SetStateAction<UiMessage[]>>;
 
+export type UseStreamingChatOptions = {
+  /** API endpoint to POST to (defaults to "/chat"). */
+  endpoint?: string;
+  /** Current message history. */
+  messages: UiMessage[];
+  /** Setter for the message history. */
+  setMessages: SetMessages;
+};
+
 /**
- * Handles POST/stream lifecycle: optimistic UI, deltas into the assistant bubble,
- * abort wiring, and error recovery (drops empty assistant stub on failure).
+ * Drives the POST/stream lifecycle for a chat-style UI:
+ * - optimistic insertion of the user + empty assistant bubble
+ * - delta accumulation into the assistant bubble
+ * - abort wiring on consecutive sends
+ * - error recovery (drops the empty assistant bubble on failure)
+ *
+ * Generic over endpoint so future project demos (e.g. /projects/pr-review)
+ * can call the same hook with their own URL.
  */
-export function useChatSend(messages: UiMessage[], setMessages: SetMessages) {
+export function useStreamingChat({
+  endpoint = "/chat",
+  messages,
+  setMessages,
+}: UseStreamingChatOptions) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -26,7 +43,10 @@ export function useChatSend(messages: UiMessage[], setMessages: SetMessages) {
       const assistantId = uid();
       const assistantMsg: UiMessage = { id: assistantId, role: "assistant", content: "" };
 
-      const history: ChatTurn[] = [...messages.map(({ role, content }) => ({ role, content })), userMsg];
+      const history: ChatTurn[] = [
+        ...messages.map(({ role, content }) => ({ role, content })),
+        userMsg,
+      ];
 
       setMessages((m) => [...m, userMsg, assistantMsg]);
       setIsStreaming(true);
@@ -35,9 +55,10 @@ export function useChatSend(messages: UiMessage[], setMessages: SetMessages) {
       abortRef.current = new AbortController();
 
       try {
-        await streamChat(
-          history,
-          (delta) => {
+        await streamChat({
+          endpoint,
+          messages: history,
+          onDelta: (delta) => {
             if (!delta) return;
             setMessages((prev) =>
               prev.map((msg) =>
@@ -45,8 +66,8 @@ export function useChatSend(messages: UiMessage[], setMessages: SetMessages) {
               )
             );
           },
-          abortRef.current.signal
-        );
+          signal: abortRef.current.signal,
+        });
       } catch (e) {
         const message = e instanceof Error ? e.message : "Something went wrong.";
         setError(message);
@@ -56,7 +77,7 @@ export function useChatSend(messages: UiMessage[], setMessages: SetMessages) {
         abortRef.current = null;
       }
     },
-    [isStreaming, messages, setMessages]
+    [endpoint, isStreaming, messages, setMessages]
   );
 
   return { send, isStreaming, error, setError };

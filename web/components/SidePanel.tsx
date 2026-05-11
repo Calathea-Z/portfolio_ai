@@ -3,133 +3,139 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { siteConfig } from "@/lib/site-config";
 
-const github = process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/Calathea-Z";
-const linkedin = process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com/in/zach-sykes/";
-const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@zach.dev";
-const resumePdf = process.env.NEXT_PUBLIC_RESUME_PDF_URL?.trim();
-const hasResumePdf = Boolean(resumePdf);
-const resumeDownload = hasResumePdf ? resumePdf : "/Sykes_Zach_Resume_2026_Default.docx";
-const resumeLabel = hasResumePdf ? "PDF" : "DOCX";
+type SidePanelProps = {
+  /**
+   * When true (default), render the mobile top-bar with an "Info" button that
+   * opens a slide-over containing the same identity card. Homepage suppresses
+   * this since <StickyNav /> already provides top chrome there.
+   */
+  mobileMenu?: boolean;
+};
 
-export function SidePanel() {
+/**
+ * Compact identity snapshot. On desktop renders as a fixed top-right card
+ * (name, role, "Open to remote" pill, contact links). On mobile (when
+ * mobileMenu={true}) renders a header bar + slide-over panel.
+ */
+export function SidePanel({ mobileMenu = true }: SidePanelProps = {}) {
   const [open, setOpen] = useState(false);
-  const skills = ["Next.js", "TypeScript", ".NET 8", "Azure", "PostgreSQL"];
-
-  const panelInner = (
-    <div className="flex h-full flex-col gap-6 p-5">
-      <div className="rounded-2xl border border-border-soft/70 bg-surface/70 p-4">
-        <div className="mb-3 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-sm font-semibold text-primary">
-            ZS
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-              zach.dev
-            </p>
-            <h1 className="text-lg font-semibold tracking-tight text-text">
-              Zach Sykes
-            </h1>
-          </div>
-        </div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-          Full-stack developer
-        </p>
-        <p className="mt-1 text-sm text-muted">
-          Full-stack developer · Denver (remote-first)
-        </p>
-        <div className="mt-3 inline-flex rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
-          Open to remote full-stack roles
-        </div>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {skills.map((skill) => (
-            <span key={skill} className="rounded-full border border-border-soft bg-surface px-2 py-0.5 text-[11px] text-muted">
-              {skill}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <nav className="flex flex-col gap-2 text-sm">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-muted">Connect</p>
-        <a
-          href={github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-text underline-offset-4 transition-colors hover:text-primary hover:underline"
-        >
-          GitHub
-        </a>
-        <a
-          href={linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-text underline-offset-4 transition-colors hover:text-primary hover:underline"
-        >
-          LinkedIn
-        </a>
-        <a
-          href={`mailto:${email}`}
-          className="text-text underline-offset-4 transition-colors hover:text-primary hover:underline"
-        >
-          Email
-        </a>
-        <Link
-          href="/resume"
-          className="text-text underline-offset-4 transition-colors hover:text-primary hover:underline"
-        >
-          Traditional resume
-        </Link>
-        <a
-          href={resumeDownload}
-          download
-          className="mt-2 inline-flex w-fit items-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-md"
-        >
-          ↓ Download resume ({resumeLabel})
-        </a>
-      </nav>
-
-      <p className="mt-auto text-xs leading-relaxed text-muted">
-        Chat answers come from resume-backed prompt data—it&apos;s not Zach typing live. Recruiters and hiring
-        managers: please reach out by email or LinkedIn when you want a real conversation.
-      </p>
-    </div>
-  );
 
   return (
     <>
-      <header className="flex items-center justify-between border-b border-border-soft bg-surface/80 px-4 py-3 backdrop-blur-md transition-colors duration-300 md:hidden">
-        <span className="text-sm font-semibold text-text">Zach Sykes</span>
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <button
-            type="button"
-            className="rounded-lg border border-border-soft bg-surface px-3 py-1.5 text-sm text-text transition-colors hover:bg-surface-alt"
-            onClick={() => setOpen((o) => !o)}
-            aria-expanded={open}
-          >
-            {open ? "Close" : "Info"}
-          </button>
-        </div>
-      </header>
+      {mobileMenu ? (
+        <header className="flex shrink-0 items-center justify-between border-b border-border-soft bg-surface/80 px-4 py-3 backdrop-blur-md transition-colors duration-300 2xl:hidden">
+          <span className="text-sm font-semibold text-text">{siteConfig.name}</span>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              className="rounded-lg border border-border-soft bg-surface px-3 py-1.5 text-sm text-text transition-colors hover:bg-surface-alt"
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              aria-controls="sidepanel-mobile"
+            >
+              {open ? "Close" : "Info"}
+            </button>
+          </div>
+        </header>
+      ) : null}
 
-      {open ? (
-        <div className="fixed inset-0 z-40 flex md:hidden">
+      {mobileMenu && open ? (
+        <div className="fixed inset-0 z-40 flex 2xl:hidden">
           <button
             type="button"
             className="absolute inset-0 bg-black/40"
             aria-label="Close menu"
             onClick={() => setOpen(false)}
           />
-          <aside className="relative z-50 ml-auto h-full w-[min(100%,20rem)] border-l border-border-soft bg-surface shadow-xl">
-            {panelInner}
+          <aside
+            id="sidepanel-mobile"
+            className="relative z-50 ml-auto h-full w-[min(100%,20rem)] border-l border-border-soft bg-surface shadow-xl"
+          >
+            <SnapshotCard onCloseMobile={() => setOpen(false)} />
           </aside>
         </div>
       ) : null}
 
-      <aside className="hidden h-full w-[min(100%,18rem)] shrink-0 border-r border-border-soft bg-linear-to-b from-surface to-surface-alt transition-colors duration-300 md:flex md:flex-col">
-        {panelInner}
+      <aside
+        aria-label="At a glance"
+        className="pointer-events-none fixed top-24 right-6 z-20 hidden w-60 max-w-[calc(100vw-2rem)] 2xl:block"
+      >
+        <div className="pointer-events-auto">
+          <SnapshotCard />
+        </div>
       </aside>
     </>
+  );
+}
+
+type SnapshotCardProps = {
+  onCloseMobile?: () => void;
+};
+
+function SnapshotCard({ onCloseMobile }: SnapshotCardProps = {}) {
+  return (
+    <div className="rounded-2xl border border-border-soft/70 bg-surface/90 p-4 shadow-sm backdrop-blur-md">
+      <div className="flex items-center gap-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-sm font-semibold text-primary">
+          ZS
+        </div>
+        <div className="min-w-0">
+          <p className="truncate text-xs font-semibold uppercase tracking-widest text-primary">
+            zach.dev
+          </p>
+          <p className="truncate text-sm font-semibold tracking-tight text-text">
+            {siteConfig.name}
+          </p>
+          <p className="truncate text-xs text-muted">{siteConfig.location}</p>
+        </div>
+      </div>
+
+      <div className="mt-3 inline-flex rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
+        Open to remote roles
+      </div>
+
+      <nav className="mt-4 flex flex-col gap-1 text-sm" aria-label="Contact">
+        <a
+          href={siteConfig.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-lg px-2 py-1 text-text transition-colors hover:bg-surface-alt hover:text-primary"
+        >
+          GitHub
+        </a>
+        <a
+          href={siteConfig.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-lg px-2 py-1 text-text transition-colors hover:bg-surface-alt hover:text-primary"
+        >
+          LinkedIn
+        </a>
+        <a
+          href={`mailto:${siteConfig.email}`}
+          className="rounded-lg px-2 py-1 text-text transition-colors hover:bg-surface-alt hover:text-primary"
+        >
+          Email
+        </a>
+        <Link
+          href="/resume"
+          onClick={onCloseMobile}
+          className="rounded-lg px-2 py-1 text-text transition-colors hover:bg-surface-alt hover:text-primary"
+        >
+          Traditional resume
+        </Link>
+      </nav>
+
+      <a
+        href={siteConfig.resume.href}
+        download
+        className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-md"
+      >
+        ↓ Download resume ({siteConfig.resume.label})
+      </a>
+    </div>
   );
 }

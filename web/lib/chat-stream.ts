@@ -3,17 +3,31 @@ import { apiClient } from "@/lib/api-client";
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
 
+export type StreamChatOptions = {
+  /** API endpoint relative to the chat API base URL (e.g. "/chat" or "/projects/pr-review"). */
+  endpoint: string;
+  /** Conversation history to send. */
+  messages: ChatTurn[];
+  /** Called for every decoded text chunk as it arrives. */
+  onDelta: (text: string) => void;
+  /** Optional abort signal — cancel the request mid-stream. */
+  signal?: AbortSignal;
+};
+
 /**
- * POSTs messages to the API and streams plain UTF-8 text chunks into onDelta.
+ * POSTs messages to a streaming chat endpoint and forwards plain UTF-8 text
+ * chunks into <c>onDelta</c>. Generic over endpoint so each project demo
+ * (chat, pr-review, etc.) can reuse the same wire-up.
  */
-export async function streamChat(
-  messages: ChatTurn[],
-  onDelta: (text: string) => void,
-  signal?: AbortSignal
-): Promise<void> {
+export async function streamChat({
+  endpoint,
+  messages,
+  onDelta,
+  signal,
+}: StreamChatOptions): Promise<void> {
   try {
     const response = await apiClient.post<ReadableStream<Uint8Array>>(
-      "/chat",
+      endpoint,
       { messages },
       {
         responseType: "stream",
