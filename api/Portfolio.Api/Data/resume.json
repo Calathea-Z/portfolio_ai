@@ -1,0 +1,152 @@
+{
+  "person": {
+    "name": "Zach Sykes",
+    "summary": "Full-stack software engineer with 3+ years of professional engineering experience and 5+ years building production software. Career change from about a decade of kitchen operations leadership into engineering, bringing habits around communication, reliability under pressure, and systems thinking.",
+    "location": "Denver, CO",
+    "remote": true,
+    "email": "zsykes21@gmail.com",
+    "github": "https://github.com/Calathea-Z",
+    "linkedin": "https://linkedin.com/in/zach-sykes",
+    "freelanceSite": "https://www.calathea.design/",
+    "lookingFor": "Remote-first teams with strong async communication and trust. Roles where I can own meaningful slices of product and platform with full-stack delivery and mature engineering practices. Curious about teams that invest in internal tooling and maintainable systems."
+  },
+  "roles": [
+    {
+      "id": "forvis-mazars",
+      "title": "Full Stack Software Engineer",
+      "org": "Forvis Mazars",
+      "startYear": 2023,
+      "startMonth": 6,
+      "endYear": null,
+      "endMonth": null,
+      "remote": true,
+      "summary": "Build and maintain production web apps and APIs for enterprise users with ownership across architecture, delivery, reliability, and operational health.",
+      "achievements": [
+        "Leading full-stack feature delivery with React, TypeScript, Next.js, and .NET 8 from UI through APIs, deployment, and monitoring.",
+        "Delivered a real-time internal collaboration product (Planning Poker) from scratch using React, .NET APIs, WebSocket infrastructure, and Azure.",
+        "Established React/TypeScript patterns adopted beyond one team.",
+        "OAuth and third-party integrations across product surfaces.",
+        "CI/CD with GitHub Actions and Azure Pipelines, observability with Grafana and Application Insights.",
+        "Mentoring junior engineers and partnering with product, design, and business stakeholders."
+      ],
+      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET 8", "ASP.NET Core", "Azure", "WebSocket", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights"]
+    },
+    {
+      "id": "calathea",
+      "title": "Founder / Freelance Engineer",
+      "org": "Calathea Web Design",
+      "startYear": 2024,
+      "startMonth": null,
+      "endYear": null,
+      "endMonth": null,
+      "remote": true,
+      "url": "https://www.calathea.design/",
+      "summary": "Freelance practice building production websites and e-commerce work for small-business clients from requirements through deployment. Own UI/UX through implementation; calathea.design itself is a shipped Next.js site showcasing that standard.",
+      "tech": ["Next.js", "TypeScript", "Stripe", "Vercel"]
+    },
+    {
+      "id": "ashe-pizza",
+      "title": "Head Chef / Kitchen Manager (progression from line cook)",
+      "org": "Asheville Pizza & Brewing Company",
+      "startYear": 2012,
+      "startMonth": null,
+      "endYear": 2022,
+      "endMonth": null,
+      "remote": false,
+      "summary": "Roughly ten years in high-volume kitchens: moved into leadership (managing a 40+ person team), hiring and onboarding, scheduling, cost and workflow improvements, and consistent cross-functional coordination. Connects to incident-style clarity and stakeholder communication in engineering.",
+      "tech": []
+    }
+  ],
+  "projects": [
+    {
+      "id": "planning-poker",
+      "name": "Planning Poker",
+      "roleId": "forvis-mazars",
+      "year": 2024,
+      "status": "shipped",
+      "summary": "Real-time estimation platform built for distributed delivery teams at Forvis Mazars. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
+      "tech": ["React", "TypeScript", ".NET 8", "WebSocket", "Azure"]
+    },
+    {
+      "id": "portfolio-assistant",
+      "name": "zach.dev portfolio assistant",
+      "roleId": null,
+      "year": 2026,
+      "status": "shipped",
+      "summary": "Recruiter-friendly portfolio chat over a structured resume: Next.js chat UI, ASP.NET Core streaming backend, Anthropic integration, request validation, and API abuse safeguards. Purpose is to make screening faster while keeping factual boundaries explicit.",
+      "tech": ["Next.js", "TypeScript", "ASP.NET Core", "C#", ".NET 8", "Anthropic"]
+    },
+    {
+      "id": "calathea-sites",
+      "name": "Calathea Web Design client sites",
+      "roleId": "calathea",
+      "year": 2024,
+      "status": "ongoing",
+      "url": "https://www.calathea.design/",
+      "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, deployment, and iteration with direct client feedback.",
+      "tech": ["Next.js", "TypeScript", "Stripe"]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "yoe-professional",
+      "label": "Years of professional engineering experience",
+      "value": 3,
+      "unit": "years",
+      "note": "Plus 5+ total years building production software."
+    },
+    {
+      "id": "yoe-software",
+      "label": "Years building production software",
+      "value": 5,
+      "unit": "years"
+    },
+    {
+      "id": "kitchen-team",
+      "label": "Largest team led in kitchen operations",
+      "value": 40,
+      "unit": "people",
+      "note": "Asheville Pizza & Brewing Company, 2012-2022."
+    }
+  ],
+  "skills": [
+    { "name": "React",          "category": "frontend",         "level": "expert" },
+    { "name": "Next.js",        "category": "frontend",         "level": "expert" },
+    { "name": "TypeScript",     "category": "frontend",         "level": "expert" },
+    { "name": "JavaScript",     "category": "frontend",         "level": "expert" },
+    { "name": "Tailwind CSS",   "category": "frontend",         "level": "expert" },
+    { "name": "Blazor",         "category": "frontend",         "level": "proficient" },
+    { "name": "C#",             "category": "backend",          "level": "expert" },
+    { "name": ".NET 8",         "category": "backend",          "level": "expert" },
+    { "name": "ASP.NET Core",   "category": "backend",          "level": "expert" },
+    { "name": "REST",           "category": "backend",          "level": "expert" },
+    { "name": "Entity Framework Core", "category": "backend",   "level": "proficient" },
+    { "name": "Node.js",        "category": "backend",          "level": "proficient" },
+    { "name": "WebSocket",      "category": "backend",          "level": "proficient" },
+    { "name": "PostgreSQL",     "category": "data",             "level": "proficient" },
+    { "name": "SQL Server",     "category": "data",             "level": "proficient" },
+    { "name": "Azure",          "category": "cloud-and-devops", "level": "proficient" },
+    { "name": "Vercel",         "category": "cloud-and-devops", "level": "proficient" },
+    { "name": "GitHub Actions", "category": "cloud-and-devops", "level": "proficient" },
+    { "name": "Azure Pipelines","category": "cloud-and-devops", "level": "proficient" },
+    { "name": "Grafana",        "category": "cloud-and-devops", "level": "proficient" },
+    { "name": "Application Insights", "category": "cloud-and-devops", "level": "proficient" },
+    { "name": "Docker",         "category": "cloud-and-devops", "level": "proficient" },
+    { "name": "xUnit",          "category": "practices",        "level": "proficient" },
+    { "name": "Moq",            "category": "practices",        "level": "proficient" },
+    { "name": "Git",            "category": "practices",        "level": "expert" }
+  ],
+  "education": [
+    {
+      "program": "Software Engineering Bootcamp",
+      "school": "General Assembly",
+      "note": "Career change from operations leadership into software engineering."
+    }
+  ],
+  "beliefs": [
+    "Reliability beats novelty in production systems. New tools are welcome, but only when they reduce risk or improve developer throughput measurably.",
+    "Clear contracts matter: typed boundaries, explicit API behavior, and predictable ownership between frontend, backend, and data layers.",
+    "Observability is part of feature delivery, not a follow-up task.",
+    "Mentoring and code-review quality compound over time and are part of senior engineering impact, not side work."
+  ]
+}

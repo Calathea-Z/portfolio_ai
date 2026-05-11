@@ -1,46 +1,63 @@
+import type { ReactNode } from "react";
+import { CaretRightIcon } from "@phosphor-icons/react";
+
+/**
+ * Empty-state intro for the chat transcript. Intentionally no resume / email /
+ * social buttons — those live in the site nav, hero, and Contact section so
+ * this block stays focused on how the agentic chat works.
+ */
 export function ChatEmptyHero() {
   return (
-    <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft/80 bg-surface-alt/80 p-4 duration-300">
-      <h3 className="text-xl font-semibold tracking-tight text-text">
-        Hi, I&apos;m Zach - full-stack engineer shipping React/.NET on Azure.
+    <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft bg-surface-alt p-3 duration-300 sm:p-4">
+      <h3 className="text-base font-semibold leading-snug tracking-tight text-text sm:text-lg md:text-xl">
+        Hi, I&apos;m Zach &mdash; full-stack engineer shipping React/.NET on Azure.
       </h3>
-      <p className="mt-2 text-sm text-muted">
-        Grounded in Zach&apos;s resume and project context. I build production full-stack systems with clear ownership
-        from UI to cloud.
+
+      {/* Short line on phones; fuller explanation from sm up */}
+      <p className="mt-2 text-sm text-muted md:hidden">
+        Ask about my work — the assistant calls resume-backed tools and shows each call in the
+        thread.
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        <a
-          href="/resume"
-          className="rounded-xl bg-primary px-3 py-2 text-sm font-medium text-primary-contrast shadow-[0_4px_14px_rgb(124_92_255/0.25)] transition-all hover:bg-primary-hover"
-        >
-          View Resume
-        </a>
-        <a
-          href="mailto:hello@zach.dev"
-          className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt"
-        >
-          Email Zach
-        </a>
-        <a
-          href="https://www.linkedin.com/in/zach-sykes/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm font-medium text-text transition-all hover:border-primary/60 hover:bg-surface-alt"
-        >
-          LinkedIn
-        </a>
-      </div>
-      <div className="mt-4 flex flex-wrap gap-2">
-        <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
-          3+ years professional engineering
-        </span>
-        <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
-          Next.js + .NET 8 + Azure
-        </span>
-        <span className="rounded-full border border-border-soft bg-surface px-3 py-1 text-xs text-muted">
-          Remote-first collaborator
-        </span>
+      <p className="mt-2 hidden text-sm text-muted md:block">
+        This is an agentic chat: ask about a role, project, skill, or metric and the model calls a
+        structured tool against my resume before answering. You&apos;ll see the call rendered inline
+        so you can verify what it cited.
+      </p>
+
+      {/* Tool names: collapsed on small screens to cut visual noise */}
+      <details className="group mt-3 rounded-xl border border-border-soft bg-surface md:hidden">
+        <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2.5 text-sm font-medium text-text [&::-webkit-details-marker]:hidden">
+          <CaretRightIcon
+            className="shrink-0 text-muted transition-transform group-open:rotate-90"
+            size={16}
+            weight="bold"
+            aria-hidden
+          />
+          <span>Which resume tools run?</span>
+          <span className="ml-auto font-mono text-[10px] text-muted">4 tools</span>
+        </summary>
+        <div className="flex flex-wrap gap-1.5 border-t border-border-subtle bg-surface-well px-3 pb-3 pt-2">
+          <ToolPill>get_role</ToolPill>
+          <ToolPill>list_projects_by_skill</ToolPill>
+          <ToolPill>get_metrics</ToolPill>
+          <ToolPill>list_recent_shipped</ToolPill>
+        </div>
+      </details>
+
+      <div className="mt-3 hidden flex-wrap gap-2 md:mt-4 md:flex">
+        <ToolPill>get_role</ToolPill>
+        <ToolPill>list_projects_by_skill</ToolPill>
+        <ToolPill>get_metrics</ToolPill>
+        <ToolPill>list_recent_shipped</ToolPill>
       </div>
     </section>
+  );
+}
+
+function ToolPill({ children }: { children: ReactNode }) {
+  return (
+    <span className="rounded-full border border-border-subtle bg-code-bg px-2.5 py-0.5 font-mono text-[10px] text-code-fg sm:px-3 sm:py-1 sm:text-[11px]">
+      {children}
+    </span>
   );
 }

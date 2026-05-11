@@ -15,31 +15,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "zach.dev — Developer portfolio",
+  title: "Zach Sykes — Full-stack engineer shipping AI features",
   description:
-    "Chat assistant grounded in Zach Sykes's resume and bio. For recruiting or detailed conversations, contact Zach directly—email and LinkedIn are on the site.",
-  metadataBase: new URL("https://zach.dev"),
+    "Full-stack engineer building production AI features end-to-end — React/Typescript, Blazor + .NET on Azure. Featured projects demonstrate RAG, agentic tool use, evals, and MCP. Chat with a resume-grounded agent or browse the work.",
+  metadataBase: new URL("https://zachsykes.dev"),
   openGraph: {
-    title: "zach.dev — Developer portfolio",
+    title: "Zach Sykes — Full-stack engineer shipping AI features",
     description:
-      "Chat with a resume-grounded assistant about Zach Sykes's experience, projects, and engineering approach.",
-    url: "https://zach.dev",
-    siteName: "zach.dev",
+      "Featured projects demonstrate RAG, agentic tool use, evals, and MCP — plus a resume-grounded chat agent.",
+    url: "https://zachsykes.dev",
+    siteName: "zachsykes.dev",
     type: "website",
     images: [
       {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "zach.dev developer portfolio preview",
+        alt: "zachsykes.dev developer portfolio preview",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "zach.dev — Developer portfolio",
+    title: "Zach Sykes — Full-stack engineer shipping AI features",
     description:
-      "Resume-grounded portfolio chat for recruiters and hiring managers.",
+      "Featured AI projects with grounded demos, plus a resume chat agent for recruiters and hiring managers.",
     images: ["/og-image.svg"],
   },
 };
@@ -55,14 +55,13 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <head>
+      <body className="flex min-h-screen flex-col bg-bg text-text transition-colors duration-300">
+        {/* beforeInteractive: inject early without nesting <script> under <head> in React tree (avoids client render warnings). */}
         <Script id="theme-bootstrap" strategy="beforeInteractive">
           {themeBootstrap}
         </Script>
-      </head>
-      <body className="flex min-h-screen flex-col bg-bg text-text transition-colors duration-300">
         {children}
         <Analytics />
       </body>

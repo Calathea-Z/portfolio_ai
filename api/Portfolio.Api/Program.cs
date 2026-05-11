@@ -1,11 +1,22 @@
+using System.Net;
 using System.Threading.RateLimiting;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Extensions.Http;
 using Portfolio.Api.Infrastructure;
 using Portfolio.Api.Options;
 using Portfolio.Api.Services;
 
 // -----------------------------------------------------------------------------
 // Pipeline: configure services, build the app, register middleware, map routes.
+//
+// Project demo endpoint convention
+// --------------------------------
+// Every featured-project demo (see web/lib/projects.ts) is served from a single
+// route shape: POST /projects/{slug}. All such endpoints MUST chain
+// .RequireRateLimiting("chat-per-ip") so abuse protection and the daily token
+// budget apply uniformly. Use ProjectEndpointExtensions.MapProjectDemo to
+// register a new demo in one line; do not hand-roll the wiring per project.
 // -----------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,11 +41,27 @@ builder
     )
     .ValidateOnStart();
 
+builder.Services.Configure<ReflectionOptions>(builder.Configuration.GetSection(ReflectionOptions.SectionName));
+builder.Services.Configure<EvalOptions>(builder.Configuration.GetSection(EvalOptions.SectionName));
+
 // --- Typed HttpClient + chat-related singletons ---
-builder.Services.AddHttpClient("anthropic");
+// Retries apply only to SendAsync before the response body is consumed (ResponseHeadersRead in stream service).
+builder
+    .Services.AddHttpClient("anthropic")
+    .ConfigureHttpClient(c => c.Timeout = TimeSpan.FromSeconds(120))
+    .AddPolicyHandler(
+        HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .OrResult(r => r.StatusCode == HttpStatusCode.TooManyRequests)
+            .WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)))
+    );
+
 builder.Services.AddSingleton<AnthropicStreamService>();
+builder.Services.AddSingleton<IAgenticChatRunner>(sp => sp.GetRequiredService<AnthropicStreamService>());
 builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 builder.Services.AddSingleton<DailyTokenBudgetService>();
+builder.Services.AddSingleton<ResumeDataService>();
+builder.Services.AddSingleton<ResumeTools>();
 builder.Services.AddScoped<ChatOrchestrationService>();
 
 // --- MVC-style API controllers (see Controllers/) ---

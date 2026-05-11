@@ -10,14 +10,23 @@ namespace Portfolio.Api.Services;
 /// Coordinates validation, token budget, logging, and streaming for <c>POST /chat</c>.
 /// </summary>
 public sealed class ChatOrchestrationService(
-    AnthropicStreamService anthropic,
+    IAgenticChatRunner agenticChat,
+    ResumeTools resumeTools,
     DailyTokenBudgetService budgetService,
     IConfiguration configuration,
     IOptions<AnthropicOptions> anthropicOptions,
+    IOptions<ReflectionOptions> reflectionOptions,
     ILogger<ChatOrchestrationService> logger
 )
 {
-    public async Task ExecuteAsync(HttpContext http, ChatRequest body, CancellationToken ct)
+    public Task ExecuteAsync(HttpContext http, ChatRequest body, CancellationToken ct) =>
+        ExecuteCoreAsync(http, body, chargeBudget: true, ct);
+
+    /// <summary>Eval route: same NDJSON stream, skips daily token budget and rate limit (controller).</summary>
+    public Task ExecuteEvalAsync(HttpContext http, ChatRequest body, CancellationToken ct) =>
+        ExecuteCoreAsync(http, body, chargeBudget: false, ct);
+
+    private async Task ExecuteCoreAsync(HttpContext http, ChatRequest body, bool chargeBudget, CancellationToken ct)
     {
         var validationError = ChatValidation.Validate(body);
         if (validationError is not null)
@@ -33,41 +42,83 @@ public sealed class ChatOrchestrationService(
         var budget = configuration.GetValue("ChatProtection:DailyEstimatedTokensPerIp", 120_000);
         var clientKey = ClientIdentity.ForBudget(http);
 
-        if (!budgetService.TryCharge(clientKey, estimatedTokens, budget, out var remaining))
+        if (chargeBudget)
         {
-            http.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-            await http.Response.WriteAsJsonAsync(
-                new { error = "Daily request budget reached. Please try again tomorrow." },
-                cancellationToken: ct
+            if (!budgetService.TryCharge(clientKey, estimatedTokens, budget, out var remaining))
+            {
+                http.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                await http.Response.WriteAsJsonAsync(
+                    new { error = "Daily request budget reached. Please try again tomorrow." },
+                    cancellationToken: ct
+                );
+                return;
+            }
+
+            logger.LogInformation(
+                "Chat request from {ClientKey} with {MessageCount} messages ({EstimatedInputTokens} input est + {MaxOutputTokens} max output = {EstimatedTokens}, {RemainingTokens} remaining).",
+                clientKey,
+                body.Messages.Count,
+                estimatedInputTokens,
+                maxOutput,
+                estimatedTokens,
+                remaining
             );
-            return;
+        }
+        else
+        {
+            logger.LogInformation(
+                "Eval chat request with {MessageCount} messages (budget skipped).",
+                body.Messages.Count
+            );
         }
 
-        logger.LogInformation(
-            "Chat request from {ClientKey} with {MessageCount} messages ({EstimatedInputTokens} input est + {MaxOutputTokens} max output = {EstimatedTokens}, {RemainingTokens} remaining).",
-            clientKey,
-            body.Messages.Count,
-            estimatedInputTokens,
-            maxOutput,
-            estimatedTokens,
-            remaining
-        );
-
-        http.Response.ContentType = "text/plain; charset=utf-8";
+        http.Response.ContentType = "application/x-ndjson; charset=utf-8";
         http.Response.Headers.CacheControl = "no-store";
+
+        var flags = BuildNdjsonFlags(http);
 
         try
         {
-            await anthropic.StreamChatAsync(body.Messages, http.Response.Body, ct);
+            await agenticChat.RunAsync(body.Messages, resumeTools, http.Response.Body, flags, ct);
         }
         catch (Exception ex)
         {
-            if (http.Response.HasStarted) throw;
+            if (http.Response.HasStarted)
+            {
+                logger.LogWarning(ex, "Chat stream failed after the response body started; client may see partial NDJSON.");
+                return;
+            }
 
             http.Response.StatusCode = StatusCodes.Status502BadGateway;
             http.Response.ContentType = "application/json; charset=utf-8";
             await http.Response.WriteAsJsonAsync(new { error = ex.Message }, cancellationToken: ct);
         }
+    }
+
+    private NdjsonStreamFlags BuildNdjsonFlags(HttpContext http)
+    {
+        var debugHeader = http.Request.Headers["X-Chat-Debug"].ToString();
+        var traceHeader = http.Request.Headers["X-Chat-Trace"].ToString();
+        var traceQuery = http.Request.Query["trace"].ToString();
+
+        var emitUsage =
+            configuration.GetValue("ChatStream:EmitUsageEvents", false)
+            || string.Equals(debugHeader, "1", StringComparison.OrdinalIgnoreCase);
+
+        var emitTrace =
+            configuration.GetValue("ChatStream:EmitTraceSpans", false)
+            || string.Equals(traceHeader, "1", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(traceQuery, "1", StringComparison.OrdinalIgnoreCase);
+
+        var useCaching = configuration.GetValue("ChatStream:UsePromptCaching", true);
+
+        return new NdjsonStreamFlags
+        {
+            EmitUsageEvents = emitUsage,
+            EmitTraceSpans = emitTrace,
+            UsePromptCaching = useCaching,
+            ReflectionPlannerEnabled = reflectionOptions.Value.PlannerEnabled,
+        };
     }
 
     private static int EstimateInputTokens(ChatRequest body) =>
