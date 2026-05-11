@@ -6,6 +6,14 @@ using Portfolio.Api.Services;
 
 // -----------------------------------------------------------------------------
 // Pipeline: configure services, build the app, register middleware, map routes.
+//
+// Project demo endpoint convention
+// --------------------------------
+// Every featured-project demo (see web/lib/projects.ts) is served from a single
+// route shape: POST /projects/{slug}. All such endpoints MUST chain
+// .RequireRateLimiting("chat-per-ip") so abuse protection and the daily token
+// budget apply uniformly. Use ProjectEndpointExtensions.MapProjectDemo to
+// register a new demo in one line; do not hand-roll the wiring per project.
 // -----------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);

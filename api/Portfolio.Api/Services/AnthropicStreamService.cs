@@ -33,7 +33,7 @@ public sealed class AnthropicStreamService(
         if (string.IsNullOrWhiteSpace(_options.ApiKey))
             throw new InvalidOperationException("Anthropic API key is not configured.");
 
-        var system = SystemPromptLoader.Load();
+        var system = SystemPromptLoader.Load("chat");
         var client = httpClientFactory.CreateClient("anthropic");
 
         var payload = BuildMessagesPayload(messages, system);
