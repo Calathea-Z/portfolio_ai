@@ -98,7 +98,7 @@ export default function AgenticChatProjectPage() {
             <Step
               n={1}
               title="Conversation + tools out"
-              body="User message and the four tool schemas (get_role, list_projects_by_skill, get_metrics, list_recent_shipped) ship to the Anthropic Messages API with streaming enabled."
+              body="User message and seven tool schemas (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq) ship to the Anthropic Messages API with streaming enabled."
             />
             <Step
               n={2}
@@ -170,7 +170,7 @@ export default function AgenticChatProjectPage() {
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
                 api/Portfolio.Api/Services/ResumeTools.cs
               </code>{" "}
-              — the four tool handlers.
+              — the seven tool handlers.
             </li>
             <li>
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">

@@ -19,7 +19,8 @@ namespace Portfolio.Api.Services;
 /// </remarks>
 public sealed class AnthropicStreamService(
     IHttpClientFactory httpClientFactory,
-    IOptions<AnthropicOptions> optionsAccessor
+    IOptions<AnthropicOptions> optionsAccessor,
+    ResumeDataService resumeData
 ) : IAgenticChatRunner
 {
     private const string MessagesApiUrl = "https://api.anthropic.com/v1/messages";
@@ -59,7 +60,7 @@ public sealed class AnthropicStreamService(
             throw new InvalidOperationException("Anthropic API key is not configured.");
 
         var ndjson = new NdjsonWriter(responseBody);
-        var system = SystemPromptLoader.Load("chat");
+        var system = ComposeChatSystemPrompt(resumeData.Data);
         var reflectionAppendix = flags.ReflectionPlannerEnabled ? ChatReflectionPrompts.PlannerAppendix : null;
         var maxRounds = flags.ReflectionPlannerEnabled ? MaxRoundsWithReflection : MaxRounds;
 
@@ -362,6 +363,93 @@ public sealed class AnthropicStreamService(
         }
 
         return results;
+    }
+
+    /// <summary>
+    /// Base portfolio prompt plus authoritative blocks composed from <c>resume.json</c>:
+    /// canonical contact, at-a-glance logistics, and the career-change narrative.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Tools do not return <c>person.email</c>; without the contact block the model tends to invent
+    /// plausible addresses.
+    /// </para>
+    /// <para>
+    /// The logistics and narrative blocks act as priming so the model knows what *kinds* of facts
+    /// are available in this session before deciding which tool to call. Specifics are still
+    /// confirmed via tools (<c>get_role</c>, <c>get_narrative</c>, <c>get_faq</c>, etc.).
+    /// </para>
+    /// </remarks>
+    private static string ComposeChatSystemPrompt(ResumeData resume)
+    {
+        var sb = new StringBuilder(SystemPromptLoader.Load("chat"));
+        var p = resume.Person;
+        var n = resume.Narrative;
+
+        sb.AppendLine()
+            .AppendLine()
+            .AppendLine("## Canonical contact (authoritative — copy verbatim)")
+            .AppendLine()
+            .AppendLine(
+                "For email, GitHub, LinkedIn, or the freelance site, use **only** the strings below. "
+                    + "Do not invent alternate emails, \"likely\" addresses, name-mangled Gmail guesses, or placeholder contact — wrong contact info is worse than omitting it."
+            )
+            .AppendLine();
+
+        AppendLineIfPresent(sb, "Email", p.Email);
+        AppendLineIfPresent(sb, "GitHub", p.Github);
+        AppendLineIfPresent(sb, "LinkedIn", p.Linkedin);
+        AppendLineIfPresent(sb, "Freelance portfolio site", p.FreelanceSite);
+
+        var hasLogistics =
+            !string.IsNullOrWhiteSpace(p.WorkAuth)
+            || !string.IsNullOrWhiteSpace(p.Availability)
+            || !string.IsNullOrWhiteSpace(p.TimeZone)
+            || !string.IsNullOrWhiteSpace(p.Compensation)
+            || p.EmploymentTypes.Count > 0;
+
+        if (hasLogistics)
+        {
+            sb.AppendLine()
+                .AppendLine("## At-a-glance logistics (priming — confirm specifics via tools)")
+                .AppendLine();
+
+            AppendLineIfPresent(sb, "Work authorization", p.WorkAuth);
+            AppendLineIfPresent(sb, "Availability", p.Availability);
+            AppendLineIfPresent(sb, "Time zone", p.TimeZone);
+            if (p.EmploymentTypes.Count > 0)
+                AppendLineIfPresent(sb, "Open to", string.Join(", ", p.EmploymentTypes));
+            AppendLineIfPresent(sb, "Compensation", p.Compensation);
+        }
+
+        var hasNarrative =
+            !string.IsNullOrWhiteSpace(n.OriginStory)
+            || !string.IsNullOrWhiteSpace(n.Bridge)
+            || !string.IsNullOrWhiteSpace(n.Carryover);
+
+        if (hasNarrative)
+        {
+            sb.AppendLine()
+                .AppendLine("## Career narrative (priming — full text via `get_narrative`)")
+                .AppendLine()
+                .AppendLine(
+                    "This is the short version of Zach's career-change story so you know it exists "
+                        + "before a visitor asks. When the topic comes up, call `get_narrative` and answer from the returned text."
+                )
+                .AppendLine();
+
+            AppendLineIfPresent(sb, "Why the change", n.OriginStory);
+            AppendLineIfPresent(sb, "How he bridged", n.Bridge);
+            AppendLineIfPresent(sb, "What carries over", n.Carryover);
+        }
+
+        return sb.ToString();
+    }
+
+    private static void AppendLineIfPresent(StringBuilder sb, string label, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
+        sb.Append("- ").Append(label).Append(": ").AppendLine(value.Trim());
     }
 
     private static JsonElement? CappedToolTraceAttributes(string name, JsonElement input)

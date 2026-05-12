@@ -62,13 +62,62 @@ public class ResumeToolsTests
     }
 
     [Fact]
-    public async Task GetRole_WithoutFilters_ReturnsError()
+    public async Task GetRole_WithoutFilters_ReturnsAllRoles()
     {
         var tools = BuildTools();
 
         var result = await tools.RunAsync(ResumeToolDefinitions.GetRole, Input("""{}"""), default);
 
+        Assert.False(result.TryGetProperty("error", out _), "Empty filter should enumerate all roles.");
+        Assert.Equal(3, result.GetProperty("count").GetInt32());
+    }
+
+    [Fact]
+    public async Task SearchResume_MatchesRoleAndProject()
+    {
+        var tools = BuildTools();
+
+        var restaurant = await tools.RunAsync(ResumeToolDefinitions.SearchResume, Input("""{ "query": "pizza" }"""), default);
+        Assert.False(restaurant.TryGetProperty("error", out _));
+        var items = restaurant.GetProperty("items").EnumerateArray().ToList();
+        Assert.Contains(items, e => e.GetProperty("kind").GetString() == "role" && e.GetProperty("id").GetString() == "ashe-pizza");
+
+        var realTime = await tools.RunAsync(ResumeToolDefinitions.SearchResume, Input("""{ "query": "real-time" }"""), default);
+        Assert.True(realTime.GetProperty("count").GetInt32() >= 1);
+        var kinds = realTime.GetProperty("items").EnumerateArray().Select(e => e.GetProperty("kind").GetString()).Distinct().ToList();
+        Assert.Contains("role", kinds);
+        Assert.Contains("project", kinds);
+    }
+
+    [Fact]
+    public async Task SearchResume_NoMatches_ReturnsEmptyItems()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.SearchResume, Input("""{ "query": "zzzznonexistent" }"""), default);
+
+        Assert.Equal(0, result.GetProperty("count").GetInt32());
+        Assert.Equal(0, result.GetProperty("items").GetArrayLength());
+    }
+
+    [Fact]
+    public async Task SearchResume_EmptyQuery_ReturnsError()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.SearchResume, Input("""{ "query": "   " }"""), default);
+
         Assert.True(result.TryGetProperty("error", out _));
+    }
+
+    [Fact]
+    public async Task SearchResume_MissingQuery_ReturnsValidationFailed()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.SearchResume, Input("""{}"""), default);
+
+        Assert.Equal("validation_failed", result.GetProperty("error").GetString());
     }
 
     [Fact]
@@ -149,6 +198,42 @@ public class ResumeToolsTests
         var result = await tools.RunAsync(ResumeToolDefinitions.ListRecentShipped, Input("""{}"""), default);
 
         Assert.Equal(5, result.GetProperty("limit").GetInt32());
+    }
+
+    [Fact]
+    public async Task GetNarrative_ReturnsNarrativeFields()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.GetNarrative, Input("""{}"""), default);
+
+        Assert.False(result.TryGetProperty("error", out _));
+        Assert.True(result.TryGetProperty("originStory", out var os));
+        Assert.True(os.GetString()?.Length > 0);
+        Assert.True(result.TryGetProperty("bridge", out _));
+        Assert.True(result.TryGetProperty("carryover", out _));
+    }
+
+    [Fact]
+    public async Task GetFaq_All_ReturnsMultipleEntries()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.GetFaq, Input("""{}"""), default);
+
+        Assert.False(result.TryGetProperty("error", out _));
+        Assert.True(result.GetProperty("count").GetInt32() >= 2);
+    }
+
+    [Fact]
+    public async Task GetFaq_ById_ReturnsSingleEntry()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.GetFaq, Input("""{ "id": "next-role" }"""), default);
+
+        Assert.Equal(1, result.GetProperty("count").GetInt32());
+        Assert.Equal("next-role", result.GetProperty("items")[0].GetProperty("id").GetString());
     }
 
     [Fact]

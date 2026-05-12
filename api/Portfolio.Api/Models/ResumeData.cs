@@ -11,6 +11,9 @@ public sealed class ResumeData
     [JsonPropertyName("person")]
     public ResumePerson Person { get; set; } = new();
 
+    [JsonPropertyName("narrative")]
+    public ResumeNarrative Narrative { get; set; } = new();
+
     [JsonPropertyName("roles")]
     public List<ResumeRole> Roles { get; set; } = [];
 
@@ -28,6 +31,9 @@ public sealed class ResumeData
 
     [JsonPropertyName("beliefs")]
     public List<string> Beliefs { get; set; } = [];
+
+    [JsonPropertyName("faq")]
+    public List<ResumeFaqEntry> Faq { get; set; } = [];
 }
 
 public sealed class ResumePerson
@@ -36,11 +42,28 @@ public sealed class ResumePerson
     [JsonPropertyName("summary")] public string Summary { get; set; } = "";
     [JsonPropertyName("location")] public string Location { get; set; } = "";
     [JsonPropertyName("remote")] public bool Remote { get; set; }
+    [JsonPropertyName("timeZone")] public string? TimeZone { get; set; }
     [JsonPropertyName("email")] public string Email { get; set; } = "";
     [JsonPropertyName("github")] public string Github { get; set; } = "";
     [JsonPropertyName("linkedin")] public string Linkedin { get; set; } = "";
     [JsonPropertyName("freelanceSite")] public string FreelanceSite { get; set; } = "";
+    [JsonPropertyName("workAuth")] public string? WorkAuth { get; set; }
+    [JsonPropertyName("availability")] public string? Availability { get; set; }
+    [JsonPropertyName("employmentTypes")] public List<string> EmploymentTypes { get; set; } = [];
+    [JsonPropertyName("compensation")] public string? Compensation { get; set; }
     [JsonPropertyName("lookingFor")] public string LookingFor { get; set; } = "";
+}
+
+/// <summary>
+/// Free-form career narrative — the origin story / bridge / carry-over framing
+/// that recruiters consistently ask about and that does not fit cleanly into
+/// the structured role rows.
+/// </summary>
+public sealed class ResumeNarrative
+{
+    [JsonPropertyName("originStory")] public string OriginStory { get; set; } = "";
+    [JsonPropertyName("bridge")] public string Bridge { get; set; } = "";
+    [JsonPropertyName("carryover")] public string Carryover { get; set; } = "";
 }
 
 public sealed class ResumeRole
@@ -66,8 +89,12 @@ public sealed class ResumeProject
     [JsonPropertyName("roleId")] public string? RoleId { get; set; }
     [JsonPropertyName("year")] public int Year { get; set; }
     [JsonPropertyName("status")] public string Status { get; set; } = "";
+    [JsonPropertyName("visibility")] public string? Visibility { get; set; }
     [JsonPropertyName("url")] public string? Url { get; set; }
+    [JsonPropertyName("repoUrl")] public string? RepoUrl { get; set; }
+    [JsonPropertyName("demoUrl")] public string? DemoUrl { get; set; }
     [JsonPropertyName("summary")] public string Summary { get; set; } = "";
+    [JsonPropertyName("outcomes")] public List<string> Outcomes { get; set; } = [];
     [JsonPropertyName("tech")] public List<string> Tech { get; set; } = [];
 }
 
@@ -92,4 +119,11 @@ public sealed class ResumeEducation
     [JsonPropertyName("program")] public string Program { get; set; } = "";
     [JsonPropertyName("school")] public string School { get; set; } = "";
     [JsonPropertyName("note")] public string? Note { get; set; }
+}
+
+public sealed class ResumeFaqEntry
+{
+    [JsonPropertyName("id")] public string Id { get; set; } = "";
+    [JsonPropertyName("question")] public string Question { get; set; } = "";
+    [JsonPropertyName("answer")] public string Answer { get; set; } = "";
 }

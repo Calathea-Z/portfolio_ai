@@ -13,9 +13,12 @@ namespace Portfolio.Api.Services;
 public static class ResumeToolDefinitions
 {
     public const string GetRole = "get_role";
+    public const string SearchResume = "search_resume";
     public const string ListProjectsBySkill = "list_projects_by_skill";
     public const string GetMetrics = "get_metrics";
     public const string ListRecentShipped = "list_recent_shipped";
+    public const string GetNarrative = "get_narrative";
+    public const string GetFaq = "get_faq";
 
     private static readonly Lazy<IReadOnlyList<JsonElement>> AllLazy = new(Build, isThreadSafe: true);
 
@@ -28,8 +31,13 @@ public static class ResumeToolDefinitions
         {
             ToolDefinition(
                 GetRole,
-                "Return one or more matching resume roles. Filter by role id, employer/org name (case-insensitive substring), or a calendar year that falls inside the role's tenure. Pass at least one filter.",
+                "Return one or more resume roles. Optionally filter by role id, employer/org name (case-insensitive substring), or a calendar year inside the role's tenure. With no filters, returns every role so the model can enumerate.",
                 ResumeToolInputSchemas.GetRoleJson
+            ),
+            ToolDefinition(
+                SearchResume,
+                "Case-insensitive substring search across roles, projects, narrative fields, FAQ entries, and person summary/lookingFor/logistics fields. Returns kind (role, project, narrative, faq, or person), id, and which fields matched. Use when the visitor's wording does not map cleanly to get_role or list_projects_by_skill.",
+                ResumeToolInputSchemas.SearchResumeJson
             ),
             ToolDefinition(
                 ListProjectsBySkill,
@@ -45,6 +53,16 @@ public static class ResumeToolDefinitions
                 ListRecentShipped,
                 "List recently shipped projects, newest first. Useful for 'what did you ship recently?' or year-scoped recap questions.",
                 ResumeToolInputSchemas.ListRecentShippedJson
+            ),
+            ToolDefinition(
+                GetNarrative,
+                "Return Zach's free-form career narrative (originStory, bridge, carryover). Use this for career-change / origin-story questions ('why did you leave kitchens?', 'how did you become an engineer?', 'what carries over from your prior career?') where structured role rows do not capture the answer. No inputs.",
+                ResumeToolInputSchemas.GetNarrativeJson
+            ),
+            ToolDefinition(
+                GetFaq,
+                "Return pre-written FAQ entries. With no filters, returns every entry. Filter by stable id (e.g. 'next-role', 'why-chatbot', 'career-change', 'philosophy') or by case-insensitive keyword against question/answer text. Use this for predictable recruiter questions: what kind of role Zach wants next, why he built this chatbot, biggest accomplishment, learning approach, engineering philosophy.",
+                ResumeToolInputSchemas.GetFaqJson
             ),
         };
     }

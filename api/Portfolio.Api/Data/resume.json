@@ -4,11 +4,21 @@
     "summary": "Full-stack software engineer with 3+ years of professional engineering experience and 5+ years building production software. Career change from about a decade of kitchen operations leadership into engineering, bringing habits around communication, reliability under pressure, and systems thinking.",
     "location": "Denver, CO",
     "remote": true,
+    "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
     "email": "zsykes21@gmail.com",
     "github": "https://github.com/Calathea-Z",
     "linkedin": "https://linkedin.com/in/zach-sykes",
     "freelanceSite": "https://www.calathea.design/",
-    "lookingFor": "Remote-first teams with strong async communication and trust. Roles where I can own meaningful slices of product and platform with full-stack delivery and mature engineering practices. Curious about teams that invest in internal tooling and maintainable systems."
+    "workAuth": "US citizen — no sponsorship needed",
+    "availability": "Open to strong opportunities",
+    "employmentTypes": ["full-time", "freelance via Calathea"],
+    "compensation": "Open to discuss",
+    "lookingFor": "A role that challenges me, working for a company whose work I can find meaning in, where I get to ship cool things and help architect new ideas. Remote-first teams with strong async communication and trust. Curious about teams that invest in internal tooling and maintainable systems."
+  },
+  "narrative": {
+    "originStory": "I wanted new challenges, and the work-life balance of kitchen work had run its course. I knew I could do something more mentally demanding — and engineering turned out to be the perfect mix of creativity and structure for me.",
+    "bridge": "I quit my kitchen job, sold my car to float the income gap, and went full-time through General Assembly's 3-month software engineering bootcamp. Outside of class I logged countless hours on YouTube tutorials, documentation, and side experiments — that self-directed time is what actually made the transition stick.",
+    "carryover": "Kitchen leadership is constant quick decision-making (shipping fast and efficiently), tightening systems for reliability, coaching the people around you, and forecasting problems before they happen. That's most of what senior engineering work actually is — different artifacts, same instincts."
   },
   "roles": [
     {
@@ -22,14 +32,17 @@
       "remote": true,
       "summary": "Build and maintain production web apps and APIs for enterprise users with ownership across architecture, delivery, reliability, and operational health.",
       "achievements": [
-        "Leading full-stack feature delivery with React, TypeScript, Next.js, and .NET 8 from UI through APIs, deployment, and monitoring.",
-        "Delivered a real-time internal collaboration product (Planning Poker) from scratch using React, .NET APIs, WebSocket infrastructure, and Azure.",
-        "Established React/TypeScript patterns adopted beyond one team.",
-        "OAuth and third-party integrations across product surfaces.",
-        "CI/CD with GitHub Actions and Azure Pipelines, observability with Grafana and Application Insights.",
-        "Mentoring junior engineers and partnering with product, design, and business stakeholders."
+        "Lead end-to-end feature delivery using React, TypeScript, Next.js, and .NET 8 — from UI architecture through backend API implementation, deployment, and production monitoring.",
+        "Helped lead the migration from a Blazor frontend to React/TypeScript across product surfaces — including the architecture decisions, the rollout, and the teaching/mentoring required for adoption across engineering teams.",
+        "Delivered a real-time internal collaboration platform (Planning Poker) from 0 to 1 — independently conceived, architected, and shipped, including React frontend, .NET backend APIs, WebSocket infrastructure, and Azure deployment. Now used by every software team across all six Forvis Mazars verticals.",
+        "Established React/TypeScript component systems and REST API integration patterns adopted across multiple teams — improving consistency and developer velocity org-wide.",
+        "Integrated and maintained third-party API connections across multiple external services — OAuth authentication flows, data ingestion pipelines, and end-to-end reliability.",
+        "Built and maintained CI/CD pipelines (GitHub Actions, Azure Pipelines) and production observability tooling (Grafana, Azure Application Insights) — enabling fast, safe releases and rapid incident response.",
+        "Collaborated directly with product, design, and business stakeholders to translate requirements into shipped features — communicating technical tradeoffs clearly across disciplines.",
+        "Mentored junior engineers on code quality, architecture patterns, and best practices.",
+        "Integrated AI coding tools (GitHub Copilot, Claude) into daily engineering workflows, measurably improving delivery speed and output quality."
       ],
-      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET 8", "ASP.NET Core", "Azure", "WebSocket", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights"]
+      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET 8", "ASP.NET Core", "Azure", "WebSocket", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor"]
     },
     {
       "id": "calathea",
@@ -42,7 +55,13 @@
       "remote": true,
       "url": "https://www.calathea.design/",
       "summary": "Freelance practice building production websites and e-commerce work for small-business clients from requirements through deployment. Own UI/UX through implementation; calathea.design itself is a shipped Next.js site showcasing that standard.",
-      "tech": ["Next.js", "TypeScript", "Stripe", "Vercel"]
+      "achievements": [
+        "Shipped 5 client sites end-to-end since 2024 — ranging across e-commerce storefronts, portfolios for musicians and artists, movie promotion sites, and WordPress sites for nonprofits.",
+        "Own every layer of each engagement — UI/UX design, frontend implementation, backend integrations, third-party APIs (Stripe where applicable), and cloud deployment on Vercel.",
+        "Built and launched the business site itself (calathea.design) as a production Next.js application — same quality standard delivered to clients.",
+        "Direct client communication from discovery through deployment and post-launch iteration — no intermediaries between requirements and shipped work."
+      ],
+      "tech": ["Next.js", "TypeScript", "Stripe", "Vercel", "WordPress"]
     },
     {
       "id": "ashe-pizza",
@@ -53,7 +72,13 @@
       "endYear": 2022,
       "endMonth": null,
       "remote": false,
-      "summary": "Roughly ten years in high-volume kitchens: moved into leadership (managing a 40+ person team), hiring and onboarding, scheduling, cost and workflow improvements, and consistent cross-functional coordination. Connects to incident-style clarity and stakeholder communication in engineering.",
+      "summary": "Roughly ten years in high-volume kitchens: progressed into leadership, hiring and onboarding, scheduling, cost and workflow improvements, and consistent cross-functional coordination. Connects to incident-style clarity and stakeholder communication in engineering.",
+      "achievements": [
+        "Progressed from line cook to Head Chef / Kitchen Manager over 10 years in a high-volume kitchen environment.",
+        "Led and managed a 40+ person team across multiple shifts — hiring, onboarding, scheduling, performance management, and building a culture of accountability.",
+        "Drove operational improvements across cost management, workflow efficiency, and quality standards in a high-pressure production environment.",
+        "Cross-functional coordination with front-of-house, ownership, and vendors — the same stakeholder-communication discipline applied to engineering today."
+      ],
       "tech": []
     }
   ],
@@ -64,7 +89,12 @@
       "roleId": "forvis-mazars",
       "year": 2024,
       "status": "shipped",
+      "visibility": "internal",
       "summary": "Real-time estimation platform built for distributed delivery teams at Forvis Mazars. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
+      "outcomes": [
+        "Adopted by every software team across all six Forvis Mazars verticals.",
+        "Designed, architected, and shipped solo from 0 to 1."
+      ],
       "tech": ["React", "TypeScript", ".NET 8", "WebSocket", "Azure"]
     },
     {
@@ -73,7 +103,13 @@
       "roleId": null,
       "year": 2026,
       "status": "shipped",
-      "summary": "Recruiter-friendly portfolio chat over a structured resume: Next.js chat UI, ASP.NET Core streaming backend, Anthropic integration, request validation, and API abuse safeguards. Purpose is to make screening faster while keeping factual boundaries explicit.",
+      "visibility": "public",
+      "repoUrl": "https://github.com/Calathea-Z/portfolio_ai",
+      "summary": "Recruiter-friendly portfolio chat over a structured resume: Next.js chat UI, ASP.NET Core streaming backend, Anthropic integration, request validation, and API abuse safeguards. Built to demonstrate building around AI for an actual purpose — not just experimenting with it.",
+      "outcomes": [
+        "Working example of agentic chat over structured data with a real backend, validation, and safeguards.",
+        "Source code public for review at github.com/Calathea-Z/portfolio_ai."
+      ],
       "tech": ["Next.js", "TypeScript", "ASP.NET Core", "C#", ".NET 8", "Anthropic"]
     },
     {
@@ -82,9 +118,15 @@
       "roleId": "calathea",
       "year": 2024,
       "status": "ongoing",
+      "visibility": "public",
       "url": "https://www.calathea.design/",
       "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, deployment, and iteration with direct client feedback.",
-      "tech": ["Next.js", "TypeScript", "Stripe"]
+      "outcomes": [
+        "5 client sites shipped end-to-end since 2024.",
+        "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites.",
+        "Full lifecycle ownership per engagement — discovery through post-launch iteration."
+      ],
+      "tech": ["Next.js", "TypeScript", "Stripe", "WordPress"]
     }
   ],
   "metrics": [
@@ -107,6 +149,27 @@
       "value": 40,
       "unit": "people",
       "note": "Asheville Pizza & Brewing Company, 2012-2022."
+    },
+    {
+      "id": "kitchen-tenure",
+      "label": "Years progressing from line cook to Kitchen Manager",
+      "value": 10,
+      "unit": "years",
+      "note": "Asheville Pizza & Brewing Company, 2012-2022."
+    },
+    {
+      "id": "planning-poker-verticals",
+      "label": "Forvis Mazars software verticals using Planning Poker",
+      "value": 6,
+      "unit": "verticals",
+      "note": "Every software team across all six verticals adopted the tool after launch."
+    },
+    {
+      "id": "calathea-sites-shipped",
+      "label": "Client sites shipped end-to-end via Calathea",
+      "value": 5,
+      "unit": "sites",
+      "note": "Since 2024 — mix of e-commerce, portfolios, promotional sites, and nonprofit WordPress."
     }
   ],
   "skills": [
@@ -134,13 +197,15 @@
     { "name": "Docker",         "category": "cloud-and-devops", "level": "proficient" },
     { "name": "xUnit",          "category": "practices",        "level": "proficient" },
     { "name": "Moq",            "category": "practices",        "level": "proficient" },
-    { "name": "Git",            "category": "practices",        "level": "expert" }
+    { "name": "Git",            "category": "practices",        "level": "expert" },
+    { "name": "GitHub Copilot", "category": "ai-workflows",     "level": "proficient" },
+    { "name": "Claude / Anthropic API", "category": "ai-workflows", "level": "proficient" }
   ],
   "education": [
     {
       "program": "Software Engineering Bootcamp",
       "school": "General Assembly",
-      "note": "Career change from operations leadership into software engineering."
+      "note": "Full-time, 3-month immersive program. Career change from operations leadership into software engineering, supplemented by extensive self-directed study via documentation, tutorials, and side projects."
     }
   ],
   "beliefs": [
@@ -148,5 +213,42 @@
     "Clear contracts matter: typed boundaries, explicit API behavior, and predictable ownership between frontend, backend, and data layers.",
     "Observability is part of feature delivery, not a follow-up task.",
     "Mentoring and code-review quality compound over time and are part of senior engineering impact, not side work."
+  ],
+  "faq": [
+    {
+      "id": "next-role",
+      "question": "What kind of role are you looking for next?",
+      "answer": "A role that challenges me, working for a company whose work I can find meaning in, where I get to ship cool things and help architect new ideas. Full-time is the primary path; Calathea-style freelance is also on the table for the right engagement."
+    },
+    {
+      "id": "why-chatbot",
+      "question": "Why did you build this chatbot?",
+      "answer": "To demonstrate I know how to build around and with AI for an actual purpose — not just experiment with it. This site is a working example: agentic chat over structured resume data, with a real ASP.NET Core streaming backend, request validation, and safeguards against abuse. Source is public at github.com/Calathea-Z/portfolio_ai."
+    },
+    {
+      "id": "biggest-accomplishment",
+      "question": "What's your biggest engineering accomplishment so far?",
+      "answer": "Two things, both at Forvis Mazars. First, shipping Planning Poker from zero to a tool now used by every software team across all six verticals. Second, helping lead the migration from a Blazor frontend to React/TypeScript — including the architecture work, the rollout, and the teaching that made it stick across teams."
+    },
+    {
+      "id": "learning-approach",
+      "question": "How do you approach learning new tech?",
+      "answer": "I play with it, build small things, watch tutorials, ask questions, and fail at it until I succeed. Docs and reading have a place, but nothing teaches like shipping something half-broken and fixing it."
+    },
+    {
+      "id": "career-change",
+      "question": "Why did you switch from kitchen leadership to engineering?",
+      "answer": "I wanted new challenges, and the work-life balance of kitchen work had run its course. I knew I could do something more mentally demanding — engineering turned out to be the perfect mix of creativity and structure. Quit the kitchen job, sold my car to bridge the income gap, did the General Assembly bootcamp full-time, and logged countless self-directed hours alongside it."
+    },
+    {
+      "id": "philosophy",
+      "question": "What's your engineering philosophy in a sentence?",
+      "answer": "Reliability beats novelty in production systems — new tools earn their place by reducing risk or measurably improving developer throughput."
+    },
+    {
+      "id": "tough-debug",
+      "question": "Tell me about a tough debug or incident.",
+      "answer": "I'd rather walk through a specific example in a live conversation than try to compress it here. Happy to dig into it over email or LinkedIn."
+    }
   ]
 }

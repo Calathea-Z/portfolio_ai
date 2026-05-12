@@ -34,21 +34,27 @@ export function ChatEmptyHero() {
             aria-hidden
           />
           <span>Which resume tools run?</span>
-          <span className="ml-auto font-mono text-[10px] text-muted">4 tools</span>
+          <span className="ml-auto font-mono text-[10px] text-muted">7 tools</span>
         </summary>
         <div className="flex flex-wrap gap-1.5 border-t border-border-subtle bg-surface-well px-3 pb-3 pt-2">
           <ToolPill>get_role</ToolPill>
+          <ToolPill>search_resume</ToolPill>
           <ToolPill>list_projects_by_skill</ToolPill>
           <ToolPill>get_metrics</ToolPill>
           <ToolPill>list_recent_shipped</ToolPill>
+          <ToolPill>get_narrative</ToolPill>
+          <ToolPill>get_faq</ToolPill>
         </div>
       </details>
 
       <div className="mt-3 hidden flex-wrap gap-2 md:mt-4 md:flex">
         <ToolPill>get_role</ToolPill>
+        <ToolPill>search_resume</ToolPill>
         <ToolPill>list_projects_by_skill</ToolPill>
         <ToolPill>get_metrics</ToolPill>
         <ToolPill>list_recent_shipped</ToolPill>
+        <ToolPill>get_narrative</ToolPill>
+        <ToolPill>get_faq</ToolPill>
       </div>
     </section>
   );

@@ -7,7 +7,7 @@ namespace Portfolio.Api.Services.Anthropic;
 /// <remarks>
 /// Anthropic allows at most <b>four</b> content/tool definitions with <c>cache_control</c> in one request.
 /// We reserve one slot for the primary system block; up to three tool definitions may be marked
-/// cacheable so we stay within the limit (e.g. 1 system + 4 tools would be invalid).
+/// cacheable so we stay within the limit (e.g. 1 system + seven tools still only caches the first 3 tools).
 /// </remarks>
 internal static class AnthropicPayloadBuilder
 {

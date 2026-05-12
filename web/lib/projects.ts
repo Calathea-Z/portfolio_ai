@@ -33,7 +33,7 @@ export const projects: Project[] = [
     slug: "agentic-chat",
     title: "Agentic chat with tool use",
     blurb:
-      "Claude calls structured tools (get_role, list_projects_by_skill, get_metrics, list_recent_shipped) over a streaming loop, and you can watch each tool call in the transcript.",
+      "Claude calls seven structured resume tools (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq) over a streaming loop, and you can watch each tool call in the transcript.",
     capability:
       "I build agentic AI, not chat wrappers — the model calls structured tools and you can watch it happen.",
     status: "shipped",

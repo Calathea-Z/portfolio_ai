@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { sectionIds, siteConfig } from "@/lib/site-config";
 
@@ -13,6 +14,9 @@ const links: Array<{ label: string; href: string }> = [
 ];
 
 export function StickyNav() {
+  const pathname = usePathname();
+  const homeTopHref = `/#${sectionIds.hero}`;
+
   return (
     <nav
       aria-label="Page sections"
@@ -20,8 +24,14 @@ export function StickyNav() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:px-6">
         <Link
-          href={`#${sectionIds.hero}`}
+          href={homeTopHref}
           className="shrink-0 text-sm font-semibold tracking-tight text-text transition-colors hover:text-primary"
+          onClick={(e) => {
+            if (pathname !== "/") return;
+            e.preventDefault();
+            document.getElementById(sectionIds.hero)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            window.history.replaceState(null, "", homeTopHref);
+          }}
         >
           {siteConfig.name}
         </Link>
