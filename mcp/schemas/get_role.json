@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "Stable role id, e.g. 'forvis-mazars'." },
+    "year": { "type": "integer", "description": "Calendar year (e.g. 2025). Returns roles active during that year." },
+    "org": { "type": "string", "description": "Employer or organization name; case-insensitive substring match." }
+  },
+  "description": "All properties optional. Omit every property (or pass {}) to return every role; combine filters to narrow."
+}

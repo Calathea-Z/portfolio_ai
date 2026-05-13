@@ -61,7 +61,7 @@ public static class ResumeToolDefinitions
             ),
             ToolDefinition(
                 GetFaq,
-                "Return pre-written FAQ entries. With no filters, returns every entry. Filter by stable id (e.g. 'next-role', 'why-chatbot', 'career-change', 'philosophy') or by case-insensitive keyword against question/answer text. Use this for predictable recruiter questions: what kind of role Zach wants next, why he built this chatbot, biggest accomplishment, learning approach, engineering philosophy.",
+                "Return pre-written FAQ entries. With no filters, returns every entry. Filter by stable id (e.g. 'next-role', 'why-chatbot', 'mcp-server', 'career-change', 'philosophy') or by case-insensitive keyword against question/answer text. Use this for predictable recruiter questions: what kind of role Zach wants next, why he built this chatbot, what the MCP resume server is, biggest accomplishment, learning approach, engineering philosophy.",
                 ResumeToolInputSchemas.GetFaqJson
             ),
         };

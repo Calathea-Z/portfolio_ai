@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "skill": { "type": "string", "description": "Technology or skill name to match against project.tech (e.g. 'WebSocket', 'Next.js', '.NET')." }
+  },
+  "required": ["skill"]
+}

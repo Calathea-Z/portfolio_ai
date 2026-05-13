@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "Stable FAQ entry id, e.g. 'career-change'." },
+    "keyword": { "type": "string", "description": "Case-insensitive substring matched against the question and answer text." }
+  },
+  "description": "All properties optional. Omit both (or pass {}) to return every FAQ entry."
+}

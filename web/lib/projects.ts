@@ -32,10 +32,10 @@ export const projects: Project[] = [
     slug: "mcp-server",
     title: "MCP server for resume tools",
     blurb:
-      "Same resume tools as the web chat, exposed over the Model Context Protocol so they can run from Claude Desktop or other MCP clients—one data file, two ways to call it.",
+      "Same seven resume tools as the web chat, exposed over the Model Context Protocol for Claude Desktop and other MCP hosts—load the same resume.json, get the same JSON tool results. Schema files are parity-tested against the .NET API so contracts cannot drift quietly.",
     capability:
-      "Same tool contracts over HTTP and MCP when you need the protocol surface, not a second bespoke integration.",
-    status: "planned",
+      "Protocol-layer surface for the same tool contracts as the chat loop, with cross-language schema parity tests—not a second ad hoc integration.",
+    status: "shipped",
     href: "/projects/mcp-server",
   },
 ];

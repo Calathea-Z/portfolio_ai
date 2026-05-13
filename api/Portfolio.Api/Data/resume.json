@@ -113,6 +113,21 @@
       "tech": ["Next.js", "TypeScript", "ASP.NET Core", "C#", ".NET 8", "Anthropic"]
     },
     {
+      "id": "portfolio-mcp-resume",
+      "name": "Portfolio MCP resume server",
+      "roleId": null,
+      "year": 2026,
+      "status": "shipped",
+      "visibility": "public",
+      "repoUrl": "https://github.com/Calathea-Z/portfolio_ai",
+      "summary": "stdio Model Context Protocol server that registers the same seven structured resume tools as the portfolio chat (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq). Loads the canonical resume.json via --data for Claude Desktop and other MCP clients. JSON input schemas under mcp/schemas are parity-tested in .NET against ResumeToolInputSchemas so Anthropic and MCP surfaces stay aligned.",
+      "outcomes": [
+        "Same tool contracts as the streaming chat API, exposed at the protocol layer instead of a bespoke HTTP integration.",
+        "Public write-up and demo video at https://zachsykes.dev/projects/mcp-server; implementation in the portfolio repo under mcp/."
+      ],
+      "tech": ["Node.js", "TypeScript", "MCP", "Model Context Protocol", "JSON Schema", ".NET 8"]
+    },
+    {
       "id": "calathea-sites",
       "name": "Calathea Web Design client sites",
       "roleId": "calathea",
@@ -199,7 +214,9 @@
     { "name": "Moq",            "category": "practices",        "level": "proficient" },
     { "name": "Git",            "category": "practices",        "level": "expert" },
     { "name": "GitHub Copilot", "category": "ai-workflows",     "level": "proficient" },
-    { "name": "Claude / Anthropic API", "category": "ai-workflows", "level": "proficient" }
+    { "name": "Claude / Anthropic API", "category": "ai-workflows", "level": "proficient" },
+    { "name": "MCP", "category": "ai-workflows", "level": "proficient" },
+    { "name": "Model Context Protocol", "category": "ai-workflows", "level": "proficient" }
   ],
   "education": [
     {
@@ -224,6 +241,11 @@
       "id": "why-chatbot",
       "question": "Why did you build this chatbot?",
       "answer": "To demonstrate I know how to build around and with AI for an actual purpose — not just experiment with it. This site is a working example: agentic chat over structured resume data, with a real ASP.NET Core streaming backend, request validation, and safeguards against abuse. Source is public at github.com/Calathea-Z/portfolio_ai."
+    },
+    {
+      "id": "mcp-server",
+      "question": "What is the MCP server on your portfolio?",
+      "answer": "A Node.js stdio server using the Model Context Protocol SDK. It exposes the exact same seven resume-backed tools as this chat so Claude Desktop (or any MCP host) can call them against the same resume.json file—no second HTTP API to maintain. Input schemas live in mcp/schemas and are checked in CI against the C# ResumeToolInputSchemas constants so the wire contract cannot drift quietly. Install notes are in the repo mcp/README.md; a short demo and copy live at https://zachsykes.dev/projects/mcp-server."
     },
     {
       "id": "biggest-accomplishment",

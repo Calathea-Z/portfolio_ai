@@ -1,0 +1,6 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {},
+  "description": "No inputs. Returns Zach's free-form career narrative: originStory, bridge, carryover."
+}
