@@ -1,0 +1,291 @@
+{
+  "timestamp": "2026-05-13T20:33:49.274Z",
+  "apiBaseUrl": "http://localhost:5063",
+  "summary": {
+    "total": 11,
+    "passed": 10,
+    "failed": 1,
+    "knownFails": 1
+  },
+  "cases": [
+    {
+      "id": "role-lookup-forvis",
+      "question": "What did you do at Forvis Mazars? Summarize your role in one short paragraph.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "get_role"
+      ],
+      "transcript": "At Forvis Mazars I've been a Full Stack Software Engineer since June 2023, working remotely on production web applications and APIs that serve enterprise users. I own the full stack end-to-end — from React/TypeScript/Next.js UI work through C# and .NET backend APIs, Azure cloud deployments, and production observability with Grafana and Application Insights. Some highlights: I independently architected and shipped a real-time collaborative Planning Poker platform (including WebSocket infrastructure), established component and API integration patterns that were adopted across multiple teams, and built out CI/CD pipelines to keep releases safe and fast — all while mentoring junior engineers and collaborating closely with product and business stakeholders.",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": "get_role",
+          "description": "Should load role data from structured resume",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "Forvis",
+          "description": "Answer should name the employer",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "recent-projects",
+      "question": "What are my three most recent shipped projects? List them briefly.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "list_recent_shipped"
+      ],
+      "transcript": "Here are my three most recently shipped projects:\n\n1. **Zach.dev Portfolio Assistant** (2026) — The agentic chat you're using right now. A Next.js + TypeScript frontend backed by an ASP.NET Core streaming API, wired up to Anthropic with request validation and abuse safeguards. Source is public at [github.com/Calathea-Z/portfolio_ai](https://github.com/Calathea-Z/portfolio_ai).\n\n2. **Portfolio MCP Resume Server** (2026) — A stdio Model Context Protocol server that exposes the same seven resume tools powering this chat to Claude Desktop and other MCP clients. Parity-tested in .NET so the tool contracts stay aligned across both surfaces.\n\n3. **Planning Poker** (2024, internal at Forvis Mazars) — A real-time distributed estimation platform built from scratch using React, .NET, WebSockets, and …",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": "list_recent_shipped",
+          "description": "Must call the shipped-projects tool",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "Planning Poker",
+          "description": "Planning Poker is one of the three most recently shipped projects",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "skill-search-websocket",
+      "question": "Which projects on my resume used WebSocket?",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "list_projects_by_skill"
+      ],
+      "transcript": "Just one project in my resume data that used WebSocket: **Planning Poker**, an internal real-time estimation platform I built at Forvis Mazars in 2024.\n\nThe idea was to replace the manual, friction-heavy coordination that distributed delivery teams dealt with during estimation sessions. I shipped it from 0 to 1 — including the WebSocket infrastructure and backend services — and it ended up being adopted across Forvis Mazars software teams for live, distributed planning poker sessions.\n\nThe stack was **React, TypeScript, .NET, WebSocket, and Azure**. It's internal tooling, so there's no public demo URL, but happy to talk through the architecture if you're curious — just reach out at zsykes21@gmail.com or on [LinkedIn](https://www.linkedin.com/in/zach-sykes/).",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": "list_projects_by_skill",
+          "description": "Skill-to-project mapping tool",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "Planning Poker",
+          "description": "Planning Poker is the WebSocket-heavy shipped project",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "metric-yoe",
+      "question": "How many years of software engineering experience does your resume headline claim? Just answer with the number from the resume.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "get_metrics"
+      ],
+      "transcript": "**5 years.**",
+      "criteria": [
+        {
+          "type": "must_contain_any",
+          "value": [
+            "5 year",
+            "5+ year",
+            "five year",
+            "five-plus",
+            "five plus",
+            "over five",
+            "over 5",
+            "more than 5",
+            "more than five"
+          ],
+          "description": "Resume headline says 5+ years — accept any common phrasing",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "narrative-career-change",
+      "question": "Why did you switch from kitchens to software engineering? Keep it short.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "get_narrative"
+      ],
+      "transcript": "After a decade in kitchens, I wanted something more mentally demanding — and the work-life balance had genuinely run its course. I quit, sold my car to cover the income gap, and went full-time through General Assembly's bootcamp. The self-directed hours outside of class — docs, tutorials, side experiments — are what actually made it stick. Turns out a lot of the instincts transfer: fast decisions, tight systems, forecasting problems before they blow up. Different artifacts, same fundamentals.",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": "get_narrative",
+          "description": "Career-change story lives in narrative tool",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "kitchen",
+          "description": "Narrative references prior kitchen career",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "faq-mcp-server",
+      "question": "What is the MCP resume server on your portfolio?",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "get_faq"
+      ],
+      "transcript": "Great question! I built a Node.js stdio server using the **Model Context Protocol (MCP) SDK**. It exposes the exact same seven resume-backed tools that power this chat — so if you're using **Claude Desktop** (or any other MCP host), you can point it at my server and query my resume data directly from there, no separate HTTP API needed.\n\nA few things I'm particularly happy about with the implementation:\n\n- **Single source of truth** — both this chat and the MCP server run against the same `resume.json` file, so nothing gets out of sync.\n- **Schema validation in CI** — the input schemas live in `mcp/schemas` and are checked against C# `ResumeToolInputSchemas` constants, so the wire contract can't drift quietly between the two surfaces.\n- Install notes are in the repo's `mcp/README.md`, and t…",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": "get_faq",
+          "description": "FAQ entry explains MCP server",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "Model Context Protocol",
+          "description": "FAQ answer names the protocol",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "freeform-search-restaurant",
+      "question": "Search my resume for anything about restaurants or Asheville.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "search_resume",
+        "search_resume",
+        "get_role"
+      ],
+      "transcript": "Let me search both of those for you right now!Here's what my resume data has on those topics:\n\n- **\"Restaurant\"** as a keyword doesn't surface anything directly — that specific word isn't used in the structured data.\n- **\"Asheville\"** hits one role: **Asheville Pizza and Brewing Company**, where I worked from 2012 to 2022. I came up through the ranks from line cook to Kitchen Manager, running daily operations in a high-volume environment and leading a 40+ person team — everything from hiring and onboarding to scheduling and performance management.\n\nThat decade of kitchen leadership is actually a big part of my career story. If you're curious about how it connects to my transition into software engineering, I'm happy to pull that narrative up!",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": "search_resume",
+          "description": "Broad phrasing should map to substring search",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "Asheville",
+          "description": "Kitchen role org is in Asheville",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "contact-must-be-canonical",
+      "question": "What is the best email to reach you at for a hiring conversation?",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [],
+      "transcript": "The best email to reach me at is **zsykes21@gmail.com** — feel free to drop me a note there for any hiring conversation. I'd also be happy to connect on LinkedIn at https://www.linkedin.com/in/zach-sykes/ if that's easier. Looking forward to chatting!",
+      "criteria": [
+        {
+          "type": "must_contain",
+          "value": "zsykes21@gmail.com",
+          "description": "Canonical email from resume / system prompt",
+          "passed": true
+        },
+        {
+          "type": "must_not_contain",
+          "value": "zachsykes@gmail",
+          "description": "Should not invent a name-mangled alternate Gmail",
+          "passed": true
+        },
+        {
+          "type": "must_not_contain",
+          "value": "noreply@",
+          "description": "Should not substitute a placeholder address",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "out-of-scope-refusal",
+      "question": "In your opinion, what is the best React state management library in 2026 and why? Give a ranked list with pros and cons.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [],
+      "transcript": "That one's outside the scope of what I can help with here — this assistant only covers Zach's portfolio and resume-backed facts, so general tech opinions and ranked comparisons aren't something I'll tackle.\n\nIf you're curious about React specifically as it relates to Zach's work, you could ask something like: **\"Which of Zach's projects use React, and how did he apply it?\"** — that I can dig into with real data.",
+      "criteria": [
+        {
+          "type": "must_not_contain",
+          "value": "Redux",
+          "description": "Out-of-scope ask should refuse generic framework advice, not teach Redux",
+          "passed": true
+        },
+        {
+          "type": "must_not_contain",
+          "value": "Zustand",
+          "description": "Same for other popular library names as generic recommendations",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "multi-tool-blend",
+      "question": "What did you ship in 2024 while at Forvis Mazars? Name the project and one concrete outcome.",
+      "knownFail": false,
+      "passed": true,
+      "toolCalls": [
+        "list_recent_shipped",
+        "get_role"
+      ],
+      "transcript": "Let me pull that up from my resume data.The standout 2024 ship at Forvis Mazars was **Planning Poker** — a real-time estimation platform I built from 0 to 1 for our distributed delivery teams.\n\nOne concrete outcome: it was **adopted across Forvis Mazars software teams** as the standard tool for real-time distributed estimation sessions, replacing the manual coordination we'd been doing before. Under the hood I architected the full thing — WebSocket infrastructure, backend services, and a React/TypeScript front end — independently, on top of internal infrastructure.",
+      "criteria": [
+        {
+          "type": "expected_tool_calls",
+          "value": [
+            "get_role",
+            "list_recent_shipped"
+          ],
+          "description": "Needs role context plus shipped work for the year",
+          "passed": true
+        },
+        {
+          "type": "must_contain",
+          "value": "2024",
+          "description": "Answer should anchor on the year asked",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "known-fail-ambiguous-skill",
+      "question": "Do I know about databases?",
+      "knownFail": true,
+      "note": "Intentional known-fail: vague 'databases' question should ideally ask which engine or use case before asserting skills. The assistant often answers from resume keywords instead; this row tracks that gap rather than hiding it.",
+      "passed": false,
+      "toolCalls": [
+        "search_resume",
+        "search_resume",
+        "search_resume",
+        "search_resume",
+        "search_resume",
+        "search_resume",
+        "list_projects_by_skill",
+        "list_projects_by_skill"
+      ],
+      "transcript": "Let me pull that from my resume data.Honestly, the resume data I'm pulling from here doesn't surface explicit database technology entries — no specific mentions of PostgreSQL, MongoDB, SQL, Prisma, or similar tools come back from any of the searches. That doesn't necessarily mean I haven't worked with databases, but I can't make a claim about it that isn't grounded in what the tools return.\n\nIf you're evaluating fit and database experience is important for the role, I'd encourage reaching out directly — I'm happy to talk through the specifics in a real conversation:\n\n- **Email:** zsykes21@gmail.com\n- **LinkedIn:** https://www.linkedin.com/in/zach-sykes/",
+      "criteria": [
+        {
+          "type": "must_contain",
+          "value": "clarify",
+          "description": "Ideal behavior: ask what kind of database or role context before claiming expertise",
+          "passed": false,
+          "reason": "Assistant text does not contain \"clarify\" (case-insensitive)."
+        }
+      ]
+    }
+  ]
+}

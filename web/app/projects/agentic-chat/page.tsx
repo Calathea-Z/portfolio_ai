@@ -3,6 +3,8 @@ import Link from "next/link";
 import { BackgroundOrbs } from "@/components/BackgroundOrbs";
 import { AgenticChatDemo } from "@/components/AgenticChatDemo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AgenticChatEvalsSection } from "@/components/AgenticChatEvalsSection";
+import { loadEvalResults } from "@/lib/eval-results";
 import { getProject } from "@/lib/projects";
 import { siteConfig } from "@/lib/site-config";
 
@@ -13,7 +15,9 @@ export const metadata: Metadata = {
   description: project.blurb,
 };
 
-export default function AgenticChatProjectPage() {
+export default async function AgenticChatProjectPage() {
+  const evalResults = await loadEvalResults();
+
   return (
     <div className="relative min-h-screen w-full text-text">
       <BackgroundOrbs />
@@ -150,6 +154,8 @@ export default function AgenticChatProjectPage() {
             <AgenticChatDemo />
           </div>
         </section>
+
+        <AgenticChatEvalsSection results={evalResults} />
 
         <section
           aria-labelledby="design-note"

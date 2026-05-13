@@ -1,0 +1,185 @@
+[
+  {
+    "id": "role-lookup-forvis",
+    "question": "What did you do at Forvis Mazars? Summarize your role in one short paragraph.",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": "get_role",
+        "description": "Should load role data from structured resume"
+      },
+      {
+        "type": "must_contain",
+        "value": "Forvis",
+        "description": "Answer should name the employer"
+      }
+    ]
+  },
+  {
+    "id": "recent-projects",
+    "question": "What are my three most recent shipped projects? List them briefly.",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": "list_recent_shipped",
+        "description": "Must call the shipped-projects tool"
+      },
+      {
+        "type": "must_contain",
+        "value": "Planning Poker",
+        "description": "Planning Poker is one of the three most recently shipped projects"
+      }
+    ]
+  },
+  {
+    "id": "skill-search-websocket",
+    "question": "Which projects on my resume used WebSocket?",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": "list_projects_by_skill",
+        "description": "Skill-to-project mapping tool"
+      },
+      {
+        "type": "must_contain",
+        "value": "Planning Poker",
+        "description": "Planning Poker is the WebSocket-heavy shipped project"
+      }
+    ]
+  },
+  {
+    "id": "metric-yoe",
+    "question": "How many years of software engineering experience does your resume headline claim? Just answer with the number from the resume.",
+    "criteria": [
+      {
+        "type": "must_contain_any",
+        "value": [
+          "5 year",
+          "5+ year",
+          "five year",
+          "five-plus",
+          "five plus",
+          "over five",
+          "over 5",
+          "more than 5",
+          "more than five"
+        ],
+        "description": "Resume headline says 5+ years — accept any common phrasing"
+      }
+    ]
+  },
+  {
+    "id": "narrative-career-change",
+    "question": "Why did you switch from kitchens to software engineering? Keep it short.",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": "get_narrative",
+        "description": "Career-change story lives in narrative tool"
+      },
+      {
+        "type": "must_contain",
+        "value": "kitchen",
+        "description": "Narrative references prior kitchen career"
+      }
+    ]
+  },
+  {
+    "id": "faq-mcp-server",
+    "question": "What is the MCP resume server on your portfolio?",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": "get_faq",
+        "description": "FAQ entry explains MCP server"
+      },
+      {
+        "type": "must_contain",
+        "value": "Model Context Protocol",
+        "description": "FAQ answer names the protocol"
+      }
+    ]
+  },
+  {
+    "id": "freeform-search-restaurant",
+    "question": "Search my resume for anything about restaurants or Asheville.",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": "search_resume",
+        "description": "Broad phrasing should map to substring search"
+      },
+      {
+        "type": "must_contain",
+        "value": "Asheville",
+        "description": "Kitchen role org is in Asheville"
+      }
+    ]
+  },
+  {
+    "id": "contact-must-be-canonical",
+    "question": "What is the best email to reach you at for a hiring conversation?",
+    "criteria": [
+      {
+        "type": "must_contain",
+        "value": "zsykes21@gmail.com",
+        "description": "Canonical email from resume / system prompt"
+      },
+      {
+        "type": "must_not_contain",
+        "value": "zachsykes@gmail",
+        "description": "Should not invent a name-mangled alternate Gmail"
+      },
+      {
+        "type": "must_not_contain",
+        "value": "noreply@",
+        "description": "Should not substitute a placeholder address"
+      }
+    ]
+  },
+  {
+    "id": "out-of-scope-refusal",
+    "question": "In your opinion, what is the best React state management library in 2026 and why? Give a ranked list with pros and cons.",
+    "criteria": [
+      {
+        "type": "must_not_contain",
+        "value": "Redux",
+        "description": "Out-of-scope ask should refuse generic framework advice, not teach Redux"
+      },
+      {
+        "type": "must_not_contain",
+        "value": "Zustand",
+        "description": "Same for other popular library names as generic recommendations"
+      }
+    ]
+  },
+  {
+    "id": "multi-tool-blend",
+    "question": "What did you ship in 2024 while at Forvis Mazars? Name the project and one concrete outcome.",
+    "criteria": [
+      {
+        "type": "expected_tool_calls",
+        "value": ["get_role", "list_recent_shipped"],
+        "description": "Needs role context plus shipped work for the year"
+      },
+      {
+        "type": "must_contain",
+        "value": "2024",
+        "description": "Answer should anchor on the year asked"
+      }
+    ]
+  },
+  {
+    "id": "known-fail-ambiguous-skill",
+    "known_fail": true,
+    "note": "Intentional known-fail: vague 'databases' question should ideally ask which engine or use case before asserting skills. The assistant often answers from resume keywords instead; this row tracks that gap rather than hiding it.",
+    "question": "Do I know about databases?",
+    "criteria": [
+      {
+        "type": "must_contain",
+        "value": "clarify",
+        "description": "Ideal behavior: ask what kind of database or role context before claiming expertise"
+      }
+    ]
+  }
+]

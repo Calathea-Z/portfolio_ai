@@ -20,7 +20,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "agentic-chat",
-    title: "Agentic chat with tool use",
+    title: "Agentic chat with tool use + evals",
     blurb:
       "Streaming chat where Claude calls seven structured resume tools (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq). Tool calls show up in the transcript. Evals hit the same HTTP endpoint; results power the pass/fail table on the project page.",
     capability:

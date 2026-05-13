@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-evals",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "evals": "node --env-file=.env run.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
