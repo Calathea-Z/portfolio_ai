@@ -5,9 +5,13 @@ namespace Portfolio.Api.Infrastructure;
 /// Used as the partition key for rate limiting and daily token budgeting so both mechanisms count the same logical client.
 /// </summary>
 /// <remarks>
-/// When the API sits behind a proxy or load balancer that terminates TLS, <see cref="HttpContext.Connection"/>'s remote IP may be the proxy’s address.
-/// This type prefers the first hop in <c>X-Forwarded-For</c> when present (standard for forwarded clients).
-/// Trust only proxies you control; a hostile client can spoof <c>X-Forwarded-For</c> if it reaches the app directly without stripping/overwriting at the edge.
+/// <para>
+/// This type reads <see cref="HttpContext.Connection"/>'s remote IP <b>after</b>
+/// <c>UseForwardedHeaders</c> has had a chance to rewrite it. Forwarded headers are only honored when the
+/// inbound proxy is registered in <c>ForwardedHeaders:KnownProxies</c> / <c>ForwardedHeaders:KnownNetworks</c>
+/// (see <c>Program.cs</c>). This is the safe default: a hostile client cannot spoof <c>X-Forwarded-For</c>
+/// to bypass rate limiting because the middleware ignores the header from untrusted hops.
+/// </para>
 /// </remarks>
 internal static class ClientIdentity
 {
@@ -18,19 +22,9 @@ internal static class ClientIdentity
     public static string ForBudget(HttpContext context) => NormalizeClientIp(context);
 
     /// <summary>
-    /// Resolves the caller identity as an IP-like string: first entry of <c>X-Forwarded-For</c> if valid, otherwise <see cref="ConnectionInfo.RemoteIpAddress"/>, or <c>unknown</c>.
+    /// Resolves the caller identity as the connection's remote IP, which <c>UseForwardedHeaders</c> has
+    /// already rewritten to the real client IP for requests coming through a trusted proxy.
     /// </summary>
-    private static string NormalizeClientIp(HttpContext context)
-    {
-        if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var forwarded))
-        {
-            var first = forwarded.ToString().Split(',')[0].Trim();
-            if (!string.IsNullOrWhiteSpace(first))
-            {
-                return first;
-            }
-        }
-
-        return context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-    }
+    private static string NormalizeClientIp(HttpContext context) =>
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 }

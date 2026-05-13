@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
@@ -43,6 +44,37 @@ builder
 
 builder.Services.Configure<ReflectionOptions>(builder.Configuration.GetSection(ReflectionOptions.SectionName));
 builder.Services.Configure<EvalOptions>(builder.Configuration.GetSection(EvalOptions.SectionName));
+
+// --- Forwarded headers: rewrite RemoteIpAddress to the real client IP, but ONLY when the
+// request arrived from a proxy we explicitly trust. Empty by default — see ForwardedHeadersConfig. ---
+var forwardedConfig = builder.Configuration
+    .GetSection(ForwardedHeadersConfig.SectionName)
+    .Get<ForwardedHeadersConfig>() ?? new ForwardedHeadersConfig();
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.ForwardLimit = forwardedConfig.ForwardLimit;
+    options.KnownProxies.Clear();
+    options.KnownNetworks.Clear();
+
+    foreach (var proxy in forwardedConfig.KnownProxies)
+    {
+        if (IPAddress.TryParse(proxy, out var ip))
+            options.KnownProxies.Add(ip);
+    }
+
+    foreach (var network in forwardedConfig.KnownNetworks)
+    {
+        var parts = network.Split('/', 2);
+        if (parts.Length == 2
+            && IPAddress.TryParse(parts[0], out var prefix)
+            && int.TryParse(parts[1], out var prefixLength))
+        {
+            options.KnownNetworks.Add(new Microsoft.AspNetCore.HttpOverrides.IPNetwork(prefix, prefixLength));
+        }
+    }
+});
 
 // --- Typed HttpClient + chat-related singletons ---
 // Retries apply only to SendAsync before the response body is consumed (ResponseHeadersRead in stream service).
@@ -93,9 +125,12 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
-// --- CORS: web UI origin(s); must align with NEXT_PUBLIC_CHAT_API_URL on the client ---
+// --- CORS: web UI origin(s); must align with NEXT_PUBLIC_CHAT_API_URL on the client. ---
+// Fallback is dev-only (localhost). If the config section drops out in production the policy
+// will simply allow nothing rather than silently permitting a domain we don't own.
 const string CorsPolicy = "web";
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? (builder.Environment.IsDevelopment() ? ["http://localhost:3000"] : []);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -103,7 +138,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins(allowedOrigins ?? ["http://localhost:3000", "https://zach.dev"])
+                .WithOrigins(allowedOrigins)
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -111,7 +146,17 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// --- Middleware order: CORS before rate limiting; both run before endpoints ---
+// --- Middleware order ---
+// 1. Forwarded headers first so every downstream component (rate limiter, logging, etc.) sees the real client IP.
+// 2. HTTPS redirection in non-Development (Dev uses plain http://localhost:5063 by default — see launchSettings).
+// 3. CORS before rate limiting; both run before endpoints.
+app.UseForwardedHeaders();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseCors(CorsPolicy);
 app.UseRateLimiter();
 
@@ -119,11 +164,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
 }
 
 // --- Attribute-routed controllers ---
