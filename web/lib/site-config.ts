@@ -1,28 +1,27 @@
 /**
  * Shared site-wide configuration: contact URLs, resume download location.
- * Reads from NEXT_PUBLIC_* env vars at module load, with sensible fallbacks.
- *
+ * Optional `NEXT_PUBLIC_RESUME_PDF_URL` overrides the default public PDF (e.g. CDN).
  */
 
-const fallbackDocxPath = "/Sykes_Zach_Resume_2026_Default.docx";
+const defaultResumePdfPath = "/Zach_Sykes_Resume_Default.pdf";
 
-const pdfUrl = process.env.NEXT_PUBLIC_RESUME_PDF_URL?.trim() || undefined;
+const resumePdfHref =
+  process.env.NEXT_PUBLIC_RESUME_PDF_URL?.trim() || defaultResumePdfPath;
 
 export const siteConfig = {
   name: "Zach Sykes",
-  role: "Full-stack engineer",
-  location: "Denver, CO (remote-first)",
+  role: "Full-stack software engineer",
+  location: "Denver, CO (Remote)",
   positioning:
-    "Full-stack engineer with deep expertise in React, TypeScript, and .NET. I've built systems end-to-end—frontend through APIs, deployment pipelines, and production observability. My day job runs on Azure, but I'm vendor-agnostic and ship quickly on whatever infrastructure your team owns. I'm thoughtful about where AI adds real value—not reflexive about it—and equally comfortable with traditional software patterns.",
+    "Full-stack software engineer with 5+ years of experience building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
   github: process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/Calathea-Z",
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com/in/zach-sykes/",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "zsykes21@gmail.com",
+  portfolio: process.env.NEXT_PUBLIC_PORTFOLIO_SITE_URL ?? "https://www.zachsykes.dev/",
   freelance: "https://www.calathea.design/",
   resume: {
-    href: pdfUrl ?? fallbackDocxPath,
-    label: pdfUrl ? "PDF" : "DOCX",
-    fallbackDocxHref: fallbackDocxPath,
-    hasDedicatedPdf: Boolean(pdfUrl),
+    href: resumePdfHref,
+    label: "PDF",
   },
 } as const;
 

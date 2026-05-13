@@ -397,6 +397,7 @@ public sealed class AnthropicStreamService(
             .AppendLine();
 
         AppendLineIfPresent(sb, "Email", p.Email);
+        AppendLineIfPresent(sb, "Portfolio site", p.PortfolioSite);
         AppendLineIfPresent(sb, "GitHub", p.Github);
         AppendLineIfPresent(sb, "LinkedIn", p.Linkedin);
         AppendLineIfPresent(sb, "Freelance portfolio site", p.FreelanceSite);

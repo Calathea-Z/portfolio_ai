@@ -17,6 +17,12 @@ function containsIgnoreCase(haystack: string | undefined | null, needle: string)
   return haystack.toLowerCase().includes(needle.toLowerCase());
 }
 
+function techEntryMatchesSkill(tech: string, skill: string): boolean {
+  if (tech.toLowerCase() === skill.toLowerCase()) return true;
+  if (skill.length < 2) return false;
+  return tech.toLowerCase().includes(skill.toLowerCase());
+}
+
 function matchesRole(
   role: ResumeRole,
   id: string | undefined,
@@ -108,6 +114,11 @@ function matchPersonFields(p: ResumePerson, query: string): string[] {
   if (containsIgnoreCase(p.workAuth, query)) fields.push("workAuth");
   if (containsIgnoreCase(p.timeZone, query)) fields.push("timeZone");
   if (containsIgnoreCase(p.compensation, query)) fields.push("compensation");
+  if (containsIgnoreCase(p.portfolioSite, query)) fields.push("portfolioSite");
+  if (containsIgnoreCase(p.email, query)) fields.push("email");
+  if (containsIgnoreCase(p.github, query)) fields.push("github");
+  if (containsIgnoreCase(p.linkedin, query)) fields.push("linkedin");
+  if (containsIgnoreCase(p.freelanceSite, query)) fields.push("freelanceSite");
   if ((p.employmentTypes ?? []).some((t) => containsIgnoreCase(t, query))) fields.push("employmentTypes");
   return fields;
 }
@@ -172,9 +183,9 @@ export function runResumeTool(
       const skillRaw = input.skill;
       if (typeof skillRaw !== "string" || skillRaw.trim() === "")
         return errorMessage("'skill' is required.");
-      const skill = skillRaw;
+      const skill = skillRaw.trim();
       const matches = (resume.projects ?? [])
-        .filter((p) => (p.tech ?? []).some((t) => t.toLowerCase() === skill.toLowerCase()))
+        .filter((p) => (p.tech ?? []).some((t) => techEntryMatchesSkill(t, skill)))
         .map(projectToObject);
       return { skill, items: matches, count: matches.length };
     }

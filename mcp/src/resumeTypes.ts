@@ -7,6 +7,7 @@ export type ResumePerson = {
   remote?: boolean;
   timeZone?: string | null;
   email?: string;
+  portfolioSite?: string | null;
   github?: string;
   linkedin?: string;
   freelanceSite?: string;

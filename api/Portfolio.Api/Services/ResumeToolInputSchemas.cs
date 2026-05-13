@@ -27,7 +27,7 @@ public static class ResumeToolInputSchemas
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "skill": { "type": "string", "description": "Technology or skill name to match against project.tech (e.g. 'WebSocket', 'Next.js', '.NET')." }
+            "skill": { "type": "string", "description": "Technology or skill name to match against each entry in project.tech: case-insensitive exact match, or substring match when the skill is at least two characters (e.g. '.NET' matches stack labels that include it, such as 'ASP.NET Core')." }
           },
           "required": ["skill"]
         }

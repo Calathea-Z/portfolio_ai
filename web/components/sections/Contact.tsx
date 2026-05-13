@@ -74,15 +74,6 @@ export function Contact() {
           >
             ↓ Download resume ({siteConfig.resume.label})
           </a>
-          {siteConfig.resume.hasDedicatedPdf ? (
-            <a
-              href={siteConfig.resume.fallbackDocxHref}
-              download
-              className="rounded-xl border border-border-soft bg-surface px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
-            >
-              Download (.docx)
-            </a>
-          ) : null}
         </div>
       </div>
     </section>
