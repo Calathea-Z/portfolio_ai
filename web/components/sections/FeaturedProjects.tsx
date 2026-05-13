@@ -32,9 +32,7 @@ export function FeaturedProjects() {
           Selected projects
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-secondary">
-          Short write-ups with a live demo where it makes sense, plus links into the repo. A few
-          focus on how I integrate LLMs; the rest of my work is the usual full-stack delivery
-          you&apos;d expect from the roles on my resume.
+          Short write-ups with a live demo where it makes sense, plus links into the repo.
         </p>
 
         <ul className="mt-10 grid gap-5 sm:grid-cols-2">
