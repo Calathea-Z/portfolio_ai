@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Portfolio.Api.Options;
+using Portfolio.Api.Services;
 using Portfolio.Api.Services.Anthropic;
 
 namespace Portfolio.Api.Tests;
@@ -28,7 +29,7 @@ public class AnthropicPayloadBuilderTests
 
         var tools = payload["tools"];
         Assert.Equal(JsonValueKind.Array, tools.ValueKind);
-        Assert.True(tools.GetArrayLength() >= 4, "Resume has four tools; fourth must omit cache_control per API cap.");
+        Assert.Equal(ResumeToolDefinitions.All.Count, tools.GetArrayLength());
 
         for (var i = 0; i < tools.GetArrayLength(); i++)
         {

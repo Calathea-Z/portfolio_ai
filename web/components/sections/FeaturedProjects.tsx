@@ -3,7 +3,7 @@ import { projects, type ProjectStatus } from "@/lib/projects";
 import { sectionIds } from "@/lib/site-config";
 
 const statusCopy: Record<ProjectStatus, string> = {
-  planned: "Planned",
+  planned: "Coming Soon!",
   "in-progress": "In progress",
   shipped: "Shipped",
 };
@@ -29,13 +29,12 @@ export function FeaturedProjects() {
           id="projects-heading"
           className="mt-2 text-2xl font-semibold tracking-tight text-text sm:text-3xl"
         >
-          Where the AI engineering work lives.
+          Selected projects
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-secondary">
-          Each project page explains the capability claim, links to the running
-          demo, and points at the source. Every &ldquo;what this shows&rdquo;
-          line is the line that keeps the page a portfolio piece instead of a
-          product page.
+          Short write-ups with a live demo where it makes sense, plus links into the repo. A few
+          focus on how I integrate LLMs; the rest of my work is the usual full-stack delivery
+          you&apos;d expect from the roles on my resume.
         </p>
 
         <ul className="mt-10 grid gap-5 sm:grid-cols-2">
@@ -61,7 +60,7 @@ export function FeaturedProjects() {
                 </p>
 
                 <p className="mt-auto text-sm leading-relaxed text-secondary">
-                  <span className="font-medium text-primary">What this shows:</span>{" "}
+                  <span className="font-medium text-primary">At a glance:</span>{" "}
                   {project.capability}
                 </p>
               </Link>

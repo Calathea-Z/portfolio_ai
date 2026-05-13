@@ -106,14 +106,49 @@ public static class ResumeToolInputValidator
         }
     }
 
+    public static bool TryDeserializeSearchResume(JsonElement input, out SearchResumeInput? model, out string? error)
+    {
+        error = null;
+        model = null;
+        try
+        {
+            model = JsonSerializer.Deserialize<SearchResumeInput>(input.GetRawText(), DeserializeOptions);
+            return true;
+        }
+        catch (JsonException ex)
+        {
+            error = ex.Message;
+            return false;
+        }
+    }
+
+    public static bool TryDeserializeGetFaq(JsonElement input, out GetFaqInput? model, out string? error)
+    {
+        error = null;
+        model = null;
+        try
+        {
+            model = JsonSerializer.Deserialize<GetFaqInput>(input.GetRawText(), DeserializeOptions);
+            return true;
+        }
+        catch (JsonException ex)
+        {
+            error = ex.Message;
+            return false;
+        }
+    }
+
     private static Dictionary<string, JsonSchema> BuildSchemas()
     {
         return new Dictionary<string, JsonSchema>(StringComparer.Ordinal)
         {
             [ResumeToolDefinitions.GetRole] = JsonSchema.FromText(ResumeToolInputSchemas.GetRoleJson),
+            [ResumeToolDefinitions.SearchResume] = JsonSchema.FromText(ResumeToolInputSchemas.SearchResumeJson),
             [ResumeToolDefinitions.ListProjectsBySkill] = JsonSchema.FromText(ResumeToolInputSchemas.ListProjectsBySkillJson),
             [ResumeToolDefinitions.GetMetrics] = JsonSchema.FromText(ResumeToolInputSchemas.GetMetricsJson),
             [ResumeToolDefinitions.ListRecentShipped] = JsonSchema.FromText(ResumeToolInputSchemas.ListRecentShippedJson),
+            [ResumeToolDefinitions.GetNarrative] = JsonSchema.FromText(ResumeToolInputSchemas.GetNarrativeJson),
+            [ResumeToolDefinitions.GetFaq] = JsonSchema.FromText(ResumeToolInputSchemas.GetFaqJson),
         };
     }
 

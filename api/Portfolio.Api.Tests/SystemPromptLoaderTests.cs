@@ -10,7 +10,7 @@ public class SystemPromptLoaderTests
         var prompt = SystemPromptLoader.Load("chat");
 
         Assert.False(string.IsNullOrWhiteSpace(prompt));
-        Assert.Contains("Zach Sykes", prompt);
+        Assert.Contains("portfolio chat", prompt, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

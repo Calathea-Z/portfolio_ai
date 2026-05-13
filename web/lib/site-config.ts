@@ -12,10 +12,11 @@ export const siteConfig = {
   name: "Zach Sykes",
   role: "Full-stack engineer",
   location: "Denver, CO (remote-first)",
-  positioning: "I help teams ship AI features without the demo-day hangover.",
+  positioning:
+    "Full-stack engineer with deep expertise in React, TypeScript, and .NET. I've built systems end-to-end—frontend through APIs, deployment pipelines, and production observability. My day job runs on Azure, but I'm vendor-agnostic and ship quickly on whatever infrastructure your team owns. I'm thoughtful about where AI adds real value—not reflexive about it—and equally comfortable with traditional software patterns.",
   github: process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/Calathea-Z",
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com/in/zach-sykes/",
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@zach.dev",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "zsykes21@gmail.com",
   freelance: "https://www.calathea.design/",
   resume: {
     href: pdfUrl ?? fallbackDocxPath,
