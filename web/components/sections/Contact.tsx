@@ -45,9 +45,8 @@ export function Contact() {
           Email is the fastest way to reach me.
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-secondary">
-          For recruiting, interviewing, or any conversation that needs actual
-          back-and-forth, please email or LinkedIn. The chat assistant is for
-          quick context, not for replies from me.
+          For hiring or anything that needs a real thread, email or LinkedIn is best. The chat here
+          reads from structured resume data—it isn&apos;t a direct line to me.
         </p>
 
         <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

@@ -15,14 +15,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zach Sykes — Full-stack engineer shipping AI features",
+  title: "Zach Sykes — Full-stack engineer",
   description:
-    "Full-stack engineer building production AI features end-to-end — React/Typescript, Blazor + .NET on Azure. Featured projects demonstrate RAG, agentic tool use, evals, and MCP. Chat with a resume-grounded agent or browse the work.",
+    "Portfolio and resume for Zach Sykes: full-stack work on React, TypeScript, and .NET (most production experience on Azure), plus notes on resume-backed chat and evals. Contact links included.",
   metadataBase: new URL("https://zachsykes.dev"),
   openGraph: {
-    title: "Zach Sykes — Full-stack engineer shipping AI features",
+    title: "Zach Sykes — Full-stack engineer",
     description:
-      "Featured projects demonstrate RAG, agentic tool use, evals, and MCP — plus a resume-grounded chat agent.",
+      "Full-stack portfolio: production web work, plus notes on agentic resume chat and evals.",
     url: "https://zachsykes.dev",
     siteName: "zachsykes.dev",
     type: "website",
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zach Sykes — Full-stack engineer shipping AI features",
+    title: "Zach Sykes — Full-stack engineer",
     description:
-      "Featured AI projects with grounded demos, plus a resume chat agent for recruiters and hiring managers.",
+      "Portfolio and resume: full-stack delivery on React and .NET, with grounded demos on a few LLM-related projects.",
     images: ["/og-image.svg"],
   },
 };

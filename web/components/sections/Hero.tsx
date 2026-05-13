@@ -21,9 +21,10 @@ export function Hero() {
           {siteConfig.positioning}
         </p>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary">
-          Three years building production software full-time, plus a decade of
-          operations leadership before that. The featured projects below are
-          where the AI engineering side gets shown off — not described.
+          Three years in professional software engineering, plus about ten years leading
+          high-volume operations before that. Most of my day job is full-stack product work; the
+          featured projects include a few write-ups that go deeper on how I build when LLMs are in
+          the loop.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -43,7 +44,7 @@ export function Hero() {
             href={`#${sectionIds.chat}`}
             className="text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline"
           >
-            Or chat with my AI agent ↓
+            Resume chat below
           </a>
         </div>
       </div>

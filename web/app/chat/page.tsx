@@ -4,9 +4,9 @@ import { ChatInterface } from "@/components/ChatInterface";
 import { SidePanel } from "@/components/SidePanel";
 
 export const metadata: Metadata = {
-  title: "Chat with Zach's AI agent · zachsykes.dev",
+  title: "Resume chat · Zach Sykes",
   description:
-    "Standalone chat with a resume-grounded assistant about Zach Sykes's experience, projects, and engineering approach.",
+    "Standalone resume-backed chat: Zach Sykes's experience, projects, and how he works—grounded in structured resume data.",
 };
 
 export default function ChatPage() {

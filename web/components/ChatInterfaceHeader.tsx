@@ -5,11 +5,11 @@ export function ChatInterfaceHeader() {
     <div className="shrink-0 rounded-2xl border border-border-soft bg-surface-raised p-3 shadow-sm backdrop-blur-md sm:p-4">
       <div className="flex items-start justify-between gap-3 sm:gap-4">
         <div className="min-w-0">
-          <h2 className="text-base font-semibold text-text sm:text-lg">Ask about Zach</h2>
+          <h2 className="text-base font-semibold text-text sm:text-lg">Resume assistant</h2>
           <p className="mt-0.5 text-xs text-muted sm:text-sm">
-            <span className="md:hidden">Shipped work, stack, and role fit.</span>
+            <span className="md:hidden">Projects, stack, and role fit.</span>
             <span className="hidden md:inline">
-              Ask about shipped projects, architecture decisions, leadership style, and role fit.
+              Projects, stack, architecture choices, and what I&apos;m looking for next.
             </span>
           </p>
         </div>

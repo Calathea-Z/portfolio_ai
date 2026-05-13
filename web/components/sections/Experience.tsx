@@ -14,7 +14,7 @@ const timeline: TimelineEntry[] = [
     title: "Full Stack Software Engineer",
     org: "Forvis Mazars (remote)",
     period: "June 2023 – present",
-    body: "Production web apps and APIs for enterprise users. React, TypeScript, Next.js, .NET 8 on Azure. Shipped a real-time internal Planning Poker platform (WebSockets, Azure). CI/CD and observability with GitHub Actions, Azure Pipelines, Grafana, Application Insights. Integrations and mentoring.",
+    body: "Production web apps and APIs for enterprise users. React, TypeScript, Next.js, .NET 8 on Azure. Shipped a real-time Planning Poker platform (WebSockets, component library). CI/CD, observability, and mentoring across teams.",
   },
   {
     title: "Founder / Freelance Engineer",
@@ -26,7 +26,7 @@ const timeline: TimelineEntry[] = [
     title: "Head Chef / Kitchen Manager (from line cook)",
     org: "Asheville Pizza & Brewing Company",
     period: "2012 – 2022",
-    body: "Roughly a decade in high-volume kitchens, moving into leadership of 40+ person teams. Hiring, scheduling, cost and workflow improvements — the same clarity-and-reliability discipline I apply to production engineering today.",
+    body: "Roughly a decade in high-volume kitchens, moving into leadership of 40+ person teams. Hiring, scheduling, cost and workflow improvements—experience that still shows up in how I communicate and ship in engineering roles.",
   },
   {
     title: "Software Engineering Bootcamp",

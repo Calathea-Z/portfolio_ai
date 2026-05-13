@@ -55,7 +55,8 @@ export default function ResumePage() {
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-secondary">
             Full-stack software engineer with 3+ years in professional engineering and 5+ years building production
             software—after about a decade of kitchen operations leadership. Day-to-day: React/Next.js/TypeScript and
-            .NET 8 on Azure, end-to-end ownership from architecture through deployment and monitoring. Prefer teams that
+            .NET 8, lately on Azure at work, with end-to-end ownership from architecture through deployment and monitoring.
+            Open to teams whose hosting and tooling differ from that—I&apos;ll pick up how you work. Prefer teams that
             value clear communication, mentoring, and maintainable systems.
           </p>
         </section>
@@ -70,8 +71,8 @@ export default function ResumePage() {
               <p className="text-muted">Forvis Mazars (remote) · June 2023–present</p>
               <p className="mt-2">
                 Production web apps and APIs for enterprise users; React, TypeScript, Next.js, .NET 8; shipped a
-                real-time internal Planning Poker platform (WebSockets, Azure); CI/CD and observability (GitHub
-                Actions, Azure Pipelines, Grafana, Application Insights); integrations and mentoring.
+                real-time internal Planning Poker platform (WebSockets); CI/CD and observability (GitHub
+                Actions, Azure Pipelines, Grafana, Application Insights); integrations and mentoring. The stack above is what this employer uses; on the next role I&apos;m fine ramping on a different hosting and delivery story.
               </p>
             </li>
             <li>

@@ -16,11 +16,11 @@ export function ChatSection() {
           id="chat-heading"
           className="mt-2 text-2xl font-semibold tracking-tight text-text sm:text-3xl"
         >
-          Ask my AI agent about my work.
+          Resume-backed chat
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">
-          It&apos;s grounded in my resume — try asking about a specific role,
-          which technologies I&apos;ve shipped, or what I&apos;m looking for next.
+          Answers come from structured resume data and tools—not me typing live. Try a specific role,
+          a technology I&apos;ve used, or what I&apos;m looking for next.
         </p>
 
         {/* Tall embed: more room for empty state + thread; inner "Ask about Zach" header hidden when embedded. */}

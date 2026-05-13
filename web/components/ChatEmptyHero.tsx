@@ -10,18 +10,16 @@ export function ChatEmptyHero() {
   return (
     <section className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl border border-border-soft bg-surface-alt p-3 duration-300 sm:p-4">
       <h3 className="text-base font-semibold leading-snug tracking-tight text-text sm:text-lg md:text-xl">
-        Hi, I&apos;m Zach &mdash; full-stack engineer shipping React/.NET on Azure.
+        I&apos;m Zach—full-stack engineer on React, TypeScript, and .NET backends (Azure at my day job; happy to grow into whatever stack you run).
       </h3>
 
       {/* Short line on phones; fuller explanation from sm up */}
       <p className="mt-2 text-sm text-muted md:hidden">
-        Ask about my work — the assistant calls resume-backed tools and shows each call in the
-        thread.
+        Ask about my work. The assistant calls resume-backed tools and shows each call in the thread.
       </p>
       <p className="mt-2 hidden text-sm text-muted md:block">
-        This is an agentic chat: ask about a role, project, skill, or metric and the model calls a
-        structured tool against my resume before answering. You&apos;ll see the call rendered inline
-        so you can verify what it cited.
+        Ask about a role, project, skill, or metric. The model calls structured tools against my resume
+        before answering, and you can expand each call to see the inputs and JSON returned.
       </p>
 
       {/* Tool names: collapsed on small screens to cut visual noise */}

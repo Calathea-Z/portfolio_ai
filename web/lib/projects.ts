@@ -3,8 +3,7 @@
  *
  * Each entry powers a card in the homepage Featured Projects section and
  * (eventually) its dedicated project page at the `href` route. The
- * `capability` field is the framing line shown under the title — it's what
- * separates a portfolio piece from a product page.
+ * `capability` field is a one-line takeaway on each card.
  */
 
 export type ProjectStatus = "planned" | "in-progress" | "shipped";
@@ -20,42 +19,22 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "rag-resume",
-    title: "RAG-grounded resume search",
-    blurb:
-      "Chunk the resume and supporting writeups, embed them, and answer every question from retrieved context — with the chunks and similarity scores on display.",
-    capability:
-      "I understand retrieval, not just prompting — every answer is grounded in chunks the visitor can inspect.",
-    status: "planned",
-    href: "/projects/rag-resume",
-  },
-  {
     slug: "agentic-chat",
     title: "Agentic chat with tool use",
     blurb:
-      "Claude calls seven structured resume tools (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq) over a streaming loop, and you can watch each tool call in the transcript.",
+      "Streaming chat where Claude calls seven structured resume tools (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq). Tool calls show up in the transcript. Evals hit the same HTTP endpoint; results power the pass/fail table on the project page.",
     capability:
-      "I build agentic AI, not chat wrappers — the model calls structured tools and you can watch it happen.",
+      "Structured tool use over real data, with evals so regressions show up as failing rows—not just a prettier UI.",
     status: "shipped",
     href: "/projects/agentic-chat",
-  },
-  {
-    slug: "trace-viewer",
-    title: "Trace / observability viewer",
-    blurb:
-      "The API already emits trace_span events. A \"replay this conversation\" page that renders those spans as a flame chart or timeline — observability as proof you treat the agent like a distributed system, not a black box.",
-    capability:
-      "I treat AI as a distributed system — here are my spans.",
-    status: "planned",
-    href: "/projects/trace-viewer",
   },
   {
     slug: "mcp-server",
     title: "MCP server for resume tools",
     blurb:
-      "An MCP server that exposes the same resume tools as the chat — wire it into Claude Desktop with `claude mcp add` and ask questions about me there.",
+      "Same resume tools as the web chat, exposed over the Model Context Protocol so they can run from Claude Desktop or other MCP clients—one data file, two ways to call it.",
     capability:
-      "I work at the protocol layer too — here's an MCP server exposing my resume tools.",
+      "Same tool contracts over HTTP and MCP when you need the protocol surface, not a second bespoke integration.",
     status: "planned",
     href: "/projects/mcp-server",
   },

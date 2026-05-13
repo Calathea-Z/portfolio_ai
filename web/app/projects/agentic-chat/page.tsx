@@ -37,9 +37,6 @@ export default function AgenticChatProjectPage() {
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">
               Featured project
             </p>
-            <span className="rounded-full border border-success-border bg-success-bg px-2 py-0.5 text-[11px] font-medium text-success-fg">
-              Shipped
-            </span>
           </div>
           <h1
             id="project-heading"
@@ -48,7 +45,7 @@ export default function AgenticChatProjectPage() {
             {project.title}
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-secondary">
-            <span className="font-medium text-primary">What this shows:</span>{" "}
+            <span className="font-medium text-primary">At a glance:</span>{" "}
             {project.capability}
           </p>
           <p className="mt-2 max-w-3xl text-base leading-relaxed text-secondary">{project.blurb}</p>
@@ -98,7 +95,7 @@ export default function AgenticChatProjectPage() {
             <Step
               n={1}
               title="Conversation + tools out"
-              body="User message and seven tool schemas (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq) ship to the Anthropic Messages API with streaming enabled."
+              body="User message and seven tool schemas (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq) are sent to the Anthropic Messages API with streaming enabled."
             />
             <Step
               n={2}
@@ -145,8 +142,8 @@ export default function AgenticChatProjectPage() {
             Try it
           </h2>
           <p className="mt-2 text-sm text-secondary">
-            Start with one of the seeded prompts to see a tool call fire, then ask a follow-up
-            of your own. Click any pill to expand the input and the JSON the tool returned.
+            Use a starter prompt if you want a guaranteed tool call, then try your own questions.
+            Expand a pill to see the arguments and JSON returned.
           </p>
 
           <div className="mt-6 flex h-[min(88dvh,860px)] min-h-[600px] max-w-full flex-col overflow-x-hidden md:h-[720px] md:min-h-0">
@@ -154,11 +151,90 @@ export default function AgenticChatProjectPage() {
           </div>
         </section>
 
+        <section
+          aria-labelledby="design-note"
+          className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+            Design note
+          </p>
+          <h2
+            id="design-note"
+            className="mt-2 text-xl font-semibold tracking-tight text-text"
+          >
+            Why{" "}
+            <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[0.85em] text-code-fg">
+              search_resume
+            </code>{" "}
+            is substring matching, not embeddings
+          </h2>
+
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-secondary">
+            <p>
+              The natural-language search tool on the résumé —{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
+                search_resume
+              </code>{" "}
+              — is a case-insensitive substring match across structured fields.
+              No vector store, no embedding API. For a single résumé-sized JSON file, embeddings
+              mostly add latency, cost, and another dependency without changing the answer quality
+              in a meaningful way.
+            </p>
+            <p>
+              The corpus is one résumé: a handful of roles, a handful of
+              projects, a few FAQ entries, and a short career-change narrative.
+              The total searchable text is well under 10&nbsp;KB. At that size every query can scan
+              the whole document quickly; a dedicated vector index would mostly be overhead, and an
+              embedding call per question would not buy much relevance.
+            </p>
+            <p>
+              Query expansion and paraphrasing still happen in the model. The system prompt nudges
+              Claude to translate vague questions into concrete search terms when needed—so if a
+              recruiter asks{" "}
+              <span className="italic">where did Zach work before software</span>, the model can
+              search for{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 font-mono text-[12px] text-code-fg">
+                kitchen
+              </code>{" "}
+              or{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 font-mono text-[12px] text-code-fg">
+                restaurant
+              </code>
+              . The tool itself stays a fast substring pass over structured fields.
+            </p>
+            <p>
+              Substring matching also keeps citations honest. Each hit comes
+              back as{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 font-mono text-[12px] text-code-fg">
+                {"{ kind, id, matchedFields }"}
+              </code>{" "}
+              — not a similarity score and a chunk of text. The model can say
+              it matched on the{" "}
+              <code className="rounded border border-border-subtle bg-code-bg px-1 font-mono text-[12px] text-code-fg">
+                tech
+              </code>{" "}
+              field of a specific role and the grounding stays tight. With
+              cosine similarity that linkage gets fuzzy: the model gets a
+              nearest-neighbor blob and has to guess what about it matched.
+            </p>
+            <p>
+              The tradeoff: substring matching is brittle to typos and
+              won&apos;t catch unrelated synonyms — &ldquo;PMP-style work&rdquo;
+              will never hit &ldquo;project management&rdquo;. For a
+              one-résumé corpus that&apos;s a non-issue; for a
+              10,000-document knowledge base it would be the wrong call.{" "}
+              <span className="font-medium text-text">
+                Pick tooling that matches how much data you actually have.
+              </span>
+            </p>
+          </div>
+        </section>
+
         <section aria-labelledby="source" className="mt-12 border-t border-border-subtle pt-8">
           <h2 id="source" className="text-xl font-semibold tracking-tight text-text">
             Source
           </h2>
-          <p className="mt-2 text-sm text-muted">The interesting files for this project:</p>
+          <p className="mt-2 text-sm text-muted">Main files for this project:</p>
           <ul className="mt-3 space-y-1 text-sm">
             <li>
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
