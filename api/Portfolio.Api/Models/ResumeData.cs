@@ -44,6 +44,7 @@ public sealed class ResumePerson
     [JsonPropertyName("remote")] public bool Remote { get; set; }
     [JsonPropertyName("timeZone")] public string? TimeZone { get; set; }
     [JsonPropertyName("email")] public string Email { get; set; } = "";
+    [JsonPropertyName("portfolioSite")] public string? PortfolioSite { get; set; }
     [JsonPropertyName("github")] public string Github { get; set; } = "";
     [JsonPropertyName("linkedin")] public string Linkedin { get; set; } = "";
     [JsonPropertyName("freelanceSite")] public string FreelanceSite { get; set; } = "";

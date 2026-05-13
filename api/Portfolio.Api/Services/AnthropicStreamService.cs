@@ -20,7 +20,8 @@ namespace Portfolio.Api.Services;
 public sealed class AnthropicStreamService(
     IHttpClientFactory httpClientFactory,
     IOptions<AnthropicOptions> optionsAccessor,
-    ResumeDataService resumeData
+    ResumeDataService resumeData,
+    ILogger<AnthropicStreamService> logger
 ) : IAgenticChatRunner
 {
     private const string MessagesApiUrl = "https://api.anthropic.com/v1/messages";
@@ -28,6 +29,9 @@ public sealed class AnthropicStreamService(
     private const int MaxRounds = 5;
     private const int MaxRoundsWithReflection = 6;
     private static readonly TimeSpan ToolHandlerTimeout = TimeSpan.FromSeconds(60);
+
+    /// <summary>Generic message sent to the client when the upstream call fails. Real detail is logged server-side.</summary>
+    private const string GenericUpstreamErrorMessage = "Upstream chat error. Please retry in a moment.";
 
     private readonly AnthropicOptions _options = optionsAccessor.Value;
 
@@ -195,9 +199,11 @@ public sealed class AnthropicStreamService(
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Anthropic stream failed.");
+
             try
             {
-                await ndjson.WriteAsync(new ErrorChatEvent(ex.Message), cancellationToken);
+                await ndjson.WriteAsync(new ErrorChatEvent(GenericUpstreamErrorMessage), cancellationToken);
                 await ndjson.WriteAsync(new DoneChatEvent(), cancellationToken);
             }
             catch
@@ -397,6 +403,7 @@ public sealed class AnthropicStreamService(
             .AppendLine();
 
         AppendLineIfPresent(sb, "Email", p.Email);
+        AppendLineIfPresent(sb, "Portfolio site", p.PortfolioSite);
         AppendLineIfPresent(sb, "GitHub", p.Github);
         AppendLineIfPresent(sb, "LinkedIn", p.Linkedin);
         AppendLineIfPresent(sb, "Freelance portfolio site", p.FreelanceSite);
@@ -492,8 +499,12 @@ public sealed class AnthropicStreamService(
 
         if (!response.IsSuccessStatusCode)
         {
+            // Log the upstream body server-side; never include it in the exception message because
+            // the exception flows out toward the client (see catch in StreamChatCoreAsync) and could leak
+            // Anthropic request ids, internal validation detail, or rate-limit JSON.
             var err = await response.Content.ReadAsStringAsync(cancellationToken);
-            throw new HttpRequestException($"Anthropic API error {(int)response.StatusCode}: {err}");
+            logger.LogError("Anthropic API error {StatusCode}: {Body}", (int)response.StatusCode, err);
+            throw new HttpRequestException($"Anthropic API error {(int)response.StatusCode}.");
         }
 
         await using var upstream = await response.Content.ReadAsStreamAsync(cancellationToken);

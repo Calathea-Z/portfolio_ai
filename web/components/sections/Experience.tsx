@@ -14,19 +14,13 @@ const timeline: TimelineEntry[] = [
     title: "Full Stack Software Engineer",
     org: "Forvis Mazars (remote)",
     period: "June 2023 – present",
-    body: "Production web apps and APIs for enterprise users. React, TypeScript, Next.js, .NET 8 on Azure. Shipped a real-time Planning Poker platform (WebSockets, component library). CI/CD, observability, and mentoring across teams.",
+    body: "Build and maintain production web applications and APIs serving enterprise users — owning architecture, delivery, reliability, and operational health across the full stack. Highlights: end-to-end React/TypeScript/Next.js/.NET delivery; Planning Poker (WebSockets) from 0 to 1; shared component systems and API patterns across teams; CI/CD and observability (GitHub Actions, Azure Pipelines, Grafana, Application Insights); stakeholder collaboration, mentoring, and AI-augmented workflows (Copilot, Claude).",
   },
   {
-    title: "Founder / Freelance Engineer",
-    org: "Calathea Web Design",
-    period: "2024 – present",
-    body: "Solo practice building production marketing and e-commerce sites for small-business clients end-to-end — requirements through deployment. Next.js, TypeScript, Stripe.",
-  },
-  {
-    title: "Head Chef / Kitchen Manager (from line cook)",
-    org: "Asheville Pizza & Brewing Company",
+    title: "Kitchen Manager",
+    org: "Asheville Pizza and Brewing Company",
     period: "2012 – 2022",
-    body: "Roughly a decade in high-volume kitchens, moving into leadership of 40+ person teams. Hiring, scheduling, cost and workflow improvements—experience that still shows up in how I communicate and ship in engineering roles.",
+    body: "Progressed from line cook to Kitchen Manager. Led daily operations, team management, and process improvement in a high-volume environment — including a 40+ person team across hiring, onboarding, training, scheduling, and performance management.",
   },
   {
     title: "Software Engineering Bootcamp",

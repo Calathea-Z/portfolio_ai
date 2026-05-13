@@ -1,13 +1,14 @@
 {
   "person": {
     "name": "Zach Sykes",
-    "summary": "Full-stack software engineer with 3+ years of professional engineering experience and 5+ years building production software. Career change from about a decade of kitchen operations leadership into engineering, bringing habits around communication, reliability under pressure, and systems thinking.",
+    "summary": "Full-stack software engineer with 5+ years of experience building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
     "location": "Denver, CO",
     "remote": true,
     "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
     "email": "zsykes21@gmail.com",
+    "portfolioSite": "https://www.zachsykes.dev/",
     "github": "https://github.com/Calathea-Z",
-    "linkedin": "https://linkedin.com/in/zach-sykes",
+    "linkedin": "https://www.linkedin.com/in/zach-sykes/",
     "freelanceSite": "https://www.calathea.design/",
     "workAuth": "US citizen — no sponsorship needed",
     "availability": "Open to strong opportunities",
@@ -30,19 +31,17 @@
       "endYear": null,
       "endMonth": null,
       "remote": true,
-      "summary": "Build and maintain production web apps and APIs for enterprise users with ownership across architecture, delivery, reliability, and operational health.",
+      "summary": "Build and maintain production web applications and APIs serving enterprise users — owning architecture, delivery, reliability, and operational health across the full stack.",
       "achievements": [
-        "Lead end-to-end feature delivery using React, TypeScript, Next.js, and .NET 8 — from UI architecture through backend API implementation, deployment, and production monitoring.",
-        "Helped lead the migration from a Blazor frontend to React/TypeScript across product surfaces — including the architecture decisions, the rollout, and the teaching/mentoring required for adoption across engineering teams.",
-        "Delivered a real-time internal collaboration platform (Planning Poker) from 0 to 1 — independently conceived, architected, and shipped, including React frontend, .NET backend APIs, WebSocket infrastructure, and Azure deployment. Now used by every software team across all six Forvis Mazars verticals.",
-        "Established React/TypeScript component systems and REST API integration patterns adopted across multiple teams — improving consistency and developer velocity org-wide.",
-        "Integrated and maintained third-party API connections across multiple external services — OAuth authentication flows, data ingestion pipelines, and end-to-end reliability.",
-        "Built and maintained CI/CD pipelines (GitHub Actions, Azure Pipelines) and production observability tooling (Grafana, Azure Application Insights) — enabling fast, safe releases and rapid incident response.",
-        "Collaborated directly with product, design, and business stakeholders to translate requirements into shipped features — communicating technical tradeoffs clearly across disciplines.",
-        "Mentored junior engineers on code quality, architecture patterns, and best practices.",
-        "Integrated AI coding tools (GitHub Copilot, Claude) into daily engineering workflows, measurably improving delivery speed and output quality."
+        "Lead end-to-end feature delivery using React, TypeScript, Next.js, and .NET — from UI design through backend API implementation, cloud deployment, and production monitoring, with full ownership.",
+        "Built a real-time collaborative platform (Planning Poker) as a reusable tool on top of internal infrastructure — independently architected and shipped from 0 to 1, including WebSocket infrastructure and backend services.",
+        "Designed and established React/TypeScript component systems and API integration patterns adopted across multiple teams — improved consistency and developer velocity.",
+        "Built and maintained CI/CD pipelines (GitHub Actions, Azure Pipelines) and production observability tooling (Grafana, Application Insights) — enabling safe, rapid releases and active incident response.",
+        "Collaborated directly with product, design, and business stakeholders to translate requirements into shipped features — skilled at communicating technical tradeoffs and architectural decisions across disciplines.",
+        "Mentored junior engineers on code quality, architecture patterns, and best practices — actively invested in raising team-wide technical standards.",
+        "Integrate AI coding tools (GitHub Copilot, Claude) into daily engineering workflows — measurably improving delivery speed and enabling deeper focus on architecture and problem-solving."
       ],
-      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET 8", "ASP.NET Core", "Azure", "WebSocket", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor"]
+      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET", "ASP.NET Core", "Azure", "WebSocket", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor", "Python"]
     },
     {
       "id": "calathea",
@@ -65,19 +64,16 @@
     },
     {
       "id": "ashe-pizza",
-      "title": "Head Chef / Kitchen Manager (progression from line cook)",
-      "org": "Asheville Pizza & Brewing Company",
+      "title": "Kitchen Manager",
+      "org": "Asheville Pizza and Brewing Company",
       "startYear": 2012,
       "startMonth": null,
       "endYear": 2022,
       "endMonth": null,
       "remote": false,
-      "summary": "Roughly ten years in high-volume kitchens: progressed into leadership, hiring and onboarding, scheduling, cost and workflow improvements, and consistent cross-functional coordination. Connects to incident-style clarity and stakeholder communication in engineering.",
+      "summary": "Progressed from line cook to Kitchen Manager. Led daily operations, team management, and process improvement in a high-volume environment.",
       "achievements": [
-        "Progressed from line cook to Head Chef / Kitchen Manager over 10 years in a high-volume kitchen environment.",
-        "Led and managed a 40+ person team across multiple shifts — hiring, onboarding, scheduling, performance management, and building a culture of accountability.",
-        "Drove operational improvements across cost management, workflow efficiency, and quality standards in a high-pressure production environment.",
-        "Cross-functional coordination with front-of-house, ownership, and vendors — the same stakeholder-communication discipline applied to engineering today."
+        "Led and managed a 40+ person team — hiring, onboarding, training, scheduling, performance management, and culture building."
       ],
       "tech": []
     }
@@ -92,10 +88,10 @@
       "visibility": "internal",
       "summary": "Real-time estimation platform built for distributed delivery teams at Forvis Mazars. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
       "outcomes": [
-        "Adopted by every software team across all six Forvis Mazars verticals.",
-        "Designed, architected, and shipped solo from 0 to 1."
+        "Shipped from 0 to 1 as reusable internal tooling, including WebSocket infrastructure and backend services.",
+        "Adopted across Forvis Mazars software teams for real-time distributed estimation sessions."
       ],
-      "tech": ["React", "TypeScript", ".NET 8", "WebSocket", "Azure"]
+      "tech": ["React", "TypeScript", ".NET", "WebSocket", "Azure"]
     },
     {
       "id": "portfolio-assistant",
@@ -110,7 +106,7 @@
         "Working example of agentic chat over structured data with a real backend, validation, and safeguards.",
         "Source code public for review at github.com/Calathea-Z/portfolio_ai."
       ],
-      "tech": ["Next.js", "TypeScript", "ASP.NET Core", "C#", ".NET 8", "Anthropic"]
+      "tech": ["Next.js", "TypeScript", "ASP.NET Core", "C#", ".NET", "Anthropic"]
     },
     {
       "id": "portfolio-mcp-resume",
@@ -125,7 +121,7 @@
         "Same tool contracts as the streaming chat API, exposed at the protocol layer instead of a bespoke HTTP integration.",
         "Public write-up and demo video at https://zachsykes.dev/projects/mcp-server; implementation in the portfolio repo under mcp/."
       ],
-      "tech": ["Node.js", "TypeScript", "MCP", "Model Context Protocol", "JSON Schema", ".NET 8"]
+      "tech": ["Node.js", "TypeScript", "MCP", "Model Context Protocol", "JSON Schema", ".NET"]
     },
     {
       "id": "calathea-sites",
@@ -147,30 +143,31 @@
   "metrics": [
     {
       "id": "yoe-professional",
-      "label": "Years of professional engineering experience",
-      "value": 3,
+      "label": "Years of experience (résumé professional summary)",
+      "value": 5,
       "unit": "years",
-      "note": "Plus 5+ total years building production software."
+      "note": "Headline from the PDF résumé: building scalable web platforms and developer-first systems."
     },
     {
-      "id": "yoe-software",
-      "label": "Years building production software",
-      "value": 5,
-      "unit": "years"
+      "id": "yoe-forvis-role",
+      "label": "Years as Full Stack Software Engineer at Forvis Mazars (approx.)",
+      "value": 3,
+      "unit": "years",
+      "note": "June 2023–present."
     },
     {
       "id": "kitchen-team",
       "label": "Largest team led in kitchen operations",
       "value": 40,
       "unit": "people",
-      "note": "Asheville Pizza & Brewing Company, 2012-2022."
+      "note": "Asheville Pizza and Brewing Company, 2012–2022."
     },
     {
       "id": "kitchen-tenure",
       "label": "Years progressing from line cook to Kitchen Manager",
       "value": 10,
       "unit": "years",
-      "note": "Asheville Pizza & Brewing Company, 2012-2022."
+      "note": "Asheville Pizza and Brewing Company, 2012–2022."
     },
     {
       "id": "planning-poker-verticals",
@@ -195,11 +192,12 @@
     { "name": "Tailwind CSS",   "category": "frontend",         "level": "expert" },
     { "name": "Blazor",         "category": "frontend",         "level": "proficient" },
     { "name": "C#",             "category": "backend",          "level": "expert" },
-    { "name": ".NET 8",         "category": "backend",          "level": "expert" },
+    { "name": ".NET",         "category": "backend",          "level": "expert" },
     { "name": "ASP.NET Core",   "category": "backend",          "level": "expert" },
     { "name": "REST",           "category": "backend",          "level": "expert" },
     { "name": "Entity Framework Core", "category": "backend",   "level": "proficient" },
     { "name": "Node.js",        "category": "backend",          "level": "proficient" },
+    { "name": "Python",         "category": "backend",          "level": "familiar" },
     { "name": "WebSocket",      "category": "backend",          "level": "proficient" },
     { "name": "PostgreSQL",     "category": "data",             "level": "proficient" },
     { "name": "SQL Server",     "category": "data",             "level": "proficient" },

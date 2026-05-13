@@ -21,10 +21,8 @@ export function Hero() {
           {siteConfig.positioning}
         </p>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary">
-          Three years in professional software engineering, plus about ten years leading
-          high-volume operations before that. Most of my day job is full-stack product work; the
-          featured projects include a few write-ups that go deeper on how I build when LLMs are in
-          the loop.
+          Five-plus years building scalable web platforms and developer-first systems, with deep work in React,
+          TypeScript, and .NET. Featured project write-ups go deeper on agentic tooling and production patterns.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">

@@ -116,7 +116,7 @@ export default function AgenticChatProjectPage() {
 
           <div className="mt-6 flex flex-wrap gap-2 text-[11px] font-mono">
             {[
-              ".NET 8",
+              ".NET",
               "ASP.NET Core",
               "Anthropic Messages API",
               "Server-Sent Events",

@@ -19,11 +19,16 @@ export function About() {
         </h2>
         <div className="mt-6 grid gap-6 text-base leading-relaxed text-secondary md:grid-cols-2">
         <p>
-            I'm a full-stack engineer working day-to-day in React, TypeScript, Blazor, C#, and .NET 8. I ship features end-to-end and care deeply about reliability, clear contracts between layers, and observability baked in from the start—not retrofitted. My experience spans Azure in production, Vercel for frontend, and smaller hosts for side projects. I'm comfortable picking up whatever your stack uses; I learn deployment and monitoring patterns on the job.
-          </p>
-          <p>
-            I'm looking for remote-first teams that value clear async communication, thorough code review, and systems you can actually debug in production. I ship across the stack—from UI to APIs to deployment—and I'm actively integrating LLM tooling where it solves real problems, not as an afterthought. Remote is my preference, but I'm open to hybrid for the right role and team.
-          </p>
+          I&apos;m a full-stack engineer focused on React, TypeScript, and .NET — comfortable with Go-adjacent backend
+          patterns and Python where it shows up. I ship 0-to-1 features and reusable component libraries, own REST APIs and
+          service boundaries, and treat observability as part of delivery (Azure, Grafana, Application Insights, GitHub
+          Actions, Azure Pipelines). I learn deployment and monitoring patterns quickly on stacks I haven&apos;t owned yet.
+        </p>
+        <p>
+          I collaborate tightly with product and design in fast-moving environments, invest in code review and mentoring,
+          and use AI-augmented workflows (Copilot, Claude) where they measurably speed delivery. Remote-first is my
+          default; open to hybrid for the right team and opportunity.
+        </p>
         </div>
       </div>
     </section>

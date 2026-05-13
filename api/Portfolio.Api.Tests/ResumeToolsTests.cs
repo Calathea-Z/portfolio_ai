@@ -133,6 +133,23 @@ public class ResumeToolsTests
     }
 
     [Fact]
+    public async Task ListProjectsBySkill_DotNetMatchesVersionedAndAspNetCoreTags()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.ListProjectsBySkill, Input("""{ "skill": ".NET" }"""), default);
+
+        Assert.False(result.TryGetProperty("error", out _));
+        var ids = result.GetProperty("items").EnumerateArray()
+            .Select(e => e.GetProperty("id").GetString())
+            .ToHashSet();
+        Assert.Contains("planning-poker", ids);
+        Assert.Contains("portfolio-assistant", ids);
+        Assert.Contains("portfolio-mcp-resume", ids);
+        Assert.DoesNotContain("calathea-sites", ids);
+    }
+
+    [Fact]
     public async Task ListProjectsBySkill_MissingSkill_ReturnsError()
     {
         var tools = BuildTools();

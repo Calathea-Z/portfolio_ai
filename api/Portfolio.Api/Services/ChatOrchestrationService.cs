@@ -89,9 +89,14 @@ public sealed class ChatOrchestrationService(
                 return;
             }
 
+            logger.LogError(ex, "Chat stream failed before the response body started.");
+
             http.Response.StatusCode = StatusCodes.Status502BadGateway;
             http.Response.ContentType = "application/json; charset=utf-8";
-            await http.Response.WriteAsJsonAsync(new { error = ex.Message }, cancellationToken: ct);
+            await http.Response.WriteAsJsonAsync(
+                new { error = "Upstream chat error. Please retry in a moment." },
+                cancellationToken: ct
+            );
         }
     }
 

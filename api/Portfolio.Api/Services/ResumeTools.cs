@@ -160,12 +160,30 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         if (ContainsIgnoreCase(p.WorkAuth, query)) fields.Add("workAuth");
         if (ContainsIgnoreCase(p.TimeZone, query)) fields.Add("timeZone");
         if (ContainsIgnoreCase(p.Compensation, query)) fields.Add("compensation");
+        if (ContainsIgnoreCase(p.PortfolioSite, query)) fields.Add("portfolioSite");
+        if (ContainsIgnoreCase(p.Email, query)) fields.Add("email");
+        if (ContainsIgnoreCase(p.Github, query)) fields.Add("github");
+        if (ContainsIgnoreCase(p.Linkedin, query)) fields.Add("linkedin");
+        if (ContainsIgnoreCase(p.FreelanceSite, query)) fields.Add("freelanceSite");
         if (p.EmploymentTypes.Any(t => ContainsIgnoreCase(t, query))) fields.Add("employmentTypes");
         return fields;
     }
 
     private static bool ContainsIgnoreCase(string? haystack, string needle) =>
         !string.IsNullOrEmpty(haystack) && haystack.Contains(needle, StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Matches a stack entry to the visitor's skill phrase: exact (case-insensitive), or substring when
+    /// <paramref name="skill"/> is at least two characters so ".NET" hits stack labels that contain it (including "ASP.NET Core").
+    /// </summary>
+    private static bool TechEntryMatchesSkill(string tech, string skill)
+    {
+        if (tech.Equals(skill, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (skill.Length < 2)
+            return false;
+        return tech.Contains(skill, StringComparison.OrdinalIgnoreCase);
+    }
 
     private JsonElement RunListProjectsBySkill(JsonElement input)
     {
@@ -175,9 +193,9 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         if (string.IsNullOrWhiteSpace(model.Skill))
             return Error("'skill' is required.");
 
-        var skill = model.Skill;
+        var skill = model.Skill.Trim();
         var matches = _resume.Projects
-            .Where(p => p.Tech.Any(t => t.Equals(skill, StringComparison.OrdinalIgnoreCase)))
+            .Where(p => p.Tech.Any(t => TechEntryMatchesSkill(t, skill)))
             .Select(ProjectToObject)
             .ToList();
 

@@ -41,7 +41,7 @@ public static class ResumeToolDefinitions
             ),
             ToolDefinition(
                 ListProjectsBySkill,
-                "Return projects whose technology stack includes the named skill (case-insensitive). Use this when the visitor asks about which projects used a given technology or framework.",
+                "Return projects whose technology stack includes the named skill: case-insensitive exact match on a tech string, or (when the skill is at least two characters) case-insensitive substring match so e.g. \".NET\" matches stack labels that include it (such as \"ASP.NET Core\"). Use when the visitor asks which projects used a given technology or framework.",
                 ResumeToolInputSchemas.ListProjectsBySkillJson
             ),
             ToolDefinition(

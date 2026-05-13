@@ -84,7 +84,7 @@ function SnapshotCard({ onCloseMobile }: SnapshotCardProps = {}) {
         </div>
         <div className="min-w-0">
           <p className="truncate text-xs font-semibold uppercase tracking-widest text-primary">
-            zach.dev
+            zachsykes.dev
           </p>
           <p className="truncate text-sm font-semibold tracking-tight text-text">
             {siteConfig.name}

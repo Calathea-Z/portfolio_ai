@@ -15,7 +15,8 @@ public sealed class ChatEvalsController(
 ) : ControllerBase
 {
     [HttpPost("chat-evals")]
-    [DisableRateLimiting]
+    [EnableRateLimiting("chat-per-ip")]
+    [RequestSizeLimit(1_048_576)] // 1 MiB; matches /chat. Validation caps shape; this caps raw payload size.
     [IgnoreAntiforgeryToken]
     public Task PostEvalAsync([FromBody] ChatRequest body, CancellationToken ct)
     {
