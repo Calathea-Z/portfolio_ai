@@ -2,7 +2,7 @@
 
 Personal portfolio site with an AI chat that answers questions about my background — résumé context lives in the API, not the browser.
 
-**Live:** [zach.dev](https://zach.dev)
+**Live:** [zach.dev](https://zachsykes.dev)
 
 ## Stack
 
