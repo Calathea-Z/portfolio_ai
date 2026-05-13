@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { useState, type SubmitEvent } from "react";
+import { useRef, useState, type SubmitEvent } from "react";
 import { MessageBubble } from "@/components/MessageBubble";
 import { StarterPrompts } from "@/components/StarterPrompts";
 import { TypingIndicator } from "@/components/TypingIndicator";
@@ -99,6 +99,9 @@ function ChatInterfaceCore({
 
   useLockDocumentOverflow(!embedded);
   const messagesScrollRef = useStickToBottom(messages, isStreaming);
+  // Held so we can return focus to the composer after starter-prompt clicks or form submits.
+  // The textarea itself stays enabled while streaming so focus is never blurred mid-reply.
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const showStarters = messages.length === 0;
   const showTyping =
@@ -106,13 +109,20 @@ function ChatInterfaceCore({
     messages.at(-1)?.role === "assistant" &&
     (messages.at(-1)?.chunks.length ?? 0) === 0;
 
-  const sendThenClearOnSuccess = async (text: string) => {
-    if (await send(text)) setInput("");
+  // Clear + refocus synchronously so the composer is ready for the next message immediately,
+  // even while the assistant is still streaming. send() mirrors this validation and short-circuits
+  // on empty/in-flight, so calling it after the optimistic clear is safe.
+  const submitMessage = (text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed || isStreaming) return;
+    setInput("");
+    textareaRef.current?.focus();
+    void send(trimmed);
   };
 
   const onSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    void sendThenClearOnSuccess(input);
+    submitMessage(input);
   };
 
   const clearChat = () => {
@@ -141,7 +151,7 @@ function ChatInterfaceCore({
             )}
 
             {showStarters ? (
-              <StarterPrompts disabled={isStreaming} onPick={(t) => void sendThenClearOnSuccess(t)} />
+              <StarterPrompts disabled={isStreaming} onPick={(t) => submitMessage(t)} />
             ) : null}
 
             {messages.map((m) => (
@@ -173,18 +183,19 @@ function ChatInterfaceCore({
             </label>
             <textarea
               id="chat-input"
+              ref={textareaRef}
               rows={2}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  void sendThenClearOnSuccess(input);
+                  submitMessage(input);
                 }
               }}
               placeholder="Ask anything about Zach..."
-              disabled={isStreaming}
-              className="min-h-10 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-border-focus focus:ring-2 focus:ring-(--ring) disabled:opacity-60 sm:min-h-11"
+              aria-busy={isStreaming}
+              className="min-h-10 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-border-focus focus:ring-2 focus:ring-(--ring) sm:min-h-11"
             />
             <div className="flex shrink-0 justify-end gap-2 sm:self-end">
               <button

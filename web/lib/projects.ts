@@ -15,18 +15,23 @@ export type Project = {
   capability: string;
   status: ProjectStatus;
   href: string;
+  /** Public repo for this project's source. Falls back to the personal profile URL when unset. */
+  repoUrl?: string;
 };
+
+const PORTFOLIO_REPO_URL = "https://github.com/Calathea-Z/portfolio_ai";
 
 export const projects: Project[] = [
   {
     slug: "agentic-chat",
-    title: "Agentic chat with tool use",
+    title: "Agentic chat with tool use + evals",
     blurb:
       "Streaming chat where Claude calls seven structured resume tools (get_role, search_resume, list_projects_by_skill, get_metrics, list_recent_shipped, get_narrative, get_faq). Tool calls show up in the transcript. Evals hit the same HTTP endpoint; results power the pass/fail table on the project page.",
     capability:
       "Structured tool use over real data, with evals so regressions show up as failing rows—not just a prettier UI.",
     status: "shipped",
     href: "/projects/agentic-chat",
+    repoUrl: PORTFOLIO_REPO_URL,
   },
   {
     slug: "mcp-server",
@@ -37,6 +42,7 @@ export const projects: Project[] = [
       "Protocol-layer surface for the same tool contracts as the chat loop, with cross-language schema parity tests—not a second ad hoc integration.",
     status: "shipped",
     href: "/projects/mcp-server",
+    repoUrl: `${PORTFOLIO_REPO_URL}/tree/main/mcp`,
   },
 ];
 

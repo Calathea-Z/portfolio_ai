@@ -3,6 +3,8 @@ import Link from "next/link";
 import { BackgroundOrbs } from "@/components/BackgroundOrbs";
 import { AgenticChatDemo } from "@/components/AgenticChatDemo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AgenticChatEvalsSection } from "@/components/AgenticChatEvalsSection";
+import { loadEvalResults } from "@/lib/eval-results";
 import { getProject } from "@/lib/projects";
 import { siteConfig } from "@/lib/site-config";
 
@@ -13,7 +15,9 @@ export const metadata: Metadata = {
   description: project.blurb,
 };
 
-export default function AgenticChatProjectPage() {
+export default async function AgenticChatProjectPage() {
+  const evalResults = await loadEvalResults();
+
   return (
     <div className="relative min-h-screen w-full text-text">
       <BackgroundOrbs />
@@ -146,10 +150,12 @@ export default function AgenticChatProjectPage() {
             Expand a pill to see the arguments and JSON returned.
           </p>
 
-          <div className="mt-6 flex h-[min(88dvh,860px)] min-h-[600px] max-w-full flex-col overflow-x-hidden md:h-[720px] md:min-h-0">
+          <div className="mt-6 flex max-h-[min(86dvh,960px)] min-h-[640px] max-w-full flex-col overflow-x-hidden md:min-h-[820px]">
             <AgenticChatDemo />
           </div>
         </section>
+
+        <AgenticChatEvalsSection results={evalResults} />
 
         <section
           aria-labelledby="design-note"
@@ -234,38 +240,53 @@ export default function AgenticChatProjectPage() {
           <h2 id="source" className="text-xl font-semibold tracking-tight text-text">
             Source
           </h2>
-          <p className="mt-2 text-sm text-muted">Main files for this project:</p>
-          <ul className="mt-3 space-y-1 text-sm">
-            <li>
-              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
-                api/Portfolio.Api/Services/AnthropicStreamService.cs
-              </code>{" "}
-              — the streaming tool-use loop.
-            </li>
-            <li>
-              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
-                api/Portfolio.Api/Services/ResumeTools.cs
-              </code>{" "}
-              — the seven tool handlers.
-            </li>
-            <li>
-              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
-                api/Portfolio.Api/Data/resume.json
-              </code>{" "}
-              — the structured resume the tools query.
-            </li>
-            <li>
-              <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
-                web/components/ToolCallPill.tsx
-              </code>{" "}
-              — the inline tool-call UI.
-            </li>
+          <p className="mt-2 text-sm text-muted">Where to find the main pieces:</p>
+
+          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-muted">Chat loop</h3>
+          <ul className="mt-2 space-y-1 text-sm">
+            <SourceFile
+              path="api/Portfolio.Api/Services/AnthropicStreamService.cs"
+              note="the streaming tool-use loop."
+            />
+            <SourceFile
+              path="api/Portfolio.Api/Services/ResumeTools.cs"
+              note="the seven tool handlers."
+            />
+            <SourceFile
+              path="api/Portfolio.Api/Data/resume.json"
+              note="the structured resume the tools query."
+            />
+            <SourceFile
+              path="web/components/ToolCallPill.tsx"
+              note="the inline tool-call UI."
+            />
           </ul>
+
+          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-muted">Evals</h3>
+          <ul className="mt-2 space-y-1 text-sm">
+            <SourceFile
+              path="api/Portfolio.Api/Controllers/ChatEvalsController.cs"
+              note="internal endpoint — same orchestration as live chat, with X-Eval-Key auth and a 1 MiB body cap."
+            />
+            <SourceFile
+              path="evals/cases.json"
+              note="deterministic test cases (questions plus must_contain / must_contain_any / expected_tool_calls criteria)."
+            />
+            <SourceFile
+              path="evals/run.mjs"
+              note="NDJSON-aware runner — posts each case to the endpoint and writes results.json."
+            />
+            <SourceFile
+              path="web/components/AgenticChatEvalsSection.tsx"
+              note="the table + per-case expandable details rendered on this page."
+            />
+          </ul>
+
           <a
-            href={siteConfig.github}
+            href={project.repoUrl ?? siteConfig.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
+            className="mt-6 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
           >
             View on GitHub →
           </a>
@@ -286,6 +307,17 @@ function Step({ n, title, body }: { n: number; title: string; body: string }) {
         <p className="font-medium text-text">{title}</p>
         <p className="mt-1 leading-relaxed text-secondary">{body}</p>
       </div>
+    </li>
+  );
+}
+
+function SourceFile({ path, note }: { path: string; note: string }) {
+  return (
+    <li>
+      <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
+        {path}
+      </code>{" "}
+      — {note}
     </li>
   );
 }

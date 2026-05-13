@@ -16,7 +16,7 @@ export function AgenticChatDemo() {
   const projectChat: ProjectChatLift = { messages, setMessages, streaming };
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col gap-3 md:gap-4">
+    <div className="flex min-h-0 w-full flex-1 flex-col gap-3 md:gap-4">
       <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-border-soft bg-surface shadow-sm">
         <ChatInterface embedded projectChat={projectChat} />
       </div>

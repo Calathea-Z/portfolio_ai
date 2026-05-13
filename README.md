@@ -16,6 +16,7 @@ Personal portfolio site with an AI chat that answers questions about my backgrou
 
 - Streaming chat UI hooked to a small .NET service that holds the system prompt and talks to Claude.
 - `/resume` and downloadable résumé assets under `web/public/`.
+- Deterministic chat evals in `evals/` (`npm run evals`) — results feed the pass/fail table on `/projects/agentic-chat#evals`.
 
 ## Run it locally
 

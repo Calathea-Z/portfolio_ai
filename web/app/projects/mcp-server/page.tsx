@@ -266,7 +266,7 @@ export default function McpServerProjectPage() {
               </li>
             </ul>
             <a
-              href={siteConfig.github}
+              href={project.repoUrl ?? siteConfig.github}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
