@@ -1,7 +1,7 @@
 {
   "person": {
     "name": "Zach Sykes",
-    "summary": "Full-stack software engineer with 5+ years of experience building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
+    "summary": "Full-stack software engineer with 5 years of experience building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
     "location": "Denver, CO",
     "remote": true,
     "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
@@ -45,7 +45,7 @@
     },
     {
       "id": "calathea",
-      "title": "Founder / Freelance Engineer",
+      "title": "Founder / Full Stack Engineer",
       "org": "Calathea Web Design",
       "startYear": 2024,
       "startMonth": null,
@@ -53,14 +53,14 @@
       "endMonth": null,
       "remote": true,
       "url": "https://www.calathea.design/",
-      "summary": "Freelance practice building production websites and e-commerce work for small-business clients from requirements through deployment. Own UI/UX through implementation; calathea.design itself is a shipped Next.js site showcasing that standard.",
+      "summary": "Freelance practice building production websites and e-commerce work for small-business clients from requirements through deployment. Own UI/UX through implementation, including custom CMS creation when editorial workflows need more than a template; calathea.design itself is a shipped Next.js site showcasing that standard.",
       "achievements": [
         "Shipped 5 client sites end-to-end since 2024 — ranging across e-commerce storefronts, portfolios for musicians and artists, movie promotion sites, and WordPress sites for nonprofits.",
-        "Own every layer of each engagement — UI/UX design, frontend implementation, backend integrations, third-party APIs (Stripe where applicable), and cloud deployment on Vercel.",
+        "Own every layer of each engagement — UI/UX design, frontend implementation, backend integrations, custom CMS builds tailored to client content workflows, and cloud deployment on Vercel.",
         "Built and launched the business site itself (calathea.design) as a production Next.js application — same quality standard delivered to clients.",
         "Direct client communication from discovery through deployment and post-launch iteration — no intermediaries between requirements and shipped work."
       ],
-      "tech": ["Next.js", "TypeScript", "Stripe", "Vercel", "WordPress"]
+      "tech": ["Next.js", "TypeScript", "Vercel", "WordPress", "Custom CMS"]
     },
     {
       "id": "ashe-pizza",
@@ -131,13 +131,13 @@
       "status": "ongoing",
       "visibility": "public",
       "url": "https://www.calathea.design/",
-      "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, deployment, and iteration with direct client feedback.",
+      "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, custom CMS creation when editorial workflows need more than a template, deployment, and iteration with direct client feedback.",
       "outcomes": [
         "5 client sites shipped end-to-end since 2024.",
-        "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites.",
+        "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites, and custom CMS work for tailored content tooling.",
         "Full lifecycle ownership per engagement — discovery through post-launch iteration."
       ],
-      "tech": ["Next.js", "TypeScript", "Stripe", "WordPress"]
+      "tech": ["Next.js", "TypeScript", "Vercel", "WordPress", "Custom CMS"]
     }
   ],
   "metrics": [
