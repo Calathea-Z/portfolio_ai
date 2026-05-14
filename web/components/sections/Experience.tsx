@@ -4,6 +4,8 @@ import { sectionIds } from "@/lib/site-config";
 type TimelineEntry = {
   title: string;
   org: string;
+  /** External site for the org (e.g. freelance practice). */
+  orgUrl?: string;
   period: string;
   body: string;
 };
@@ -15,6 +17,13 @@ const timeline: TimelineEntry[] = [
     org: "Forvis Mazars (remote)",
     period: "June 2023 – present",
     body: "Build and maintain production web applications and APIs serving enterprise users — owning architecture, delivery, reliability, and operational health across the full stack. Highlights: end-to-end React/TypeScript/Next.js/.NET delivery; Planning Poker (WebSockets) from 0 to 1; shared component systems and API patterns across teams; CI/CD and observability (GitHub Actions, Azure Pipelines, Grafana, Application Insights); stakeholder collaboration, mentoring, and AI-augmented workflows (Copilot, Claude).",
+  },
+  {
+    title: "Founder / Full Stack Engineer",
+    org: "Calathea Web Design (remote)",
+    orgUrl: "https://www.calathea.design/",
+    period: "2024 – present",
+    body: "Freelance practice building production websites and e-commerce for small-business clients — from discovery through deployment. Own UI/UX, implementation, backend integrations, custom CMS creation when clients need tailored editorial workflows, and hosting on Vercel; the practice site is a shipped Next.js app at the same quality bar as client work.",
   },
   {
     title: "Kitchen Manager",
@@ -63,7 +72,20 @@ export function Experience() {
                   {entry.period}
                 </p>
               </div>
-              <p className="text-sm font-medium text-primary">{entry.org}</p>
+              <p className="text-sm font-medium text-primary">
+                {entry.orgUrl ? (
+                  <Link
+                    href={entry.orgUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline-offset-4 transition-colors hover:underline"
+                  >
+                    {entry.org}
+                  </Link>
+                ) : (
+                  entry.org
+                )}
+              </p>
               <p className="mt-2 text-sm leading-relaxed text-secondary">{entry.body}</p>
             </li>
           ))}

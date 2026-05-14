@@ -19,10 +19,10 @@ export function About() {
         </h2>
         <div className="mt-6 grid gap-6 text-base leading-relaxed text-secondary md:grid-cols-2">
         <p>
-          I&apos;m a full-stack engineer focused on React, TypeScript, and .NET — comfortable with Go-adjacent backend
-          patterns and Python where it shows up. I ship 0-to-1 features and reusable component libraries, own REST APIs and
-          service boundaries, and treat observability as part of delivery (Azure, Grafana, Application Insights, GitHub
-          Actions, Azure Pipelines). I learn deployment and monitoring patterns quickly on stacks I haven&apos;t owned yet.
+          I&apos;m a full-stack engineer focused on React, TypeScript, and .NET. I&apos;m comfortable stretching into other
+          languages and backend styles when a codebase calls for it. I ship 0-to-1 features and reusable component libraries, own REST
+          APIs and service boundaries, and treat observability as part of delivery (Azure, Grafana, Application Insights,
+          GitHub Actions, Azure Pipelines).
         </p>
         <p>
           I collaborate tightly with product and design in fast-moving environments, invest in code review and mentoring,

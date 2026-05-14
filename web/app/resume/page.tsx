@@ -19,6 +19,13 @@ const forvisBullets = [
   "Integrate AI coding tools (GitHub Copilot, Claude) into daily engineering workflows — measurably improving delivery speed and enabling deeper focus on architecture and problem-solving.",
 ];
 
+const calatheaBullets = [
+  "Shipped multiple client sites end-to-end since 2024 — e-commerce storefronts, musician and artist portfolios, movie promotion sites, and nonprofit WordPress builds.",
+  "Own each engagement end-to-end: UI/UX, frontend implementation, backend integrations, custom CMS builds tailored to how clients actually publish content, and cloud deployment on Vercel.",
+  "Built and launched calathea.design as a production Next.js application — same quality standard delivered to clients.",
+  "Direct client communication from discovery through deployment and post-launch iteration.",
+];
+
 export default function ResumePage() {
   return (
     <div className="relative min-h-full text-text">
@@ -145,7 +152,7 @@ export default function ResumePage() {
             <h2 className="text-xs font-semibold uppercase tracking-widest text-primary">
               Professional experience
             </h2>
-            <div className="mt-4 space-y-3 text-sm text-secondary">
+            <div className="mt-4 space-y-10 text-sm text-secondary">
               <div>
                 <p className="font-medium text-text">
                   Full Stack Software Engineer{" "}
@@ -161,6 +168,44 @@ export default function ResumePage() {
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
                   {forvisBullets.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="font-medium text-text">
+                  Founder / Full Stack Engineer{" "}
+                  <span className="text-muted">|</span>{" "}
+                  <a
+                    href="https://www.calathea.design/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline-offset-4 hover:underline"
+                  >
+                    Calathea Web Design
+                  </a>{" "}
+                  (Remote)
+                </p>
+                <p className="text-xs font-medium uppercase tracking-widest text-muted">
+                  2024 – Present
+                </p>
+                <p className="mt-2 leading-relaxed">
+                  Freelance practice building production websites and e-commerce
+                  for small-business clients and creators — from requirements through
+                  deployment. Own UI/UX through implementation, including custom CMS
+                  creation when clients need tailored editorial workflows;{" "}
+                  <a
+                    href="https://www.calathea.design/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline-offset-4 hover:underline"
+                  >
+                    calathea.design
+                  </a>{" "}
+                  is a shipped Next.js showcase for that work.
+                </p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
+                  {calatheaBullets.map((line, i) => (
                     <li key={i}>{line}</li>
                   ))}
                 </ul>
