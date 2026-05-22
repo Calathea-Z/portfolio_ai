@@ -21,8 +21,8 @@ export function Hero() {
           {siteConfig.positioning}
         </p>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary">
-          Five-plus years building scalable web platforms and developer-first systems, with deep work in React,
-          TypeScript, and .NET. Featured project write-ups go deeper on agentic tooling and production patterns.
+          Builds scalable web platforms and developer-first systems, with deep work in React, TypeScript, and .NET.
+          Featured project write-ups go deeper on agentic tooling and production patterns.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">

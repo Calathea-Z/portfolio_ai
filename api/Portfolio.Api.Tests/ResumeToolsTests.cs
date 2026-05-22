@@ -184,10 +184,10 @@ public class ResumeToolsTests
     {
         var tools = BuildTools();
 
-        var result = await tools.RunAsync(ResumeToolDefinitions.GetMetrics, Input("""{ "id": "yoe-professional" }"""), default);
+        var result = await tools.RunAsync(ResumeToolDefinitions.GetMetrics, Input("""{ "id": "calathea-sites-shipped" }"""), default);
 
         Assert.Equal(1, result.GetProperty("count").GetInt32());
-        Assert.Equal("yoe-professional", result.GetProperty("items")[0].GetProperty("id").GetString());
+        Assert.Equal("calathea-sites-shipped", result.GetProperty("items")[0].GetProperty("id").GetString());
     }
 
     [Fact]

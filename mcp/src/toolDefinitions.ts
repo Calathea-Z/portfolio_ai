@@ -20,7 +20,7 @@ export const toolDescriptions: Record<ToolName, string> = {
   [ToolNames.ListProjectsBySkill]:
     "Return projects whose technology stack includes the named skill: case-insensitive exact match on a tech string, or (when the skill is at least two characters) case-insensitive substring match so e.g. \".NET\" matches stack labels that include it (such as \"ASP.NET Core\"). Use when the visitor asks which projects used a given technology or framework.",
   [ToolNames.GetMetrics]:
-    "Return concrete quantitative metrics from the resume (years of experience, team sizes, etc.). Without 'id' returns all metrics; with 'id' returns just that one.",
+    "Return concrete quantitative metrics from the resume (team sizes, sites shipped, adoption counts, etc.). Without 'id' returns all metrics; with 'id' returns just that one.",
   [ToolNames.ListRecentShipped]:
     "List recently shipped projects, newest first. Useful for 'what did you ship recently?' or year-scoped recap questions.",
   [ToolNames.GetNarrative]:

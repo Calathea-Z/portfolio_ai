@@ -48,23 +48,18 @@
     ]
   },
   {
-    "id": "metric-yoe",
-    "question": "How many years of software engineering experience does your resume headline claim? Just answer with the number from the resume.",
+    "id": "metric-calathea-sites",
+    "question": "How many client sites has Calathea shipped end-to-end according to your resume metrics? Just answer with the number.",
     "criteria": [
       {
-        "type": "must_contain_any",
-        "value": [
-          "5 year",
-          "5+ year",
-          "five year",
-          "five-plus",
-          "five plus",
-          "over five",
-          "over 5",
-          "more than 5",
-          "more than five"
-        ],
-        "description": "Resume headline says 5+ years — accept any common phrasing"
+        "type": "expected_tool_calls",
+        "value": "get_metrics",
+        "description": "Should load structured metrics"
+      },
+      {
+        "type": "must_contain",
+        "value": "5",
+        "description": "Resume metric calathea-sites-shipped is 5"
       }
     ]
   },

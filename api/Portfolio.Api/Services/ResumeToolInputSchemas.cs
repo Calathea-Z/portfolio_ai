@@ -39,7 +39,7 @@ public static class ResumeToolInputSchemas
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "id": { "type": "string", "description": "Optional metric id, e.g. 'yoe-professional'." }
+            "id": { "type": "string", "description": "Optional metric id, e.g. 'calathea-sites-shipped'." }
           }
         }
         """;

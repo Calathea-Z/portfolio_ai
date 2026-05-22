@@ -20,7 +20,7 @@ const forvisBullets = [
 ];
 
 const calatheaBullets = [
-  "Shipped multiple client sites end-to-end since 2024 — e-commerce storefronts, musician and artist portfolios, movie promotion sites, and nonprofit WordPress builds.",
+  "Shipped multiple client sites end-to-end — e-commerce storefronts, musician and artist portfolios, movie promotion sites, and nonprofit WordPress builds.",
   "Own each engagement end-to-end: UI/UX, frontend implementation, backend integrations, custom CMS builds tailored to how clients actually publish content, and cloud deployment on Vercel.",
   "Built and launched calathea.design as a production Next.js application — same quality standard delivered to clients.",
   "Direct client communication from discovery through deployment and post-launch iteration.",

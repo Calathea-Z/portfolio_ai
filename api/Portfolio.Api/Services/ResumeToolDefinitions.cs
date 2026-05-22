@@ -46,7 +46,7 @@ public static class ResumeToolDefinitions
             ),
             ToolDefinition(
                 GetMetrics,
-                "Return concrete quantitative metrics from the resume (years of experience, team sizes, etc.). Without 'id' returns all metrics; with 'id' returns just that one.",
+                "Return concrete quantitative metrics from the resume (team sizes, sites shipped, adoption counts, etc.). Without 'id' returns all metrics; with 'id' returns just that one.",
                 ResumeToolInputSchemas.GetMetricsJson
             ),
             ToolDefinition(

@@ -1,7 +1,7 @@
 {
   "person": {
     "name": "Zach Sykes",
-    "summary": "Full-stack software engineer with 5 years of experience building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
+    "summary": "Full-stack software engineer building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
     "location": "Denver, CO",
     "remote": true,
     "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
@@ -18,7 +18,7 @@
   },
   "narrative": {
     "originStory": "I wanted new challenges, and the work-life balance of kitchen work had run its course. I knew I could do something more mentally demanding — and engineering turned out to be the perfect mix of creativity and structure for me.",
-    "bridge": "I quit my kitchen job, sold my car to float the income gap, and went full-time through General Assembly's 3-month software engineering bootcamp. Outside of class I logged countless hours on YouTube tutorials, documentation, and side experiments — that self-directed time is what actually made the transition stick.",
+    "bridge": "I quit my kitchen job, sold my car to float the income gap, and went full-time through General Assembly's software engineering bootcamp. Outside of class I logged countless hours on YouTube tutorials, documentation, and side experiments — that self-directed time is what actually made the transition stick.",
     "carryover": "Kitchen leadership is constant quick decision-making (shipping fast and efficiently), tightening systems for reliability, coaching the people around you, and forecasting problems before they happen. That's most of what senior engineering work actually is — different artifacts, same instincts."
   },
   "roles": [
@@ -55,7 +55,7 @@
       "url": "https://www.calathea.design/",
       "summary": "Freelance practice building production websites and e-commerce work for small-business clients from requirements through deployment. Own UI/UX through implementation, including custom CMS creation when editorial workflows need more than a template; calathea.design itself is a shipped Next.js site showcasing that standard.",
       "achievements": [
-        "Shipped 5 client sites end-to-end since 2024 — ranging across e-commerce storefronts, portfolios for musicians and artists, movie promotion sites, and WordPress sites for nonprofits.",
+        "Shipped 5 client sites end-to-end — ranging across e-commerce storefronts, portfolios for musicians and artists, movie promotion sites, and WordPress sites for nonprofits.",
         "Own every layer of each engagement — UI/UX design, frontend implementation, backend integrations, custom CMS builds tailored to client content workflows, and cloud deployment on Vercel.",
         "Built and launched the business site itself (calathea.design) as a production Next.js application — same quality standard delivered to clients.",
         "Direct client communication from discovery through deployment and post-launch iteration — no intermediaries between requirements and shipped work."
@@ -133,7 +133,7 @@
       "url": "https://www.calathea.design/",
       "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, custom CMS creation when editorial workflows need more than a template, deployment, and iteration with direct client feedback.",
       "outcomes": [
-        "5 client sites shipped end-to-end since 2024.",
+        "5 client sites shipped end-to-end.",
         "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites, and custom CMS work for tailored content tooling.",
         "Full lifecycle ownership per engagement — discovery through post-launch iteration."
       ],
@@ -142,32 +142,11 @@
   ],
   "metrics": [
     {
-      "id": "yoe-professional",
-      "label": "Years of experience (résumé professional summary)",
-      "value": 5,
-      "unit": "years",
-      "note": "Headline from the PDF résumé: building scalable web platforms and developer-first systems."
-    },
-    {
-      "id": "yoe-forvis-role",
-      "label": "Years as Full Stack Software Engineer at Forvis Mazars (approx.)",
-      "value": 3,
-      "unit": "years",
-      "note": "June 2023–present."
-    },
-    {
       "id": "kitchen-team",
       "label": "Largest team led in kitchen operations",
       "value": 40,
       "unit": "people",
-      "note": "Asheville Pizza and Brewing Company, 2012–2022."
-    },
-    {
-      "id": "kitchen-tenure",
-      "label": "Years progressing from line cook to Kitchen Manager",
-      "value": 10,
-      "unit": "years",
-      "note": "Asheville Pizza and Brewing Company, 2012–2022."
+      "note": "Asheville Pizza and Brewing Company."
     },
     {
       "id": "planning-poker-verticals",
@@ -181,7 +160,7 @@
       "label": "Client sites shipped end-to-end via Calathea",
       "value": 5,
       "unit": "sites",
-      "note": "Since 2024 — mix of e-commerce, portfolios, promotional sites, and nonprofit WordPress."
+      "note": "Mix of e-commerce, portfolios, promotional sites, and nonprofit WordPress."
     }
   ],
   "skills": [
@@ -220,7 +199,7 @@
     {
       "program": "Software Engineering Bootcamp",
       "school": "General Assembly",
-      "note": "Full-time, 3-month immersive program. Career change from operations leadership into software engineering, supplemented by extensive self-directed study via documentation, tutorials, and side projects."
+      "note": "Full-time immersive program. Career change from operations leadership into software engineering, supplemented by extensive self-directed study via documentation, tutorials, and side projects."
     }
   ],
   "beliefs": [
