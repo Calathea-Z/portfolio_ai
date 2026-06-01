@@ -1,20 +1,19 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { useRef, useState, type SubmitEvent } from "react";
+import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { MessageBubble } from "@/components/MessageBubble";
 import { StarterPrompts } from "@/components/StarterPrompts";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { ChatEmptyHero } from "@/components/ChatEmptyHero";
 import { ChatInterfaceHeader } from "@/components/ChatInterfaceHeader";
 import { ChatTelemetryPanel } from "@/components/ChatTelemetryPanel";
+import { useChatLiveAnnouncement } from "@/hooks/useChatLiveAnnouncement";
 import { useLockDocumentOverflow } from "@/hooks/useLockDocumentOverflow";
 import { useStickToBottom } from "@/hooks/useStickToBottom";
 import { usePersistedChatMessages } from "@/hooks/usePersistedChatMessages";
 import { useStreamingChat } from "@/lib/use-streaming-chat";
 import type { UiMessage } from "@/lib/chat-history-storage";
-
-export type { UiMessage } from "@/lib/chat-history-storage";
 
 export type ProjectChatLift = {
   messages: UiMessage[];
@@ -99,9 +98,15 @@ function ChatInterfaceCore({
 
   useLockDocumentOverflow(!embedded);
   const messagesScrollRef = useStickToBottom(messages, isStreaming);
+  const liveAnnouncement = useChatLiveAnnouncement(messages, isStreaming);
   // Held so we can return focus to the composer after starter-prompt clicks or form submits.
   // The textarea itself stays enabled while streaming so focus is never blurred mid-reply.
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const errorRef = useRef<HTMLParagraphElement | null>(null);
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
 
   const showStarters = messages.length === 0;
   const showTyping =
@@ -139,8 +144,14 @@ function ChatInterfaceCore({
 
         <div
           ref={messagesScrollRef}
+          role="log"
+          aria-live="off"
+          aria-label="Chat messages"
           className="min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl border border-border-soft bg-surface p-2.5 shadow-sm backdrop-blur-md sm:p-3 md:p-5"
         >
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {liveAnnouncement}
+          </p>
           <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:gap-4">
             {showStarters ? (
               <ChatEmptyHero />
@@ -164,6 +175,9 @@ function ChatInterfaceCore({
 
             {error ? (
               <p
+                id="chat-error"
+                ref={errorRef}
+                tabIndex={-1}
                 className="rounded-lg border border-error-border bg-error-bg px-3 py-2 text-sm text-error-fg"
                 role="alert"
               >
@@ -184,7 +198,7 @@ function ChatInterfaceCore({
             <textarea
               id="chat-input"
               ref={textareaRef}
-              rows={2}
+              rows={1}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -195,7 +209,9 @@ function ChatInterfaceCore({
               }}
               placeholder="Ask anything about Zach..."
               aria-busy={isStreaming}
-              className="min-h-10 flex-1 resize-none rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors placeholder:text-muted focus:border-border-focus focus:ring-2 focus:ring-(--ring) sm:min-h-11"
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? "chat-error" : undefined}
+              className="min-h-10 max-h-48 flex-1 resize-none overflow-y-auto rounded-xl border border-border-soft bg-surface px-3 py-2 text-sm text-text shadow-sm outline-none transition-colors field-sizing-content placeholder:text-muted focus:border-border-focus focus:ring-2 focus:ring-(--ring) sm:min-h-11"
             />
             <div className="flex shrink-0 justify-end gap-2 sm:self-end">
               <button
