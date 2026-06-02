@@ -2,9 +2,7 @@ import type { ReactNode } from "react";
 import { CaretRightIcon } from "@phosphor-icons/react";
 
 /**
- * Empty-state intro for the chat transcript. Intentionally no resume / email /
- * social buttons — those live in the site nav, hero, and Contact section so
- * this block stays focused on how the agentic chat works.
+ * Empty-state intro for the chat transcript.
  */
 export function ChatEmptyHero() {
   return (

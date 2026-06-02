@@ -1,4 +1,5 @@
 import type { MessageChunk, UiMessage } from "@/lib/chat-history-storage";
+import { safeHref } from "@/lib/safe-href";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ToolCallPill } from "@/components/ToolCallPill";
@@ -83,17 +84,6 @@ function normalizeMarkdownLinks(content: string) {
   );
 }
 
-function normalizeHref(href?: string) {
-  if (!href) return "#";
-  if (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:")) {
-    return href;
-  }
-  if (href.startsWith("www.") || href.startsWith("linkedin.com")) {
-    return `https://${href}`;
-  }
-  return href;
-}
-
 function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
   const markdown = normalizeMarkdownLinks(text);
   return (
@@ -132,20 +122,26 @@ function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
         hr: () => (
           <hr className={`my-3 ${isUser ? "border-primary-contrast/20" : "border-border-subtle"}`} />
         ),
-        a: ({ href, children }) => (
-          <a
-            href={normalizeHref(href)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`underline underline-offset-4 transition-colors ${
-              isUser
-                ? "text-primary-contrast/95 hover:text-primary-contrast"
-                : "text-primary hover:text-primary-hover"
-            }`}
-          >
-            {children}
-          </a>
-        ),
+        a: ({ href, children }) => {
+          const safe = safeHref(href);
+          if (!safe) {
+            return <span className="underline underline-offset-4">{children}</span>;
+          }
+          const external = safe.startsWith("http://") || safe.startsWith("https://");
+          return (
+            <a
+              href={safe}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className={`underline underline-offset-4 transition-colors ${
+                isUser
+                  ? "text-primary-contrast/95 hover:text-primary-contrast"
+                  : "text-primary hover:text-primary-hover"
+              }`}
+            >
+              {children}
+            </a>
+          );
+        },
         code: ({ className, children }) => {
           const isBlock = className?.includes("language-");
           if (isBlock) {

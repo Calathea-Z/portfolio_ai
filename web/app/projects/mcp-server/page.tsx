@@ -32,7 +32,9 @@ export default function McpServerProjectPage() {
 
         <main className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-14">
           <section aria-labelledby="project-heading">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Featured project</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Featured project
+            </p>
             <h1
               id="project-heading"
               className="mt-3 text-3xl font-semibold tracking-tight text-text sm:text-4xl"
@@ -40,16 +42,22 @@ export default function McpServerProjectPage() {
               {project.title}
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-secondary">
-              <span className="font-medium text-primary">At a glance:</span> {project.capability}
+              <span className="font-medium text-primary">At a glance:</span>{" "}
+              {project.capability}
             </p>
-            <p className="mt-2 max-w-3xl text-base leading-relaxed text-secondary">{project.blurb}</p>
+            <p className="mt-2 max-w-3xl text-base leading-relaxed text-secondary">
+              {project.blurb}
+            </p>
           </section>
 
           <section
             aria-labelledby="problem"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <h2 id="problem" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="problem"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               What it is
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-secondary">
@@ -57,12 +65,13 @@ export default function McpServerProjectPage() {
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
                 @modelcontextprotocol/sdk
               </code>
-              . It registers the same seven tools the portfolio chat uses, reads the same{" "}
+              . It registers the same seven tools the portfolio chat uses, reads
+              the same{" "}
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
                 resume.json
               </code>
-              , and returns JSON tool results Claude Desktop (or any MCP client) can cite—no duplicate business logic
-              in a second HTTP API.
+              , and returns JSON tool results Claude Desktop (or any MCP client)
+              can cite—no duplicate business logic in a second HTTP API.
             </p>
           </section>
 
@@ -70,13 +79,18 @@ export default function McpServerProjectPage() {
             aria-labelledby="why"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <h2 id="why" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="why"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               Why I built it
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-secondary">
-              Recruiters and hiring managers increasingly live in agent hosts, not just browsers. MCP is the protocol
-              those hosts use to attach structured capabilities. Shipping a server that exposes my résumé as tools is
-              the smallest credible proof that I can work at the protocol layer—not only behind a bespoke SSE endpoint.
+              Recruiters and hiring managers increasingly live in agent hosts,
+              not just browsers. MCP is the protocol those hosts use to attach
+              structured capabilities. Shipping a server that exposes my résumé
+              as tools is the smallest credible proof that I can work at the
+              protocol layer—not only behind a bespoke SSE endpoint.
             </p>
           </section>
 
@@ -84,12 +98,18 @@ export default function McpServerProjectPage() {
             aria-labelledby="capability"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Capability claim</p>
-            <h2 id="capability" className="mt-2 text-xl font-semibold tracking-tight text-text">
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Capability claim
+            </p>
+            <h2
+              id="capability"
+              className="mt-2 text-xl font-semibold tracking-tight text-text"
+            >
               What this shows about how I work
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-secondary">
-              Contracts stay honest when one schema source feeds both surfaces. The .NET test suite loads{" "}
+              Contracts stay honest when one schema source feeds both surfaces.
+              The .NET test suite loads{" "}
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
                 mcp/schemas/*.json
               </code>{" "}
@@ -97,13 +117,17 @@ export default function McpServerProjectPage() {
               <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[12px] text-code-fg">
                 ResumeToolInputSchemas
               </code>
-              , so Anthropic tool definitions and MCP tool definitions cannot drift silently. That is the same instinct
-              as evals on the chat loop: make regressions a failing test, not a surprise in prod.
+              , so Anthropic tool definitions and MCP tool definitions cannot
+              drift silently. That is the same instinct as evals on the chat
+              loop: make regressions a failing test, not a surprise in prod.
             </p>
           </section>
 
           <section aria-labelledby="try-it" className="mt-12">
-            <h2 id="try-it" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="try-it"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               Try it
             </h2>
             <p className="mt-2 text-sm text-secondary">
@@ -130,7 +154,7 @@ export default function McpServerProjectPage() {
               Your browser does not support the video tag.
             </video>
             <pre className="mt-4 overflow-x-auto rounded-xl border border-border-soft bg-code-bg p-4 text-left text-[12px] leading-relaxed text-code-fg">
-{`"mcpServers": {
+              {`"mcpServers": {
   "portfolio-resume": {
     "command": "node",
     "args": [
@@ -154,7 +178,10 @@ export default function McpServerProjectPage() {
             aria-labelledby="how"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <h2 id="how" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="how"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               How it works
             </h2>
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-secondary">
@@ -179,12 +206,19 @@ export default function McpServerProjectPage() {
                 <code className="rounded border border-border-subtle bg-code-bg px-1 font-mono text-[12px] text-code-fg">
                   tools/call
                 </code>{" "}
-                validates arguments (same shape as the API), runs the handler, and responds with a text content block
-                containing JSON—matching what the chat loop expects from tool results.
+                validates arguments (same shape as the API), runs the handler,
+                and responds with a text content block containing JSON—matching
+                what the chat loop expects from tool results.
               </li>
             </ul>
             <div className="mt-6 flex flex-wrap gap-2 text-[11px] font-mono">
-              {["Node.js", "TypeScript", "MCP", "JSON Schema", ".NET parity tests"].map((tag) => (
+              {[
+                "Node.js",
+                "TypeScript",
+                "MCP",
+                "JSON Schema",
+                ".NET parity tests",
+              ].map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full border border-border-subtle bg-surface-alt px-2 py-0.5 text-muted"
@@ -199,12 +233,16 @@ export default function McpServerProjectPage() {
             aria-labelledby="risks"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <h2 id="risks" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="risks"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               Risks and tradeoffs
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-secondary">
-              Handlers are ported to TypeScript, so behavioral parity relies on tests and code review—not a shared
-              library. The schema parity tests lock the wire contract; golden fixtures against the .NET{" "}
+              Handlers are ported to TypeScript, so behavioral parity relies on
+              tests and code review—not a shared library. The schema parity
+              tests lock the wire contract; golden fixtures against the .NET{" "}
               <code className="rounded border border-border-subtle bg-code-bg px-1 font-mono text-[12px] text-code-fg">
                 ResumeTools
               </code>{" "}
@@ -216,13 +254,18 @@ export default function McpServerProjectPage() {
             aria-labelledby="learnings"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <h2 id="learnings" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="learnings"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               What I learned
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-secondary">
-              MCP wants stdio discipline: anything printed to stdout corrupts the JSON-RPC stream, so logging belongs on
-              stderr. Keeping schemas as checked-in JSON files makes cross-language contract tests trivial compared to
-              codegen from a single IDL—good enough for seven tools and a stable résumé payload.
+              MCP wants stdio discipline: anything printed to stdout corrupts
+              the JSON-RPC stream, so logging belongs on stderr. Keeping schemas
+              as checked-in JSON files makes cross-language contract tests
+              trivial compared to codegen from a single IDL—good enough for
+              seven tools and a stable résumé payload.
             </p>
           </section>
 
@@ -230,21 +273,33 @@ export default function McpServerProjectPage() {
             aria-labelledby="next"
             className="mt-12 rounded-2xl border border-border-soft bg-surface p-6 shadow-sm"
           >
-            <h2 id="next" className="text-xl font-semibold tracking-tight text-text">
+            <h2
+              id="next"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               What is next
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-secondary">
-              Optional npm publish under a scoped name, plus a short recorded walkthrough for this page. If the
-              handlers ever diverge, add shared JSON golden outputs from the API test suite and assert equality from
-              both runtimes.
+              Optional npm publish under a scoped name, plus a short recorded
+              walkthrough for this page. If the handlers ever diverge, add
+              shared JSON golden outputs from the API test suite and assert
+              equality from both runtimes.
             </p>
           </section>
 
-          <section aria-labelledby="source" className="mt-12 border-t border-border-subtle pt-8">
-            <h2 id="source" className="text-xl font-semibold tracking-tight text-text">
+          <section
+            aria-labelledby="source"
+            className="mt-12 border-t border-border-subtle pt-8"
+          >
+            <h2
+              id="source"
+              className="text-xl font-semibold tracking-tight text-text"
+            >
               Source
             </h2>
-            <p className="mt-2 text-sm text-muted">Main files for this project:</p>
+            <p className="mt-2 text-sm text-muted">
+              Main files for this project:
+            </p>
             <ul className="mt-3 space-y-1 text-sm">
               <li>
                 <code className="rounded border border-border-subtle bg-code-bg px-1 py-0.5 font-mono text-[13px] text-code-fg">
