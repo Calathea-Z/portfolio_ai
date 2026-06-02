@@ -61,3 +61,6 @@ Desktop.ini
 *.suo
 *.userosscache
 *.sln.docstates
+
+# Local planning notes
+evals-plan.md
