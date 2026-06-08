@@ -8,23 +8,24 @@ export function ChatSection() {
       aria-labelledby="chat-heading"
       className="scroll-mt-24 border-t border-border-subtle"
     >
-      <div className="mx-auto max-w-5xl px-4 py-16 md:px-6 md:py-20">
+      <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-20">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-          Chat
+          Chat Demo
         </p>
         <h2
           id="chat-heading"
-          className="mt-2 text-2xl font-semibold tracking-tight text-text sm:text-3xl"
+          className="mt-2 text-xl font-semibold tracking-tight text-text sm:text-3xl"
         >
-          Resume-backed chat
+          Portfolio assistant — production AI integration
         </h2>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted">
-          Answers come from structured resume data and tools—not me typing live. Try a specific role,
-          a technology I&apos;ve used, or what I&apos;m looking for next.
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted sm:mt-3 sm:text-base">
+          I build production software; this assistant is one example — a streaming chat backed by a
+          real ASP.NET Core API, structured data, and guardrails. Ask about my work, stack, or role
+          fit.
         </p>
 
         {/* Tall embed: more room for empty state + thread; inner "Ask about Zach" header hidden when embedded. */}
-        <div className="mt-8 flex h-[min(88dvh,860px)] min-h-[600px] flex-col overflow-hidden rounded-2xl border border-border-soft bg-surface shadow-sm md:h-[720px] md:min-h-0">
+        <div className="mt-6 flex h-[min(72dvh,520px)] min-h-[420px] flex-col overflow-hidden rounded-2xl border border-border-soft bg-surface shadow-sm sm:mt-8 md:h-[720px] md:min-h-0">
           <ChatInterface embedded />
         </div>
       </div>

@@ -11,9 +11,12 @@ const resumePdfHref =
 export const siteConfig = {
   name: "Zach Sykes",
   role: "Full-stack software engineer",
-  location: "Denver, CO (Remote)",
+  city: "Denver, CO",
   positioning:
-    "Full-stack software engineer building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
+    "Full-stack software engineer building production web applications, APIs, and internal tools with React, TypeScript, .NET, Azure, and SQL. I like owning systems end-to-end: from user workflows and API design to deployment, observability, and long-term maintainability.",
+  /** Shorter hero copy for mobile — keeps first viewport scannable. */
+  heroMobileLead:
+    "Production web applications, APIs, and internal tools with React, TypeScript, .NET, Azure, and SQL.",
   github: process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/Calathea-Z",
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com/in/zach-sykes/",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "zsykes21@gmail.com",
@@ -28,6 +31,7 @@ export const siteConfig = {
 export const sectionIds = {
   hero: "top",
   about: "about",
+  hiring: "hiring",
   chat: "chat",
   projects: "projects",
   experience: "experience",

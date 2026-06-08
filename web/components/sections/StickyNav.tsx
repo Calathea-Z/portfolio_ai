@@ -7,8 +7,8 @@ import { sectionIds, siteConfig } from "@/lib/site-config";
 
 const links: Array<{ label: string; href: string }> = [
   { label: "About", href: `#${sectionIds.about}` },
-  { label: "Chat", href: `#${sectionIds.chat}` },
   { label: "Projects", href: `#${sectionIds.projects}` },
+  { label: "Chat", href: `#${sectionIds.chat}` },
   { label: "Experience", href: `#${sectionIds.experience}` },
   { label: "Contact", href: `#${sectionIds.contact}` },
 ];

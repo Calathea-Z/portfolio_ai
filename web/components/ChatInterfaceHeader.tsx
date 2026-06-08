@@ -15,7 +15,7 @@ export function ChatInterfaceHeader() {
         </div>
         <div className="hidden shrink-0 items-center gap-2 md:flex">
           <span className="rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
-            Open to remote full-stack roles
+            Open to hybrid & remote roles
           </span>
           <ThemeToggle />
         </div>

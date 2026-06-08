@@ -4,10 +4,10 @@ import { sectionIds } from "@/lib/site-config";
 type TimelineEntry = {
   title: string;
   org: string;
-  /** External site for the org (e.g. freelance practice). */
   orgUrl?: string;
   period: string;
   body: string;
+  secondary?: boolean;
 };
 
 // Phase 7 swaps this inline list for the structured resume.json source.
@@ -19,23 +19,25 @@ const timeline: TimelineEntry[] = [
     body: "Build and maintain production web applications and APIs serving enterprise users — owning architecture, delivery, reliability, and operational health across the full stack. Highlights: end-to-end React/TypeScript/Next.js/.NET delivery; Planning Poker (WebSockets) from 0 to 1; shared component systems and API patterns across teams; CI/CD and observability (GitHub Actions, Azure Pipelines, Grafana, Application Insights); stakeholder collaboration, mentoring, and AI-augmented workflows (Copilot, Claude).",
   },
   {
-    title: "Founder / Full Stack Engineer",
-    org: "Calathea Web Design (remote)",
+    title: "Freelance Full Stack Engineer",
+    org: "Calathea Web Design · Selected client work (remote)",
     orgUrl: "https://www.calathea.design/",
     period: "2024 – present",
-    body: "Freelance practice building production websites and e-commerce for small-business clients — from discovery through deployment. Own UI/UX, implementation, backend integrations, custom CMS creation when clients need tailored editorial workflows, and hosting on Vercel; the practice site is a shipped Next.js app at the same quality bar as client work.",
+    body: "Part-time freelance practice outside full-time engineering work. Production websites and e-commerce for small-business clients — from discovery through deployment. Own UI/UX, implementation, backend integrations, custom CMS creation when clients need tailored editorial workflows, and hosting on Vercel.",
   },
   {
     title: "Kitchen Manager",
     org: "Asheville Pizza and Brewing Company",
     period: "2012 – 2022",
-    body: "Progressed from line cook to Kitchen Manager. Led daily operations, team management, and process improvement in a high-volume environment — including a 40+ person team across hiring, onboarding, training, scheduling, and performance management.",
+    body: "Earlier career: led kitchen operations for a 40+ person team, including hiring, onboarding, training, scheduling, and performance management.",
+    secondary: true,
   },
   {
     title: "Software Engineering Bootcamp",
     org: "General Assembly",
     period: "Graduated",
     body: "Career change from operations leadership into software engineering.",
+    secondary: true,
   },
 ];
 
@@ -59,20 +61,35 @@ export function Experience() {
 
         <ol className="mt-10 space-y-8 border-l border-border-subtle pl-6">
           {timeline.map((entry, idx) => (
-            <li key={`${entry.org}-${idx}`} className="relative">
+            <li
+              key={`${entry.org}-${idx}`}
+              className={`relative ${entry.secondary ? "opacity-80" : ""}`}
+            >
               <span
                 aria-hidden="true"
-                className="absolute -left-[1.6rem] top-2 h-3 w-3 rounded-full border-2 border-primary/70 bg-bg"
+                className={`absolute -left-[1.6rem] top-2 h-3 w-3 rounded-full border-2 bg-bg ${
+                  entry.secondary ? "border-border-soft" : "border-primary/70"
+                }`}
               />
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-base font-semibold tracking-tight text-text">
+                <h3
+                  className={`font-semibold tracking-tight text-text ${
+                    entry.secondary ? "text-sm" : "text-base"
+                  }`}
+                >
                   {entry.title}
                 </h3>
-                <p className="text-xs font-medium uppercase tracking-widest text-muted">
+                <p
+                  className={`font-medium uppercase tracking-widest text-muted ${
+                    entry.secondary ? "text-[10px]" : "text-xs"
+                  }`}
+                >
                   {entry.period}
                 </p>
               </div>
-              <p className="text-sm font-medium text-primary">
+              <p
+                className={`font-medium ${entry.secondary ? "text-xs text-muted" : "text-sm text-primary"}`}
+              >
                 {entry.orgUrl ? (
                   <Link
                     href={entry.orgUrl}
@@ -86,7 +103,13 @@ export function Experience() {
                   entry.org
                 )}
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-secondary">{entry.body}</p>
+              <p
+                className={`mt-2 leading-relaxed ${
+                  entry.secondary ? "text-xs text-muted" : "text-sm text-secondary"
+                }`}
+              >
+                {entry.body}
+              </p>
             </li>
           ))}
         </ol>
