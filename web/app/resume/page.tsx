@@ -59,7 +59,7 @@ export default function ResumePage() {
             </h1>
             <address className="mt-3 not-italic">
               <p className="flex flex-wrap gap-x-2 gap-y-1 text-sm leading-relaxed text-secondary">
-                <span>{siteConfig.location}</span>
+                <span>{siteConfig.city}</span>
                 <span className="text-muted" aria-hidden>
                   ·
                 </span>
@@ -174,7 +174,7 @@ export default function ResumePage() {
               </div>
               <div>
                 <p className="font-medium text-text">
-                  Founder / Full Stack Engineer{" "}
+                  Freelance Full Stack Engineer{" "}
                   <span className="text-muted">|</span>{" "}
                   <a
                     href="https://www.calathea.design/"
@@ -184,25 +184,17 @@ export default function ResumePage() {
                   >
                     Calathea Web Design
                   </a>{" "}
-                  (Remote)
+                  · Selected client work (Remote)
                 </p>
                 <p className="text-xs font-medium uppercase tracking-widest text-muted">
                   2024 – Present
                 </p>
                 <p className="mt-2 leading-relaxed">
-                  Freelance practice building production websites and e-commerce
-                  for small-business clients and creators — from requirements through
-                  deployment. Own UI/UX through implementation, including custom CMS
-                  creation when clients need tailored editorial workflows;{" "}
-                  <a
-                    href="https://www.calathea.design/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary underline-offset-4 hover:underline"
-                  >
-                    calathea.design
-                  </a>{" "}
-                  is a shipped Next.js showcase for that work.
+                  Part-time freelance practice outside full-time engineering work.
+                  Production websites and e-commerce for small-business clients — from
+                  requirements through deployment. Own UI/UX through implementation,
+                  including custom CMS creation when clients need tailored editorial
+                  workflows.
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
                   {calatheaBullets.map((line, i) => (
@@ -217,26 +209,19 @@ export default function ResumePage() {
             <h2 className="text-xs font-semibold uppercase tracking-widest text-primary">
               Prior experience
             </h2>
-            <div className="mt-4 text-sm text-secondary">
-              <p className="font-medium text-text">
+            <div className="mt-4 text-xs text-muted">
+              <p className="font-medium text-secondary">
                 Kitchen Manager <span className="text-muted">|</span> Asheville
                 Pizza and Brewing Company
               </p>
-              <p className="text-xs font-medium uppercase tracking-widest text-muted">
+              <p className="mt-1 font-medium uppercase tracking-widest text-muted">
                 2012 – 2022
               </p>
               <p className="mt-2 leading-relaxed">
-                Progressed from line cook to Kitchen Manager. Led daily
-                operations, team management, and process improvement in a
-                high-volume environment.
+                Earlier career: led kitchen operations for a 40+ person team,
+                including hiring, onboarding, training, scheduling, and
+                performance management.
               </p>
-              <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
-                <li>
-                  Led and managed a 40+ person team — hiring, onboarding,
-                  training, scheduling, performance management, and culture
-                  building.
-                </li>
-              </ul>
             </div>
           </section>
 

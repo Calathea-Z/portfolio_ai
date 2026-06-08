@@ -1,7 +1,7 @@
 {
   "person": {
     "name": "Zach Sykes",
-    "summary": "Full-stack software engineer building scalable web platforms and developer-first systems. Proven expertise in React, TypeScript, and backend patterns. Experienced shipping 0-to-1 products, building reusable component libraries, and designing APIs that scale across teams. Strong track record of collaborating with product and design partners to deliver user-focused features in fast-moving environments.",
+    "summary": "Full-stack software engineer building production web applications, APIs, and internal tools with React, TypeScript, .NET, Azure, and SQL. I like owning systems end-to-end: from user workflows and API design to deployment, observability, and long-term maintainability.",
     "location": "Denver, CO",
     "remote": true,
     "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
@@ -11,10 +11,10 @@
     "linkedin": "https://www.linkedin.com/in/zach-sykes/",
     "freelanceSite": "https://www.calathea.design/",
     "workAuth": "US citizen — no sponsorship needed",
-    "availability": "Open to strong opportunities",
+    "availability": "Open to hybrid and remote full-stack software engineering roles",
     "employmentTypes": ["full-time", "freelance via Calathea"],
     "compensation": "Open to discuss",
-    "lookingFor": "A role that challenges me, working for a company whose work I can find meaning in, where I get to ship cool things and help architect new ideas. Remote-first teams with strong async communication and trust. Curious about teams that invest in internal tooling and maintainable systems."
+    "lookingFor": "Full-stack software engineering roles where I can own production features end-to-end — frontend through APIs and backend services — and partner directly with product, design, operations, or business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path."
   },
   "narrative": {
     "originStory": "I wanted new challenges, and the work-life balance of kitchen work had run its course. I knew I could do something more mentally demanding — and engineering turned out to be the perfect mix of creativity and structure for me.",
@@ -45,15 +45,15 @@
     },
     {
       "id": "calathea",
-      "title": "Founder / Full Stack Engineer",
-      "org": "Calathea Web Design",
+      "title": "Freelance Full Stack Engineer",
+      "org": "Calathea Web Design · Selected client work",
       "startYear": 2024,
       "startMonth": null,
       "endYear": null,
       "endMonth": null,
       "remote": true,
       "url": "https://www.calathea.design/",
-      "summary": "Freelance practice building production websites and e-commerce work for small-business clients from requirements through deployment. Own UI/UX through implementation, including custom CMS creation when editorial workflows need more than a template; calathea.design itself is a shipped Next.js site showcasing that standard.",
+      "summary": "Part-time freelance practice outside full-time engineering work. Production websites and e-commerce for small-business clients from requirements through deployment. Own UI/UX through implementation, including custom CMS creation when editorial workflows need more than a template; calathea.design itself is a shipped Next.js site showcasing that standard.",
       "achievements": [
         "Shipped 5 client sites end-to-end — ranging across e-commerce storefronts, portfolios for musicians and artists, movie promotion sites, and WordPress sites for nonprofits.",
         "Own every layer of each engagement — UI/UX design, frontend implementation, backend integrations, custom CMS builds tailored to client content workflows, and cloud deployment on Vercel.",
@@ -71,9 +71,9 @@
       "endYear": 2022,
       "endMonth": null,
       "remote": false,
-      "summary": "Progressed from line cook to Kitchen Manager. Led daily operations, team management, and process improvement in a high-volume environment.",
+      "summary": "Earlier career: led kitchen operations for a 40+ person team, including hiring, onboarding, training, scheduling, and performance management.",
       "achievements": [
-        "Led and managed a 40+ person team — hiring, onboarding, training, scheduling, performance management, and culture building."
+        "Led kitchen operations for a 40+ person team — hiring, onboarding, training, scheduling, and performance management."
       ],
       "tech": []
     }
@@ -86,12 +86,14 @@
       "year": 2024,
       "status": "shipped",
       "visibility": "internal",
-      "summary": "Real-time estimation platform built for distributed delivery teams at Forvis Mazars. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
+      "summary": "Real-time estimation platform built for distributed delivery teams at Forvis Mazars, integrated with Jira for viewing stories and updating estimates. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
       "outcomes": [
-        "Shipped from 0 to 1 as reusable internal tooling, including WebSocket infrastructure and backend services.",
-        "Adopted across Forvis Mazars software teams for real-time distributed estimation sessions."
+        "Shipped from 0 to 1 as reusable internal tooling, including WebSocket infrastructure, Jira integration, and backend services.",
+        "Integrated directly with Jira to load stories into sessions and write estimates and updates back after rounds complete.",
+        "Adopted by every software team across all verticals for real-time distributed estimation sessions.",
+        "Case study at https://zachsykes.dev/projects/planning-poker"
       ],
-      "tech": ["React", "TypeScript", ".NET", "WebSocket", "Azure"]
+      "tech": ["React", "TypeScript", ".NET", "WebSocket", "Jira", "Azure"]
     },
     {
       "id": "portfolio-assistant",
@@ -150,10 +152,10 @@
     },
     {
       "id": "planning-poker-verticals",
-      "label": "Forvis Mazars software verticals using Planning Poker",
-      "value": 6,
-      "unit": "verticals",
-      "note": "Every software team across all six verticals adopted the tool after launch."
+      "label": "Planning Poker adoption at Forvis Mazars",
+      "value": 1,
+      "unit": "company-wide standard",
+      "note": "Adopted by every software team across all verticals after launch."
     },
     {
       "id": "calathea-sites-shipped",
@@ -212,7 +214,7 @@
     {
       "id": "next-role",
       "question": "What kind of role are you looking for next?",
-      "answer": "A role that challenges me, working for a company whose work I can find meaning in, where I get to ship cool things and help architect new ideas. Full-time is the primary path; Calathea-style freelance is also on the table for the right engagement."
+      "answer": "Full-stack software engineering roles where I can own production features end-to-end — frontend through APIs and backend services — and partner directly with product, design, operations, or business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path; Calathea-style freelance is also on the table for the right engagement."
     },
     {
       "id": "why-chatbot",
@@ -227,7 +229,7 @@
     {
       "id": "biggest-accomplishment",
       "question": "What's your biggest engineering accomplishment so far?",
-      "answer": "Two things, both at Forvis Mazars. First, shipping Planning Poker from zero to a tool now used by every software team across all six verticals. Second, helping lead the migration from a Blazor frontend to React/TypeScript — including the architecture work, the rollout, and the teaching that made it stick across teams."
+      "answer": "Two things, both at Forvis Mazars. First, shipping Planning Poker from zero to a tool now adopted by every software team across all verticals. Second, helping lead the migration from a Blazor frontend to React/TypeScript — including the architecture work, the rollout, and the teaching that made it stick across teams."
     },
     {
       "id": "learning-approach",

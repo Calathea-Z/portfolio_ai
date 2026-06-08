@@ -23,6 +23,16 @@ const PORTFOLIO_REPO_URL = "https://github.com/Calathea-Z/portfolio_ai";
 
 export const projects: Project[] = [
   {
+    slug: "planning-poker",
+    title: "Planning Poker — internal collaboration tool",
+    blurb:
+      "Real-time estimation platform for distributed delivery teams at Forvis Mazars, integrated with Jira for viewing stories and updating estimates. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
+    capability:
+      "0-to-1 internal product: WebSocket realtime, Jira integration, .NET services, React UI — adopted across all verticals.",
+    status: "shipped",
+    href: "/projects/planning-poker",
+  },
+  {
     slug: "agentic-chat",
     title: "Agentic chat with tool use + evals",
     blurb:

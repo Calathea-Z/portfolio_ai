@@ -58,7 +58,7 @@ export function FeaturedProjects() {
       aria-labelledby="projects-heading"
       className="scroll-mt-24 border-t border-border-subtle bg-surface/30"
     >
-      <div className="mx-auto max-w-5xl px-4 py-16 md:px-6 md:py-20">
+      <div className="mx-auto max-w-5xl px-4 py-10 md:px-6 md:py-20">
         <p className="text-xs font-semibold uppercase tracking-widest text-primary">
           Featured projects
         </p>
@@ -69,10 +69,10 @@ export function FeaturedProjects() {
           Selected projects
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-secondary">
-          Short write-ups with a live demo where it makes sense, plus links into the repo.
+          Deeper write-ups on selected work — with demos and source links where available.
         </p>
 
-        <div className="mt-10 flex flex-col gap-10">
+        <div className="mt-8 flex flex-col gap-8 md:mt-10 md:gap-10">
           {rows.map((pair) => (
             <ul
               key={pair.map((p) => p.slug).join("-")}

@@ -2,6 +2,7 @@ import { BackgroundOrbs } from "@/components/BackgroundOrbs";
 import { SidePanel } from "@/components/SidePanel";
 import { About } from "@/components/sections/About";
 import { ChatSection } from "@/components/sections/ChatSection";
+import { HiringFocus } from "@/components/sections/HiringFocus";
 import { Contact } from "@/components/sections/Contact";
 import { Experience } from "@/components/sections/Experience";
 import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
@@ -17,8 +18,9 @@ export default function Home() {
         <main className="relative">
           <Hero />
           <About />
-          <ChatSection />
+          <HiringFocus />
           <FeaturedProjects />
+          <ChatSection />
           <Experience />
           <Contact />
         </main>

@@ -16,7 +16,7 @@ type SidePanelProps = {
 
 /**
  * Compact identity snapshot. On desktop renders as a fixed top-right card
- * (name, role, "Open to remote" pill, contact links). On mobile (when
+ * (name, role, availability pill, contact links). On mobile (when
  * mobileMenu={true}) renders a header bar + slide-over panel.
  */
 export function SidePanel({ mobileMenu = true }: SidePanelProps = {}) {
@@ -89,12 +89,12 @@ function SnapshotCard({ onCloseMobile }: SnapshotCardProps = {}) {
           <p className="truncate text-sm font-semibold tracking-tight text-text">
             {siteConfig.name}
           </p>
-          <p className="truncate text-xs text-muted">{siteConfig.location}</p>
+          <p className="truncate text-xs text-muted">{siteConfig.city}</p>
         </div>
       </div>
 
       <div className="mt-3 inline-flex rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-text">
-        Open to remote roles
+        Open to hybrid & remote roles
       </div>
 
       <nav className="mt-4 flex flex-col gap-1 text-sm" aria-label="Contact">
