@@ -28,9 +28,19 @@ export const projects: Project[] = [
     blurb:
       "Real-time estimation platform for distributed delivery teams at Forvis Mazars, integrated with Jira for viewing stories and updating estimates. Replaced manual estimation coordination with a single internal workflow that improved session consistency and reduced meeting friction.",
     capability:
-      "0-to-1 internal product: WebSocket realtime, Jira integration, .NET services, React UI — adopted across all verticals.",
+      "0-to-1 internal product: React/TypeScript, WebSocket realtime, Jira integration, .NET services — adopted across all verticals.",
     status: "shipped",
     href: "/projects/planning-poker",
+  },
+  {
+    slug: "calathea",
+    title: "Calathea — commerce & CMS client work",
+    blurb:
+      "Production marketing and e-commerce sites for small-business clients: responsive React/Next.js UIs, custom CMS editorial workflows, API integrations, and Vercel deployment — owned end-to-end from discovery through launch.",
+    capability:
+      "Public product engineering: commerce/CMS workflows, responsive UI, API integration, and production ownership on Vercel.",
+    status: "shipped",
+    href: "/projects/calathea",
   },
   {
     slug: "agentic-chat",

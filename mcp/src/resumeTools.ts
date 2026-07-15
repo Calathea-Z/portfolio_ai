@@ -123,6 +123,24 @@ function matchPersonFields(p: ResumePerson, query: string): string[] {
   return fields;
 }
 
+function matchSkillFields(
+  s: { name: string; category?: string },
+  query: string
+): string[] {
+  const fields: string[] = [];
+  if (containsIgnoreCase(s.name, query)) fields.push("name");
+  if (containsIgnoreCase(s.category, query)) fields.push("category");
+  if (
+    (s.category ?? "").toLowerCase() === "data" &&
+    (containsIgnoreCase(query, "database") || containsIgnoreCase(query, "sql")) &&
+    fields.length === 0
+  ) {
+    fields.push("name");
+    fields.push("category");
+  }
+  return fields;
+}
+
 function normalizeArgs(raw: unknown): Record<string, unknown> {
   if (raw === undefined || raw === null) return {};
   if (typeof raw === "object" && !Array.isArray(raw)) return raw as Record<string, unknown>;
@@ -177,6 +195,10 @@ export function runResumeTool(
       const personMatched = matchPersonFields(person, query);
       if (personMatched.length > 0)
         items.push({ kind: "person", id: "person", matchedFields: personMatched });
+      for (const s of resume.skills ?? []) {
+        const matched = matchSkillFields(s, query);
+        if (matched.length > 0) items.push({ kind: "skill", id: s.name, matchedFields: matched });
+      }
       return { query, items, count: items.length };
     }
     case ToolNames.ListProjectsBySkill: {

@@ -1,4 +1,4 @@
-# zach.dev
+# zachsykes.dev
 
 Personal portfolio site with an AI chat that answers questions about my background — résumé context lives in the API, not the browser.
 

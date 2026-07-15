@@ -1,6 +1,6 @@
 import { sectionIds, siteConfig } from "@/lib/site-config";
 
-const stackTags = ["React", "TypeScript", ".NET", "Production systems"];
+const stackTags = ["React", "TypeScript", "Next.js", ".NET"];
 
 export function Hero() {
   return (

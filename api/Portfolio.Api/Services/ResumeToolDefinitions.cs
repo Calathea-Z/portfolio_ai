@@ -36,7 +36,7 @@ public static class ResumeToolDefinitions
             ),
             ToolDefinition(
                 SearchResume,
-                "Case-insensitive substring search across roles, projects, narrative fields, FAQ entries, and person summary/lookingFor/logistics fields. Returns kind (role, project, narrative, faq, or person), id, and which fields matched. Use when the visitor's wording does not map cleanly to get_role or list_projects_by_skill.",
+                "Case-insensitive substring search across roles, projects, narrative fields, FAQ entries, person summary/lookingFor/logistics fields, and skills. Returns kind (role, project, narrative, faq, person, or skill), id, and which fields matched. Use when the visitor's wording does not map cleanly to get_role or list_projects_by_skill.",
                 ResumeToolInputSchemas.SearchResumeJson
             ),
             ToolDefinition(

@@ -68,11 +68,18 @@ export type ResumeFaqEntry = {
   answer?: string;
 };
 
+export type ResumeSkill = {
+  name: string;
+  category?: string;
+  level?: string;
+};
+
 export type ResumeData = {
   person?: ResumePerson;
   narrative?: ResumeNarrative;
   roles?: ResumeRole[];
   projects?: ResumeProject[];
   metrics?: ResumeMetric[];
+  skills?: ResumeSkill[];
   faq?: ResumeFaqEntry[];
 };

@@ -1,7 +1,7 @@
 {
   "person": {
     "name": "Zach Sykes",
-    "summary": "Full-stack software engineer building production web applications, APIs, and internal tools with React, TypeScript, .NET, Azure, and SQL. I like owning systems end-to-end: from user workflows and API design to deployment, observability, and long-term maintainability.",
+    "summary": "Product-focused software engineer building workflow-heavy applications with React, TypeScript, Next.js, and .NET. I build and own production applications across frontend architecture, backend APIs, cloud infrastructure, and observability, with a particular focus on making complex workflows intuitive for users.",
     "location": "Denver, CO",
     "remote": true,
     "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
@@ -11,10 +11,10 @@
     "linkedin": "https://www.linkedin.com/in/zach-sykes/",
     "freelanceSite": "https://www.calathea.design/",
     "workAuth": "US citizen — no sponsorship needed",
-    "availability": "Open to hybrid and remote full-stack software engineering roles",
+    "availability": "Open to hybrid and remote frontend and full-stack product engineering roles",
     "employmentTypes": ["full-time", "freelance via Calathea"],
     "compensation": "Open to discuss",
-    "lookingFor": "Full-stack software engineering roles where I can own production features end-to-end — frontend through APIs and backend services — and partner directly with product, design, operations, or business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path."
+    "lookingFor": "Frontend and full-stack product engineering roles where I can own complex workflows, build maintainable React/TypeScript systems, and collaborate closely with product, design, and business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path."
   },
   "narrative": {
     "originStory": "I wanted new challenges, and the work-life balance of kitchen work had run its course. I knew I could do something more mentally demanding — and engineering turned out to be the perfect mix of creativity and structure for me.",
@@ -31,17 +31,16 @@
       "endYear": null,
       "endMonth": null,
       "remote": true,
-      "summary": "Build and maintain production web applications and APIs serving enterprise users — owning architecture, delivery, reliability, and operational health across the full stack.",
+      "summary": "Lead end-to-end delivery of production web features using React, TypeScript, Next.js, ASP.NET Core, and cloud services — spanning UI architecture, API integration with SQL-backed services, deployment, monitoring, and ongoing production support.",
       "achievements": [
-        "Lead end-to-end feature delivery using React, TypeScript, Next.js, and .NET — from UI design through backend API implementation, cloud deployment, and production monitoring, with full ownership.",
-        "Built a real-time collaborative platform (Planning Poker) as a reusable tool on top of internal infrastructure — independently architected and shipped from 0 to 1, including WebSocket infrastructure and backend services.",
-        "Designed and established React/TypeScript component systems and API integration patterns adopted across multiple teams — improved consistency and developer velocity.",
-        "Built and maintained CI/CD pipelines (GitHub Actions, Azure Pipelines) and production observability tooling (Grafana, Application Insights) — enabling safe, rapid releases and active incident response.",
-        "Collaborated directly with product, design, and business stakeholders to translate requirements into shipped features — skilled at communicating technical tradeoffs and architectural decisions across disciplines.",
-        "Mentored junior engineers on code quality, architecture patterns, and best practices — actively invested in raising team-wide technical standards.",
-        "Integrate AI coding tools (GitHub Copilot, Claude) into daily engineering workflows — measurably improving delivery speed and enabling deeper focus on architecture and problem-solving."
+        "Lead end-to-end delivery of production web features using React, TypeScript, Next.js, ASP.NET Core, and cloud services — spanning UI architecture, API integration, deployment, monitoring, and ongoing production support.",
+        "Design and build scalable front-end applications that simplify complex business workflows, integrate with backend services and databases (SQL, PostgreSQL, SQL Server via Entity Framework Core), and improve day-to-day user productivity.",
+        "Established reusable React/TypeScript component patterns, shared front-end conventions, and API integration standards adopted across multiple engineering teams to improve consistency, maintainability, and developer velocity.",
+        "Architected and built a real-time collaborative Planning Poker platform from the ground up using React, ASP.NET Core, WebSockets, and Jira integration — adopted across engineering teams as a reusable internal product.",
+        "Own production quality for user-facing applications through monitoring, debugging, incident response, root-cause analysis, and continuous performance and stability improvements.",
+        "Partner closely with product managers, designers, business stakeholders, and backend engineers to translate requirements into polished, maintainable, and scalable technical solutions."
       ],
-      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET", "ASP.NET Core", "Azure", "WebSocket", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor", "Python"]
+      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET", "ASP.NET Core", "Azure", "WebSocket", "REST", "SQL", "PostgreSQL", "SQL Server", "Entity Framework Core", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor", "Python"]
     },
     {
       "id": "calathea",
@@ -93,7 +92,25 @@
         "Adopted by every software team across all verticals for real-time distributed estimation sessions.",
         "Case study at https://zachsykes.dev/projects/planning-poker"
       ],
-      "tech": ["React", "TypeScript", ".NET", "WebSocket", "Jira", "Azure"]
+      "tech": ["React", "TypeScript", ".NET", "ASP.NET Core", "WebSocket", "Jira", "Azure", "SQL", "SQL Server"]
+    },
+    {
+      "id": "calathea-sites",
+      "name": "Calathea Web Design client sites",
+      "roleId": "calathea",
+      "year": 2025,
+      "status": "ongoing",
+      "visibility": "public",
+      "url": "https://www.calathea.design/",
+      "demoUrl": "https://www.calathea.design/",
+      "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, custom CMS creation when editorial workflows need more than a template, deployment, and iteration with direct client feedback.",
+      "outcomes": [
+        "5 client sites shipped end-to-end.",
+        "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites, and custom CMS work for tailored content tooling.",
+        "Full lifecycle ownership per engagement — discovery through post-launch iteration.",
+        "Write-up at https://zachsykes.dev/projects/calathea"
+      ],
+      "tech": ["Next.js", "TypeScript", "React", "Vercel", "WordPress", "Custom CMS"]
     },
     {
       "id": "portfolio-assistant",
@@ -124,22 +141,6 @@
         "Public write-up and demo video at https://zachsykes.dev/projects/mcp-server; implementation in the portfolio repo under mcp/."
       ],
       "tech": ["Node.js", "TypeScript", "MCP", "Model Context Protocol", "JSON Schema", ".NET"]
-    },
-    {
-      "id": "calathea-sites",
-      "name": "Calathea Web Design client sites",
-      "roleId": "calathea",
-      "year": 2024,
-      "status": "ongoing",
-      "visibility": "public",
-      "url": "https://www.calathea.design/",
-      "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, custom CMS creation when editorial workflows need more than a template, deployment, and iteration with direct client feedback.",
-      "outcomes": [
-        "5 client sites shipped end-to-end.",
-        "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites, and custom CMS work for tailored content tooling.",
-        "Full lifecycle ownership per engagement — discovery through post-launch iteration."
-      ],
-      "tech": ["Next.js", "TypeScript", "Vercel", "WordPress", "Custom CMS"]
     }
   ],
   "metrics": [
@@ -180,8 +181,10 @@
     { "name": "Node.js",        "category": "backend",          "level": "proficient" },
     { "name": "Python",         "category": "backend",          "level": "familiar" },
     { "name": "WebSocket",      "category": "backend",          "level": "proficient" },
+    { "name": "SQL",            "category": "data",             "level": "proficient" },
     { "name": "PostgreSQL",     "category": "data",             "level": "proficient" },
     { "name": "SQL Server",     "category": "data",             "level": "proficient" },
+    { "name": "database design", "category": "data",            "level": "proficient" },
     { "name": "Azure",          "category": "cloud-and-devops", "level": "proficient" },
     { "name": "Vercel",         "category": "cloud-and-devops", "level": "proficient" },
     { "name": "GitHub Actions", "category": "cloud-and-devops", "level": "proficient" },
@@ -214,7 +217,7 @@
     {
       "id": "next-role",
       "question": "What kind of role are you looking for next?",
-      "answer": "Full-stack software engineering roles where I can own production features end-to-end — frontend through APIs and backend services — and partner directly with product, design, operations, or business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path; Calathea-style freelance is also on the table for the right engagement."
+      "answer": "Frontend and full-stack product engineering roles where I can own complex workflows, build maintainable React/TypeScript systems, and collaborate closely with product, design, and business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path; Calathea-style freelance is also on the table for the right engagement."
     },
     {
       "id": "why-chatbot",

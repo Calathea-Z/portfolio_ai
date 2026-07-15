@@ -110,6 +110,13 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         if (personMatched.Count > 0)
             items.Add(new { kind = "person", id = "person", matchedFields = personMatched });
 
+        foreach (var s in _resume.Skills)
+        {
+            var matched = MatchSkillFields(s, query);
+            if (matched.Count > 0)
+                items.Add(new { kind = "skill", id = s.Name, matchedFields = matched });
+        }
+
         return JsonSerializer.SerializeToElement(new { query, items, count = items.Count });
     }
 
@@ -166,6 +173,28 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         if (ContainsIgnoreCase(p.Linkedin, query)) fields.Add("linkedin");
         if (ContainsIgnoreCase(p.FreelanceSite, query)) fields.Add("freelanceSite");
         if (p.EmploymentTypes.Any(t => ContainsIgnoreCase(t, query))) fields.Add("employmentTypes");
+        return fields;
+    }
+
+    private static List<string> MatchSkillFields(ResumeSkill s, string query)
+    {
+        var fields = new List<string>();
+        if (ContainsIgnoreCase(s.Name, query)) fields.Add("name");
+        if (ContainsIgnoreCase(s.Category, query)) fields.Add("category");
+        // Broad "database(s)" / SQL questions should surface data-category skills even when
+        // the query is not an exact engine name (PostgreSQL, SQL Server, etc.).
+        if (
+            s.Category.Equals("data", StringComparison.OrdinalIgnoreCase)
+            && (
+                ContainsIgnoreCase(query, "database")
+                || ContainsIgnoreCase(query, "sql")
+            )
+            && fields.Count == 0
+        )
+        {
+            fields.Add("name");
+            fields.Add("category");
+        }
         return fields;
     }
 

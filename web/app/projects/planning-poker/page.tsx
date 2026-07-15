@@ -53,6 +53,10 @@ export default function PlanningPokerProjectPage() {
             <p className="mt-4 inline-flex rounded-full border border-border-soft bg-surface-alt px-3 py-1 text-xs font-medium text-muted">
               Internal tool — no public demo or repo
             </p>
+            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-secondary">
+              This is an internal production application owned by my employer. Source code,
+              screenshots, and a public demonstration cannot be shared.
+            </p>
           </section>
 
           <section

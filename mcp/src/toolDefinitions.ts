@@ -16,7 +16,7 @@ export const toolDescriptions: Record<ToolName, string> = {
   [ToolNames.GetRole]:
     "Return one or more resume roles. Optionally filter by role id, employer/org name (case-insensitive substring), or a calendar year inside the role's tenure. With no filters, returns every role so the model can enumerate.",
   [ToolNames.SearchResume]:
-    "Case-insensitive substring search across roles, projects, narrative fields, FAQ entries, and person summary/lookingFor/logistics fields. Returns kind (role, project, narrative, faq, or person), id, and which fields matched. Use when the visitor's wording does not map cleanly to get_role or list_projects_by_skill.",
+    "Case-insensitive substring search across roles, projects, narrative fields, FAQ entries, person summary/lookingFor/logistics fields, and skills. Returns kind (role, project, narrative, faq, person, or skill), id, and which fields matched. Use when the visitor's wording does not map cleanly to get_role or list_projects_by_skill.",
   [ToolNames.ListProjectsBySkill]:
     "Return projects whose technology stack includes the named skill: case-insensitive exact match on a tech string, or (when the skill is at least two characters) case-insensitive substring match so e.g. \".NET\" matches stack labels that include it (such as \"ASP.NET Core\"). Use when the visitor asks which projects used a given technology or framework.",
   [ToolNames.GetMetrics]:

@@ -90,6 +90,48 @@ public class ResumeToolsTests
     }
 
     [Fact]
+    public async Task SearchResume_DatabasesQuery_ReturnsDataSkills()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(
+            ResumeToolDefinitions.SearchResume,
+            Input("""{ "query": "databases" }"""),
+            default
+        );
+
+        Assert.False(result.TryGetProperty("error", out _));
+        var skillIds = result.GetProperty("items").EnumerateArray()
+            .Where(e => e.GetProperty("kind").GetString() == "skill")
+            .Select(e => e.GetProperty("id").GetString())
+            .ToList();
+
+        Assert.Contains("PostgreSQL", skillIds);
+        Assert.Contains("SQL Server", skillIds);
+        Assert.Contains("SQL", skillIds);
+    }
+
+    [Fact]
+    public async Task SearchResume_PostgreSQL_MatchesSkillAndRoleTech()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(
+            ResumeToolDefinitions.SearchResume,
+            Input("""{ "query": "PostgreSQL" }"""),
+            default
+        );
+
+        var kinds = result.GetProperty("items").EnumerateArray()
+            .Select(e => e.GetProperty("kind").GetString())
+            .Distinct()
+            .ToList();
+
+        Assert.Contains("skill", kinds);
+        Assert.Contains("role", kinds);
+    }
+
+    [Fact]
     public async Task SearchResume_NoMatches_ReturnsEmptyItems()
     {
         var tools = BuildTools();

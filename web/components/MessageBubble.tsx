@@ -125,7 +125,9 @@ function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
         a: ({ href, children }) => {
           const safe = safeHref(href);
           if (!safe) {
-            return <span className="underline underline-offset-4">{children}</span>;
+            // Model sometimes emits markdown links with bare labels (e.g. [LinkedIn](LinkedIn)).
+            // Don't underline — that looks clickable when it isn't.
+            return <span>{children}</span>;
           }
           const external = safe.startsWith("http://") || safe.startsWith("https://");
           return (

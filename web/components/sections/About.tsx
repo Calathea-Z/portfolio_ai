@@ -19,15 +19,16 @@ export function About() {
         </h2>
         <div className="mt-6 grid gap-6 text-base leading-relaxed text-secondary md:grid-cols-2">
           <p>
-            I own delivery across the stack — API contracts, service boundaries, deployment pipelines, and production
-            health. Observability is part of shipping, not an afterthought: Grafana, Application Insights, GitHub Actions,
-            and Azure Pipelines are how I keep releases safe and incidents diagnosable.
+            I build and own production applications across frontend architecture, backend APIs, cloud
+            infrastructure, and observability, with a particular focus on making complex workflows
+            intuitive for users. The goal is not a longer tech list — it is turning operational
+            complexity into understandable, maintainable experiences.
           </p>
           <p>
-            I collaborate directly with product, design, and business stakeholders to turn requirements into shipped
-            features, invest in code review and mentoring, and use AI-augmented workflows (Copilot, Claude) where they
-            measurably speed delivery. Based in Denver and open to hybrid roles for the right engineering team;
-            experienced working effectively in remote environments.
+            I partner directly with product, design, and business stakeholders to ship features that
+            stick: clear contracts, reusable patterns, and production health (Grafana, Application
+            Insights, GitHub Actions, Azure Pipelines). Based in Denver and open to hybrid roles for
+            the right team; experienced working effectively remote.
           </p>
         </div>
       </div>

@@ -43,9 +43,9 @@ export function HiringFocus() {
             Currently seeking
           </h3>
           <p className="mt-3 max-w-3xl text-base leading-relaxed text-secondary">
-            Currently looking for full-stack software engineering roles where I can own production
-            features end-to-end — frontend through APIs and backend services — and partner directly
-            with product, design, operations, or business stakeholders.
+            Currently looking for frontend and full-stack product engineering roles where I can own
+            complex workflows, build maintainable React/TypeScript systems, and collaborate closely
+            with product, design, and business stakeholders.
           </p>
         </div>
       </div>

@@ -10,20 +10,30 @@ export const metadata: Metadata = {
 };
 
 const forvisBullets = [
-  "Lead end-to-end feature delivery using React, TypeScript, Next.js, and .NET — from UI design through backend API implementation, cloud deployment, and production monitoring, with full ownership.",
-  "Built a real-time collaborative platform (Planning Poker) as a reusable tool on top of internal infrastructure — independently architected and shipped from 0 to 1, including WebSocket infrastructure and backend services.",
-  "Designed and established React/TypeScript component systems and API integration patterns adopted across multiple teams — improved consistency and developer velocity.",
-  "Built and maintained CI/CD pipelines (GitHub Actions, Azure Pipelines) and production observability tooling (Grafana, Application Insights) — enabling safe, rapid releases and active incident response.",
-  "Collaborated directly with product, design, and business stakeholders to translate requirements into shipped features — skilled at communicating technical tradeoffs and architectural decisions across disciplines.",
-  "Mentored junior engineers on code quality, architecture patterns, and best practices — actively invested in raising team-wide technical standards.",
-  "Integrate AI coding tools (GitHub Copilot, Claude) into daily engineering workflows — measurably improving delivery speed and enabling deeper focus on architecture and problem-solving.",
+  "Lead end-to-end delivery of production web features using React, TypeScript, Next.js, ASP.NET Core, and cloud services — spanning UI architecture, API integration, deployment, monitoring, and ongoing production support.",
+  "Design and build scalable front-end applications that simplify complex business workflows, integrate with backend services and databases, and improve day-to-day user productivity.",
+  "Established reusable React/TypeScript component patterns, shared front-end conventions, and API integration standards adopted across multiple engineering teams to improve consistency, maintainability, and developer velocity.",
+  "Architected and built a real-time collaborative Planning Poker platform from the ground up using React, ASP.NET Core, WebSockets, and Jira integration — adopted across engineering teams as a reusable internal product.",
+  "Own production quality for user-facing applications through monitoring, debugging, incident response, root-cause analysis, and continuous performance and stability improvements.",
+  "Partner closely with product managers, designers, business stakeholders, and backend engineers to translate requirements into polished, maintainable, and scalable technical solutions.",
 ];
 
-const calatheaBullets = [
-  "Shipped multiple client sites end-to-end — e-commerce storefronts, musician and artist portfolios, movie promotion sites, and nonprofit WordPress builds.",
-  "Own each engagement end-to-end: UI/UX, frontend implementation, backend integrations, custom CMS builds tailored to how clients actually publish content, and cloud deployment on Vercel.",
-  "Built and launched calathea.design as a production Next.js application — same quality standard delivered to clients.",
-  "Direct client communication from discovery through deployment and post-launch iteration.",
+const selectedProjects = [
+  {
+    title: "zachsykes.dev Portfolio Assistant",
+    stack: "Anthropic API · Next.js · ASP.NET Core · C#",
+    body: "Built an AI-powered portfolio assistant using Anthropic tool calling, Next.js, ASP.NET Core, and streaming API responses — including a polished recruiter-facing chat UI deployed with Vercel.",
+  },
+  {
+    title: "Portfolio MCP Resume Server",
+    stack: "Model Context Protocol · Node.js · TypeScript · .NET",
+    body: "Built a Model Context Protocol server with Node.js and TypeScript exposing structured resume tools to Claude Desktop and other AI clients, enabling reusable AI integrations without custom HTTP APIs.",
+  },
+  {
+    title: "Distributed Sports Odds Platform",
+    stack: ".NET · Kafka · Docker · WebSockets · Redis",
+    body: "Built and load-tested a distributed real-time sports platform using .NET, React, RabbitMQ, Docker, WebSockets, Redis, and containerized services to model scalable event-driven UI updates and system architecture patterns.",
+  },
 ];
 
 export default function ResumePage() {
@@ -37,7 +47,7 @@ export default function ResumePage() {
               href="/"
               className="text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline"
             >
-              ← Back to chat
+              ← Back to portfolio
             </Link>
             <div className="flex items-center gap-3">
               <a
@@ -100,7 +110,10 @@ export default function ResumePage() {
               Professional summary
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-secondary">
-              {siteConfig.positioning}
+              Full-stack engineer with a strong senior-level front-end focus, building production web
+              applications with TypeScript, React, Next.js, ASP.NET Core, cloud services, and modern
+              API integrations. Experienced owning user-facing features from architecture through
+              deployment, observability, performance improvement, and long-term maintenance.
             </p>
           </section>
 
@@ -110,40 +123,29 @@ export default function ResumePage() {
             </h2>
             <div className="mt-4 space-y-4 text-sm leading-relaxed text-secondary">
               <p>
-                <span className="font-medium text-text">Frontend: </span>
-                React, Next.js, TypeScript, JavaScript, Tailwind CSS, Blazor —
-                component architecture, performance-minded rendering, polished
-                and accessible UX
+                <span className="font-medium text-text">Frontend engineering: </span>
+                TypeScript, React, Next.js, JavaScript, Tailwind CSS, component architecture,
+                responsive UI, accessibility, state management, front-end performance
               </p>
               <p>
-                <span className="font-medium text-text">
-                  Backend &amp; APIs:{" "}
-                </span>
-                C#/.NET, ASP.NET Core, REST API design, EF Core — service
-                ownership; familiar with Python, Node.js/TypeScript paradigms
+                <span className="font-medium text-text">Web application architecture: </span>
+                API integration, server-side rendering, scalable web applications, distributed
+                application design, end-to-end feature ownership
               </p>
               <p>
-                <span className="font-medium text-text">
-                  Data &amp; systems:{" "}
-                </span>
-                PostgreSQL, SQL Server — schema design, API-layer contracts,
-                scalable data models
+                <span className="font-medium text-text">Backend &amp; systems integration: </span>
+                C#, .NET, ASP.NET Core, REST APIs, Entity Framework Core, asynchronous programming,
+                PostgreSQL, SQL Server
               </p>
               <p>
-                <span className="font-medium text-text">
-                  Cloud &amp; DevOps:{" "}
-                </span>
-                Azure (App Services, Functions, Service Bus, Storage), Vercel,
-                GitHub Actions, Azure Pipelines, Grafana, Azure Application
-                Insights
+                <span className="font-medium text-text">Cloud, reliability &amp; delivery: </span>
+                Vercel, Azure App Services, Azure Functions, Azure Storage, Service Bus, Docker,
+                GitHub Actions, Azure Pipelines, monitoring, observability, production support
               </p>
               <p>
-                <span className="font-medium text-text">
-                  Engineering standards:{" "}
-                </span>
-                Code reviews, mentoring, automated testing (xUnit, Moq,
-                integration tests), Git/GitHub, Docker familiarity, AI-augmented
-                workflows (GitHub Copilot, Claude)
+                <span className="font-medium text-text">Collaboration &amp; leadership: </span>
+                Cross-functional product delivery, stakeholder communication, mentoring, technical
+                standards, remote team collaboration
               </p>
             </div>
           </section>
@@ -161,43 +163,8 @@ export default function ResumePage() {
                 <p className="text-xs font-medium uppercase tracking-widest text-muted">
                   06/2023 – Present
                 </p>
-                <p className="mt-2 leading-relaxed">
-                  Build and maintain production web applications and APIs
-                  serving enterprise users — owning architecture, delivery,
-                  reliability, and operational health across the full stack.
-                </p>
                 <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
                   {forvisBullets.map((line, i) => (
-                    <li key={i}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="font-medium text-text">
-                  Freelance Full Stack Engineer{" "}
-                  <span className="text-muted">|</span>{" "}
-                  <a
-                    href="https://www.calathea.design/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary underline-offset-4 hover:underline"
-                  >
-                    Calathea Web Design
-                  </a>{" "}
-                  · Selected client work (Remote)
-                </p>
-                <p className="text-xs font-medium uppercase tracking-widest text-muted">
-                  2024 – Present
-                </p>
-                <p className="mt-2 leading-relaxed">
-                  Part-time freelance practice outside full-time engineering work.
-                  Production websites and e-commerce for small-business clients — from
-                  requirements through deployment. Own UI/UX through implementation,
-                  including custom CMS creation when clients need tailored editorial
-                  workflows.
-                </p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
-                  {calatheaBullets.map((line, i) => (
                     <li key={i}>{line}</li>
                   ))}
                 </ul>
@@ -207,21 +174,18 @@ export default function ResumePage() {
 
           <section>
             <h2 className="text-xs font-semibold uppercase tracking-widest text-primary">
-              Prior experience
+              Selected projects
             </h2>
-            <div className="mt-4 text-xs text-muted">
-              <p className="font-medium text-secondary">
-                Kitchen Manager <span className="text-muted">|</span> Asheville
-                Pizza and Brewing Company
-              </p>
-              <p className="mt-1 font-medium uppercase tracking-widest text-muted">
-                2012 – 2022
-              </p>
-              <p className="mt-2 leading-relaxed">
-                Earlier career: led kitchen operations for a 40+ person team,
-                including hiring, onboarding, training, scheduling, and
-                performance management.
-              </p>
+            <div className="mt-4 space-y-6 text-sm text-secondary">
+              {selectedProjects.map((project) => (
+                <div key={project.title}>
+                  <p className="font-medium text-text">{project.title}</p>
+                  <p className="mt-1 text-xs font-medium uppercase tracking-widest text-muted">
+                    {project.stack}
+                  </p>
+                  <p className="mt-2 leading-relaxed">{project.body}</p>
+                </div>
+              ))}
             </div>
           </section>
 

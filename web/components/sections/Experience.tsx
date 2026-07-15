@@ -16,7 +16,7 @@ const timeline: TimelineEntry[] = [
     title: "Full Stack Software Engineer",
     org: "Forvis Mazars (remote)",
     period: "June 2023 – present",
-    body: "Build and maintain production web applications and APIs serving enterprise users — owning architecture, delivery, reliability, and operational health across the full stack. Highlights: end-to-end React/TypeScript/Next.js/.NET delivery; Planning Poker (WebSockets) from 0 to 1; shared component systems and API patterns across teams; CI/CD and observability (GitHub Actions, Azure Pipelines, Grafana, Application Insights); stakeholder collaboration, mentoring, and AI-augmented workflows (Copilot, Claude).",
+    body: "Lead end-to-end delivery of production web features with React, TypeScript, Next.js, and ASP.NET Core — including UI architecture, API integration with SQL-backed services (PostgreSQL, SQL Server, EF Core), deployment, and observability. Highlights: Planning Poker (WebSockets) from 0 to 1; shared React/TypeScript component systems; CI/CD and monitoring (GitHub Actions, Azure Pipelines, Grafana, Application Insights); close partnership with product, design, and business stakeholders.",
   },
   {
     title: "Freelance Full Stack Engineer",

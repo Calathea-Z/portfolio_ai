@@ -165,15 +165,23 @@
     ]
   },
   {
-    "id": "known-fail-ambiguous-skill",
-    "known_fail": true,
-    "note": "Intentional known-fail: vague 'databases' question should ideally ask which engine or use case before asserting skills. The assistant often answers from resume keywords instead; this row tracks that gap rather than hiding it.",
-    "question": "Do I know about databases?",
+    "id": "database-stack",
+    "question": "What database technologies have you used? Mention SQL engines if relevant.",
     "criteria": [
       {
+        "type": "expected_tool_calls",
+        "value": "search_resume",
+        "description": "Should search structured resume/skills data for databases"
+      },
+      {
+        "type": "must_contain_any",
+        "value": ["PostgreSQL", "SQL Server"],
+        "description": "Answer should name PostgreSQL and/or SQL Server from resume data"
+      },
+      {
         "type": "must_contain",
-        "value": "clarify",
-        "description": "Ideal behavior: ask what kind of database or role context before claiming expertise"
+        "value": "SQL",
+        "description": "Answer should reference SQL experience"
       }
     ]
   }

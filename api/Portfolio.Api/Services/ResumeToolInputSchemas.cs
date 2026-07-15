@@ -61,7 +61,7 @@ public static class ResumeToolInputSchemas
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "query": { "type": "string", "description": "Case-insensitive substring to match across role text (title, org, summary, achievements, tech), project text (name, summary, outcomes, tech), narrative fields, FAQ entries, and person summary/lookingFor." }
+            "query": { "type": "string", "description": "Case-insensitive substring to match across role text (title, org, summary, achievements, tech), project text (name, summary, outcomes, tech), narrative fields, FAQ entries, person summary/lookingFor, and skills." }
           },
           "required": ["query"]
         }
