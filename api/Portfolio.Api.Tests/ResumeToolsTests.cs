@@ -69,7 +69,7 @@ public class ResumeToolsTests
         var result = await tools.RunAsync(ResumeToolDefinitions.GetRole, Input("""{}"""), default);
 
         Assert.False(result.TryGetProperty("error", out _), "Empty filter should enumerate all roles.");
-        Assert.Equal(3, result.GetProperty("count").GetInt32());
+        Assert.Equal(2, result.GetProperty("count").GetInt32());
     }
 
     [Fact]
@@ -188,7 +188,37 @@ public class ResumeToolsTests
         Assert.Contains("planning-poker", ids);
         Assert.Contains("portfolio-assistant", ids);
         Assert.Contains("portfolio-mcp-resume", ids);
+        Assert.Contains("budgeting", ids);
         Assert.DoesNotContain("calathea-sites", ids);
+    }
+
+    [Fact]
+    public async Task Budgeting_IsCurrentWork_AndNotListedAsShipped()
+    {
+        var tools = BuildTools();
+
+        var shipped = await tools.RunAsync(ResumeToolDefinitions.ListRecentShipped, Input("""{ "limit": 20 }"""), default);
+        var shippedIds = shipped.GetProperty("items").EnumerateArray()
+            .Select(e => e.GetProperty("id").GetString())
+            .ToList();
+        Assert.DoesNotContain("budgeting", shippedIds);
+
+        var search = await tools.RunAsync(ResumeToolDefinitions.SearchResume, Input("""{ "query": "budgeting" }"""), default);
+        var searchIds = search.GetProperty("items").EnumerateArray()
+            .Select(e => e.GetProperty("id").GetString())
+            .ToList();
+        Assert.Contains("budgeting", searchIds);
+        Assert.Contains("current-work", searchIds);
+
+        var faq = await tools.RunAsync(ResumeToolDefinitions.GetFaq, Input("""{ "id": "current-work" }"""), default);
+        Assert.Equal(1, faq.GetProperty("count").GetInt32());
+        var answer = faq.GetProperty("items")[0].GetProperty("answer").GetString();
+        Assert.Contains("private", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("personal", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("budgeting", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Forvis", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Cardui", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("github.com", answer, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]
@@ -226,10 +256,10 @@ public class ResumeToolsTests
     {
         var tools = BuildTools();
 
-        var result = await tools.RunAsync(ResumeToolDefinitions.GetMetrics, Input("""{ "id": "calathea-sites-shipped" }"""), default);
+        var result = await tools.RunAsync(ResumeToolDefinitions.GetMetrics, Input("""{ "id": "kitchen-team" }"""), default);
 
         Assert.Equal(1, result.GetProperty("count").GetInt32());
-        Assert.Equal("calathea-sites-shipped", result.GetProperty("items")[0].GetProperty("id").GetString());
+        Assert.Equal("kitchen-team", result.GetProperty("items")[0].GetProperty("id").GetString());
     }
 
     [Fact]
@@ -282,6 +312,19 @@ public class ResumeToolsTests
 
         Assert.False(result.TryGetProperty("error", out _));
         Assert.True(result.GetProperty("count").GetInt32() >= 2);
+    }
+
+    [Fact]
+    public async Task GetFaq_ResumeOnSite_IncludesPageAndPdf()
+    {
+        var tools = BuildTools();
+
+        var result = await tools.RunAsync(ResumeToolDefinitions.GetFaq, Input("""{ "id": "resume-on-site" }"""), default);
+
+        Assert.Equal(1, result.GetProperty("count").GetInt32());
+        var answer = result.GetProperty("items")[0].GetProperty("answer").GetString();
+        Assert.Contains("/resume", answer, StringComparison.Ordinal);
+        Assert.Contains("/Sykes_Zach_Resume_Default.pdf", answer, StringComparison.Ordinal);
     }
 
     [Fact]

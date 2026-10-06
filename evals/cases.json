@@ -48,8 +48,8 @@
     ]
   },
   {
-    "id": "metric-calathea-sites",
-    "question": "How many client sites has Calathea shipped end-to-end according to your resume metrics? Just answer with the number.",
+    "id": "metric-kitchen-team",
+    "question": "How large was the kitchen team you led, according to your resume metrics? Just answer with the number.",
     "criteria": [
       {
         "type": "expected_tool_calls",
@@ -58,8 +58,8 @@
       },
       {
         "type": "must_contain",
-        "value": "5",
-        "description": "Resume metric calathea-sites-shipped is 5"
+        "value": "40",
+        "description": "Resume metric kitchen-team is 40 people"
       }
     ]
   },

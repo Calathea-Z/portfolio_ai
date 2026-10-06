@@ -26,5 +26,5 @@ export const toolDescriptions: Record<ToolName, string> = {
   [ToolNames.GetNarrative]:
     "Return Zach's free-form career narrative (originStory, bridge, carryover). Use this for career-change / origin-story questions ('why did you leave kitchens?', 'how did you become an engineer?', 'what carries over from your prior career?') where structured role rows do not capture the answer. No inputs.",
   [ToolNames.GetFaq]:
-    "Return pre-written FAQ entries. With no filters, returns every entry. Filter by stable id (e.g. 'next-role', 'why-chatbot', 'career-change', 'philosophy') or by case-insensitive keyword against question/answer text. Use this for predictable recruiter questions: what kind of role Zach wants next, why he built this chatbot, biggest accomplishment, learning approach, engineering philosophy.",
+    "Return pre-written FAQ entries. With no filters, returns every entry. Filter by stable id (e.g. 'resume-on-site', 'next-role', 'why-chatbot', 'career-change', 'philosophy') or by case-insensitive keyword against question/answer text. Use this for predictable recruiter questions: what kind of role Zach wants next, why he built this chatbot, biggest accomplishment, learning approach, engineering philosophy.",
 };

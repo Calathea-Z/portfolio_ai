@@ -1,5 +1,7 @@
 import type { MessageChunk, UiMessage } from "@/lib/chat-history-storage";
-import { safeHref } from "@/lib/safe-href";
+import { rewritePortfolioLinks } from "@/lib/portfolio-links";
+import { linkifyLinkedInMentions, safeHref } from "@/lib/safe-href";
+import { siteConfig } from "@/lib/site-config";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ToolCallPill } from "@/components/ToolCallPill";
@@ -85,7 +87,12 @@ function normalizeMarkdownLinks(content: string) {
 }
 
 function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
-  const markdown = normalizeMarkdownLinks(text);
+  const pageOrigin = typeof window === "undefined" ? "" : window.location.origin;
+  const withPortfolioLinks = pageOrigin ? rewritePortfolioLinks(text, pageOrigin) : text;
+  const markdown = linkifyLinkedInMentions(
+    normalizeMarkdownLinks(withPortfolioLinks),
+    siteConfig.linkedin
+  );
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -123,10 +130,8 @@ function MarkdownBlock({ text, isUser }: { text: string; isUser: boolean }) {
           <hr className={`my-3 ${isUser ? "border-primary-contrast/20" : "border-border-subtle"}`} />
         ),
         a: ({ href, children }) => {
-          const safe = safeHref(href);
+          const safe = safeHref(href, siteConfig.linkedin);
           if (!safe) {
-            // Model sometimes emits markdown links with bare labels (e.g. [LinkedIn](LinkedIn)).
-            // Don't underline — that looks clickable when it isn't.
             return <span>{children}</span>;
           }
           const external = safe.startsWith("http://") || safe.startsWith("https://");

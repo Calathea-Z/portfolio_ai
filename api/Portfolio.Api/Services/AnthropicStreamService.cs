@@ -41,8 +41,9 @@ public sealed class AnthropicStreamService(
         ResumeTools tools,
         Stream responseBody,
         NdjsonStreamFlags flags,
+        string? portfolioSiteOrigin,
         CancellationToken cancellationToken
-    ) => StreamChatCoreAsync(messages, tools, responseBody, flags, cancellationToken);
+    ) => StreamChatCoreAsync(messages, tools, responseBody, flags, portfolioSiteOrigin, cancellationToken);
 
     /// <summary>Runs with default stream flags (backward-compatible entry for callers that do not pass flags).</summary>
     public Task StreamChatAsync(
@@ -50,13 +51,14 @@ public sealed class AnthropicStreamService(
         ResumeTools tools,
         Stream responseBody,
         CancellationToken cancellationToken
-    ) => StreamChatCoreAsync(messages, tools, responseBody, NdjsonStreamFlags.Default, cancellationToken);
+    ) => StreamChatCoreAsync(messages, tools, responseBody, NdjsonStreamFlags.Default, null, cancellationToken);
 
     private async Task StreamChatCoreAsync(
         IReadOnlyList<ChatMessageDto> messages,
         ResumeTools tools,
         Stream responseBody,
         NdjsonStreamFlags flags,
+        string? portfolioSiteOrigin,
         CancellationToken cancellationToken
     )
     {
@@ -64,7 +66,7 @@ public sealed class AnthropicStreamService(
             throw new InvalidOperationException("Anthropic API key is not configured.");
 
         var ndjson = new NdjsonWriter(responseBody);
-        var system = ComposeChatSystemPrompt(resumeData.Data);
+        var system = ComposeChatSystemPrompt(resumeData.Data, portfolioSiteOrigin);
         var reflectionAppendix = flags.ReflectionPlannerEnabled ? ChatReflectionPrompts.PlannerAppendix : null;
         var maxRounds = flags.ReflectionPlannerEnabled ? MaxRoundsWithReflection : MaxRounds;
 
@@ -174,6 +176,7 @@ public sealed class AnthropicStreamService(
                     ndjson,
                     flags,
                     round,
+                    portfolioSiteOrigin,
                     cancellationToken
                 );
                 conversation.Add(new { role = "user", content = toolResultBlocks });
@@ -319,6 +322,7 @@ public sealed class AnthropicStreamService(
         NdjsonWriter ndjson,
         NdjsonStreamFlags flags,
         int round,
+        string? portfolioSiteOrigin,
         CancellationToken cancellationToken
     )
     {
@@ -337,6 +341,8 @@ public sealed class AnthropicStreamService(
                 using var toolCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                 toolCts.CancelAfter(ToolHandlerTimeout);
                 output = await tools.RunAsync(call.Name, call.Input, toolCts.Token);
+                if (!string.IsNullOrWhiteSpace(portfolioSiteOrigin))
+                    output = PortfolioSiteLinks.RewriteElement(output, portfolioSiteOrigin);
             }
             catch (Exception ex)
             {
@@ -386,7 +392,7 @@ public sealed class AnthropicStreamService(
     /// confirmed via tools (<c>get_role</c>, <c>get_narrative</c>, <c>get_faq</c>, etc.).
     /// </para>
     /// </remarks>
-    private static string ComposeChatSystemPrompt(ResumeData resume)
+    private static string ComposeChatSystemPrompt(ResumeData resume, string? portfolioSiteOrigin)
     {
         var sb = new StringBuilder(SystemPromptLoader.Load("chat"));
         var p = resume.Person;
@@ -397,13 +403,33 @@ public sealed class AnthropicStreamService(
             .AppendLine("## Canonical contact (authoritative — copy verbatim)")
             .AppendLine()
             .AppendLine(
-                "For email, GitHub, LinkedIn, or the freelance site, use **only** the strings below. "
+                "For email, GitHub, or LinkedIn, use **only** the strings below. "
                     + "Do not invent alternate emails, \"likely\" addresses, name-mangled Gmail guesses, or placeholder contact — wrong contact info is worse than omitting it."
             )
             .AppendLine();
 
         AppendLineIfPresent(sb, "Email", p.Email);
-        AppendLineIfPresent(sb, "Portfolio site", p.PortfolioSite);
+        var portfolioSite = string.IsNullOrWhiteSpace(portfolioSiteOrigin)
+            ? p.PortfolioSite
+            : PortfolioSiteLinks.Rewrite(p.PortfolioSite ?? "", portfolioSiteOrigin);
+        AppendLineIfPresent(sb, "Portfolio site", portfolioSite);
+        AppendLineIfPresent(sb, "Résumé on this site", RewritePortfolioLink(p.ResumePage, portfolioSiteOrigin));
+        AppendLineIfPresent(sb, "Résumé PDF download", RewritePortfolioLink(p.ResumePdf, portfolioSiteOrigin));
+        if (!string.IsNullOrWhiteSpace(p.ResumePage) || !string.IsNullOrWhiteSpace(p.ResumePdf))
+        {
+            sb.AppendLine(
+                "- When a visitor asks to see, read, or download the résumé on this website, give both résumé links above as markdown links. Do not say a download link is missing, do not guess a different path, and do not offer to email the PDF instead."
+            );
+        }
+        if (!string.IsNullOrWhiteSpace(portfolioSiteOrigin))
+        {
+            sb.AppendLine()
+                .Append("- This session's portfolio origin is ")
+                .Append(portfolioSiteOrigin.Trim().TrimEnd('/'))
+                .AppendLine(
+                    ". Copy portfolio, résumé, and write-up links from the lines above and from tool results. Do not replace that origin with zachsykes.dev."
+                );
+        }
         AppendLineIfPresent(sb, "GitHub", p.Github);
         AppendLineIfPresent(sb, "LinkedIn", p.Linkedin);
         AppendLineIfPresent(sb, "Freelance portfolio site", p.FreelanceSite);
@@ -451,6 +477,13 @@ public sealed class AnthropicStreamService(
         }
 
         return sb.ToString();
+    }
+
+    private static string? RewritePortfolioLink(string? value, string? portfolioSiteOrigin)
+    {
+        if (string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(portfolioSiteOrigin))
+            return value;
+        return PortfolioSiteLinks.Rewrite(value, portfolioSiteOrigin);
     }
 
     private static void AppendLineIfPresent(StringBuilder sb, string label, string? value)

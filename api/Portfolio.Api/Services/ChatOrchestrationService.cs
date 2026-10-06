@@ -76,10 +76,19 @@ public sealed class ChatOrchestrationService(
         http.Response.Headers.CacheControl = "no-store";
 
         var flags = BuildNdjsonFlags(http);
+        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+        var portfolioSiteOrigin = PortfolioSiteLinks.ResolvePublicOrigin(http.Request, allowedOrigins);
 
         try
         {
-            await agenticChat.RunAsync(body.Messages, resumeTools, http.Response.Body, flags, ct);
+            await agenticChat.RunAsync(
+                body.Messages,
+                resumeTools,
+                http.Response.Body,
+                flags,
+                portfolioSiteOrigin,
+                ct
+            );
         }
         catch (Exception ex)
         {

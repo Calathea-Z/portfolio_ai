@@ -7,14 +7,15 @@
     "timeZone": "Mountain Time (Denver, CO) — flexible across time zones",
     "email": "zsykes21@gmail.com",
     "portfolioSite": "https://www.zachsykes.dev/",
+    "resumePage": "https://www.zachsykes.dev/resume",
+    "resumePdf": "https://www.zachsykes.dev/Sykes_Zach_Resume_Default.pdf",
     "github": "https://github.com/Calathea-Z",
     "linkedin": "https://www.linkedin.com/in/zach-sykes/",
-    "freelanceSite": "https://www.calathea.design/",
     "workAuth": "US citizen — no sponsorship needed",
-    "availability": "Open to hybrid and remote frontend and full-stack product engineering roles",
-    "employmentTypes": ["full-time", "freelance via Calathea"],
+    "availability": "Open to hybrid and remote full-time product engineering roles, including frontend, full-stack, backend-heavy product work, and internal tools",
+    "employmentTypes": ["full-time"],
     "compensation": "Open to discuss",
-    "lookingFor": "Frontend and full-stack product engineering roles where I can own complex workflows, build maintainable React/TypeScript systems, and collaborate closely with product, design, and business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path."
+    "lookingFor": "A full-time product engineering role where I can own a workflow from the interface through the API, and stay with it after it ships. Frontend and full-stack work is home base. Also interested in backend-heavy product work, internal tools, and teams that treat reliability as part of the feature. I like partnering with product, design, and the people who use the system. Based in Denver, and open to hybrid or remote."
   },
   "narrative": {
     "originStory": "I wanted new challenges, and the work-life balance of kitchen work had run its course. I knew I could do something more mentally demanding — and engineering turned out to be the perfect mix of creativity and structure for me.",
@@ -24,42 +25,24 @@
   "roles": [
     {
       "id": "forvis-mazars",
-      "title": "Full Stack Software Engineer",
+      "title": "Senior Software Engineer",
       "org": "Forvis Mazars",
       "startYear": 2023,
       "startMonth": 6,
       "endYear": null,
       "endMonth": null,
       "remote": true,
-      "summary": "Lead end-to-end delivery of production web features using React, TypeScript, Next.js, ASP.NET Core, and cloud services — spanning UI architecture, API integration with SQL-backed services, deployment, monitoring, and ongoing production support.",
+      "summary": "Senior Software Engineer since September 2026, promoted from Full Stack Software Engineer (June 2023–September 2026). Owns production reliability, incident response, and end-to-end delivery for React, TypeScript, and .NET applications.",
       "achievements": [
-        "Lead end-to-end delivery of production web features using React, TypeScript, Next.js, ASP.NET Core, and cloud services — spanning UI architecture, API integration, deployment, monitoring, and ongoing production support.",
-        "Design and build scalable front-end applications that simplify complex business workflows, integrate with backend services and databases (SQL, PostgreSQL, SQL Server via Entity Framework Core), and improve day-to-day user productivity.",
-        "Established reusable React/TypeScript component patterns, shared front-end conventions, and API integration standards adopted across multiple engineering teams to improve consistency, maintainability, and developer velocity.",
-        "Architected and built a real-time collaborative Planning Poker platform from the ground up using React, ASP.NET Core, WebSockets, and Jira integration — adopted across engineering teams as a reusable internal product.",
-        "Own production quality for user-facing applications through monitoring, debugging, incident response, root-cause analysis, and continuous performance and stability improvements.",
-        "Partner closely with product managers, designers, business stakeholders, and backend engineers to translate requirements into polished, maintainable, and scalable technical solutions."
+        "Own production quality and reliability for critical applications, including incident response, root-cause debugging, monitoring, error reduction, and long-term stability improvements across distributed workflows.",
+        "Lead end-to-end delivery of React, TypeScript, and .NET applications, owning requirements and architecture through implementation, deployment, and production support.",
+        "Build event-driven integrations across business systems, REST APIs, Azure services, messaging infrastructure, and relational data stores, emphasizing traceability and resilient asynchronous processing.",
+        "Drove the transition from Blazor frontends to React and TypeScript, establishing reusable component and API integration patterns adopted across multiple teams and improving maintainability and delivery consistency.",
+        "Support CI/CD and production observability with GitHub Actions, Azure Pipelines, Grafana, and Application Insights to enable rapid releases and effective production troubleshooting.",
+        "Independently architected and shipped a real-time Planning Poker platform with WebSocket/SignalR infrastructure and backend services; adopted across software teams as a reusable internal tool.",
+        "Mentor junior engineers on architecture, code quality, debugging, and engineering practices; contribute to team-wide technical standards."
       ],
-      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET", "ASP.NET Core", "Azure", "WebSocket", "REST", "SQL", "PostgreSQL", "SQL Server", "Entity Framework Core", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor", "Python"]
-    },
-    {
-      "id": "calathea",
-      "title": "Freelance Full Stack Engineer",
-      "org": "Calathea Web Design · Selected client work",
-      "startYear": 2024,
-      "startMonth": null,
-      "endYear": null,
-      "endMonth": null,
-      "remote": true,
-      "url": "https://www.calathea.design/",
-      "summary": "Part-time freelance practice outside full-time engineering work. Production websites and e-commerce for small-business clients from requirements through deployment. Own UI/UX through implementation, including custom CMS creation when editorial workflows need more than a template; calathea.design itself is a shipped Next.js site showcasing that standard.",
-      "achievements": [
-        "Shipped 5 client sites end-to-end — ranging across e-commerce storefronts, portfolios for musicians and artists, movie promotion sites, and WordPress sites for nonprofits.",
-        "Own every layer of each engagement — UI/UX design, frontend implementation, backend integrations, custom CMS builds tailored to client content workflows, and cloud deployment on Vercel.",
-        "Built and launched the business site itself (calathea.design) as a production Next.js application — same quality standard delivered to clients.",
-        "Direct client communication from discovery through deployment and post-launch iteration — no intermediaries between requirements and shipped work."
-      ],
-      "tech": ["Next.js", "TypeScript", "Vercel", "WordPress", "Custom CMS"]
+      "tech": ["React", "TypeScript", "Next.js", "C#", ".NET", "ASP.NET Core", "Azure", "WebSocket", "SignalR", "REST", "SQL", "PostgreSQL", "SQL Server", "Entity Framework Core", "GitHub Actions", "Azure Pipelines", "Grafana", "Application Insights", "Blazor"]
     },
     {
       "id": "ashe-pizza",
@@ -79,6 +62,23 @@
   ],
   "projects": [
     {
+      "id": "budgeting",
+      "name": "Budgeting and debt planning",
+      "roleId": null,
+      "year": 2026,
+      "status": "in-progress",
+      "visibility": "private",
+      "summary": "Personal project I am spending my time on. A private app that helps people budget and manage debt, in progress and not publicly deployed. A Next.js app and ASP.NET Core API over PostgreSQL. Clerk sign-in resolves a household on the server. Manual accounts, transactions, and CSV import work without a bank connection. Optional Plaid linking syncs through a separate one-shot worker; access tokens are encrypted before storage.",
+      "outcomes": [
+        "Screens in the product today: home, accounts, transactions, institutions, categories, budgets, income, bills, and debts.",
+        "Income includes sources, paycheck schedules, and scenarios. Bills include recurring suggestions.",
+        "Debt summary totals recorded balances, this month's interest, minimums, and utilization of known credit limits. A connected card or loan can be compared with the recorded balance.",
+        "Next slice: a manual debt can follow a synced card or loan balance instead of being retyped after each payment. That follow mode is designed and not built yet.",
+        "No public demo or repository. Write-up at https://zachsykes.dev/projects/budgeting"
+      ],
+      "tech": ["Next.js", "TypeScript", "React", "Tailwind CSS", "C#", ".NET", "ASP.NET Core", "PostgreSQL", "Entity Framework Core", "Plaid", "Clerk"]
+    },
+    {
       "id": "planning-poker",
       "name": "Planning Poker",
       "roleId": "forvis-mazars",
@@ -93,24 +93,6 @@
         "Case study at https://zachsykes.dev/projects/planning-poker"
       ],
       "tech": ["React", "TypeScript", ".NET", "ASP.NET Core", "WebSocket", "Jira", "Azure", "SQL", "SQL Server"]
-    },
-    {
-      "id": "calathea-sites",
-      "name": "Calathea Web Design client sites",
-      "roleId": "calathea",
-      "year": 2025,
-      "status": "ongoing",
-      "visibility": "public",
-      "url": "https://www.calathea.design/",
-      "demoUrl": "https://www.calathea.design/",
-      "summary": "Marketing and e-commerce sites for small-business clients end-to-end: architecture, implementation, custom CMS creation when editorial workflows need more than a template, deployment, and iteration with direct client feedback.",
-      "outcomes": [
-        "5 client sites shipped end-to-end.",
-        "Range: e-commerce storefronts, musician/artist portfolios, movie promotion sites, nonprofit WordPress sites, and custom CMS work for tailored content tooling.",
-        "Full lifecycle ownership per engagement — discovery through post-launch iteration.",
-        "Write-up at https://zachsykes.dev/projects/calathea"
-      ],
-      "tech": ["Next.js", "TypeScript", "React", "Vercel", "WordPress", "Custom CMS"]
     },
     {
       "id": "portfolio-assistant",
@@ -157,13 +139,6 @@
       "value": 1,
       "unit": "company-wide standard",
       "note": "Adopted by every software team across all verticals after launch."
-    },
-    {
-      "id": "calathea-sites-shipped",
-      "label": "Client sites shipped end-to-end via Calathea",
-      "value": 5,
-      "unit": "sites",
-      "note": "Mix of e-commerce, portfolios, promotional sites, and nonprofit WordPress."
     }
   ],
   "skills": [
@@ -215,9 +190,19 @@
   ],
   "faq": [
     {
+      "id": "resume-on-site",
+      "question": "Where can I see or download your résumé on this website?",
+      "answer": "Read it on this site at https://www.zachsykes.dev/resume. Download the PDF at https://www.zachsykes.dev/Sykes_Zach_Resume_Default.pdf."
+    },
+    {
+      "id": "current-work",
+      "question": "What are you working on right now?",
+      "answer": "A private personal project I am spending my time on: an app that helps people budget and manage debt. It is in progress: a Next.js app and .NET API over PostgreSQL, with Clerk sign-in, household-scoped records, manual accounts, CSV import, and optional Plaid bank sync. Income, bills, and debts sit next to everyday accounts and transactions. There is no public demo or repository yet. The write-up is at https://zachsykes.dev/projects/budgeting."
+    },
+    {
       "id": "next-role",
       "question": "What kind of role are you looking for next?",
-      "answer": "Frontend and full-stack product engineering roles where I can own complex workflows, build maintainable React/TypeScript systems, and collaborate closely with product, design, and business stakeholders. Based in Denver and open to hybrid roles for the right engineering team; experienced working effectively in remote environments. Full-time is the primary path; Calathea-style freelance is also on the table for the right engagement."
+      "answer": "A full-time product engineering role where I can own a workflow from the interface through the API, and stay with it after it ships. Frontend and full-stack work is home base. I'm also interested in backend-heavy product work, internal tools, and teams that treat reliability as part of the feature. I like partnering with product, design, and the people who use the system. Based in Denver, and open to hybrid or remote."
     },
     {
       "id": "why-chatbot",

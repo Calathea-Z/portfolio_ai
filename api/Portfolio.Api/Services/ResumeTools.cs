@@ -168,6 +168,8 @@ public sealed class ResumeTools(ResumeDataService resumeDataService, TimeProvide
         if (ContainsIgnoreCase(p.TimeZone, query)) fields.Add("timeZone");
         if (ContainsIgnoreCase(p.Compensation, query)) fields.Add("compensation");
         if (ContainsIgnoreCase(p.PortfolioSite, query)) fields.Add("portfolioSite");
+        if (ContainsIgnoreCase(p.ResumePage, query)) fields.Add("resumePage");
+        if (ContainsIgnoreCase(p.ResumePdf, query)) fields.Add("resumePdf");
         if (ContainsIgnoreCase(p.Email, query)) fields.Add("email");
         if (ContainsIgnoreCase(p.Github, query)) fields.Add("github");
         if (ContainsIgnoreCase(p.Linkedin, query)) fields.Add("linkedin");
