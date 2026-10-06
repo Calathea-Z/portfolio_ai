@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { sectionIds, siteConfig } from "@/lib/site-config";
 
-const links: Array<{ label: string; href: string }> = [
+const links: Array<{ label: string; href: string; mobile?: boolean }> = [
+  { label: "Now", href: `#${sectionIds.now}`, mobile: true },
+  { label: "Projects", href: `#${sectionIds.projects}`, mobile: true },
   { label: "About", href: `#${sectionIds.about}` },
-  { label: "Projects", href: `#${sectionIds.projects}` },
   { label: "Chat", href: `#${sectionIds.chat}` },
   { label: "Experience", href: `#${sectionIds.experience}` },
   { label: "Contact", href: `#${sectionIds.contact}` },
@@ -36,9 +37,9 @@ export function StickyNav() {
           {siteConfig.name}
         </Link>
 
-        <ul className="hidden min-w-0 flex-1 items-center justify-center gap-1 text-sm md:flex">
-          {links.map(({ label, href }) => (
-            <li key={href} className="shrink-0">
+        <ul className="flex min-w-0 flex-1 items-center justify-end gap-1 text-sm md:justify-center">
+          {links.map(({ label, href, mobile }) => (
+            <li key={href} className={mobile ? "shrink-0" : "hidden shrink-0 md:list-item"}>
               <a
                 href={href}
                 className="rounded-lg px-3 py-1.5 text-muted transition-colors hover:bg-surface-alt hover:text-text"
@@ -58,7 +59,7 @@ export function StickyNav() {
           </a>
           <a
             href={siteConfig.resume.href}
-            download
+            download={siteConfig.resume.fileName}
             className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)]"
           >
             Resume

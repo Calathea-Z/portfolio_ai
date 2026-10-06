@@ -26,6 +26,16 @@ export function Hero() {
         <p className="mt-6 hidden max-w-2xl text-lg leading-relaxed text-secondary sm:text-xl md:block">
           {siteConfig.positioning}
         </p>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-secondary">
+          I&apos;m spending my time on an app that helps people{" "}
+          <a
+            href={`#${sectionIds.now}`}
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
+            budget and manage debt
+          </a>
+          .
+        </p>
 
         <ul className="mt-4 flex flex-wrap gap-2 md:hidden" aria-label="Core stack">
           {stackTags.map((tag) => (
@@ -47,7 +57,7 @@ export function Hero() {
           </a>
           <a
             href={siteConfig.resume.href}
-            download
+            download={siteConfig.resume.fileName}
             className="rounded-xl border border-border-soft bg-surface px-4 py-2.5 text-center text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt sm:px-5"
           >
             Resume

@@ -13,17 +13,10 @@ type TimelineEntry = {
 // Phase 7 swaps this inline list for the structured resume.json source.
 const timeline: TimelineEntry[] = [
   {
-    title: "Full Stack Software Engineer",
+    title: "Senior Software Engineer",
     org: "Forvis Mazars (remote)",
     period: "June 2023 – present",
-    body: "Lead end-to-end delivery of production web features with React, TypeScript, Next.js, and ASP.NET Core — including UI architecture, API integration with SQL-backed services (PostgreSQL, SQL Server, EF Core), deployment, and observability. Highlights: Planning Poker (WebSockets) from 0 to 1; shared React/TypeScript component systems; CI/CD and monitoring (GitHub Actions, Azure Pipelines, Grafana, Application Insights); close partnership with product, design, and business stakeholders.",
-  },
-  {
-    title: "Freelance Full Stack Engineer",
-    org: "Calathea Web Design · Selected client work (remote)",
-    orgUrl: "https://www.calathea.design/",
-    period: "2024 – present",
-    body: "Part-time freelance practice outside full-time engineering work. Production websites and e-commerce for small-business clients — from discovery through deployment. Own UI/UX, implementation, backend integrations, custom CMS creation when clients need tailored editorial workflows, and hosting on Vercel.",
+    body: "Promoted to Senior Software Engineer in September 2026, after Full Stack Software Engineer from June 2023. Own production reliability and end-to-end delivery for React, TypeScript, and .NET applications, including incident response, event-driven integrations, the Blazor-to-React transition, and Planning Poker.",
   },
   {
     title: "Kitchen Manager",

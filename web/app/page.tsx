@@ -2,6 +2,7 @@ import { BackgroundOrbs } from "@/components/BackgroundOrbs";
 import { SidePanel } from "@/components/SidePanel";
 import { About } from "@/components/sections/About";
 import { ChatSection } from "@/components/sections/ChatSection";
+import { CurrentWork } from "@/components/sections/CurrentWork";
 import { HiringFocus } from "@/components/sections/HiringFocus";
 import { Contact } from "@/components/sections/Contact";
 import { Experience } from "@/components/sections/Experience";
@@ -17,9 +18,10 @@ export default function Home() {
         <StickyNav />
         <main className="relative">
           <Hero />
+          <CurrentWork />
+          <FeaturedProjects />
           <About />
           <HiringFocus />
-          <FeaturedProjects />
           <ChatSection />
           <Experience />
           <Contact />
