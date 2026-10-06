@@ -27,8 +27,7 @@ export function About() {
           <p>
             I partner directly with product, design, and business stakeholders to ship features that
             stick: clear contracts, reusable patterns, and production health (Grafana, Application
-            Insights, GitHub Actions, Azure Pipelines). Based in Denver and open to hybrid roles for
-            the right team; experienced working effectively remote.
+            Insights, GitHub Actions, Azure Pipelines).
           </p>
         </div>
       </div>
