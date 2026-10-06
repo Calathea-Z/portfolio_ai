@@ -69,7 +69,7 @@ export function Contact() {
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <a
             href={siteConfig.resume.href}
-            download
+            download={siteConfig.resume.fileName}
             className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)]"
           >
             ↓ Download resume ({siteConfig.resume.label})

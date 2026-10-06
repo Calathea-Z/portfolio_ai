@@ -115,6 +115,8 @@ function matchPersonFields(p: ResumePerson, query: string): string[] {
   if (containsIgnoreCase(p.timeZone, query)) fields.push("timeZone");
   if (containsIgnoreCase(p.compensation, query)) fields.push("compensation");
   if (containsIgnoreCase(p.portfolioSite, query)) fields.push("portfolioSite");
+  if (containsIgnoreCase(p.resumePage, query)) fields.push("resumePage");
+  if (containsIgnoreCase(p.resumePdf, query)) fields.push("resumePdf");
   if (containsIgnoreCase(p.email, query)) fields.push("email");
   if (containsIgnoreCase(p.github, query)) fields.push("github");
   if (containsIgnoreCase(p.linkedin, query)) fields.push("linkedin");

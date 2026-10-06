@@ -131,7 +131,7 @@ function SnapshotCard({ onCloseMobile }: SnapshotCardProps = {}) {
 
       <a
         href={siteConfig.resume.href}
-        download
+        download={siteConfig.resume.fileName}
         className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border-soft bg-surface-alt px-3 py-2 text-xs font-medium text-text shadow-sm transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"
       >
         ↓ Download resume ({siteConfig.resume.label})

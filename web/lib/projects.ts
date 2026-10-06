@@ -15,6 +15,8 @@ export type Project = {
   capability: string;
   status: ProjectStatus;
   href: string;
+  /** Short proof points for the Now section. Omitted on shipped cards. */
+  highlights?: readonly string[];
   /** Public repo for this project's source. Falls back to the personal profile URL when unset. */
   repoUrl?: string;
 };
@@ -22,6 +24,21 @@ export type Project = {
 const PORTFOLIO_REPO_URL = "https://github.com/Calathea-Z/portfolio_ai";
 
 export const projects: Project[] = [
+  {
+    slug: "budgeting",
+    title: "Budgeting and debt planning",
+    blurb:
+      "A personal project I am spending my time on: an app that helps people budget and manage debt from the accounts, paychecks, bills, and balances a household actually has. In progress, and not a public demo.",
+    capability:
+      "Next.js and a .NET API over PostgreSQL, with household-scoped sign-in, manual records, CSV import, and optional bank sync.",
+    highlights: [
+      "Home, accounts, transactions, income, bills, budgets, and debts are in the product today.",
+      "A debt summary totals recorded balances, this month’s interest, minimums, and how much of known credit limits are in use.",
+      "Bank linking is optional. A separate worker syncs connected accounts, and access tokens are encrypted before they are stored.",
+    ],
+    status: "in-progress",
+    href: "/projects/budgeting",
+  },
   {
     slug: "planning-poker",
     title: "Planning Poker — internal collaboration tool",
@@ -31,16 +48,6 @@ export const projects: Project[] = [
       "0-to-1 internal product: React/TypeScript, WebSocket realtime, Jira integration, .NET services — adopted across all verticals.",
     status: "shipped",
     href: "/projects/planning-poker",
-  },
-  {
-    slug: "calathea",
-    title: "Calathea — commerce & CMS client work",
-    blurb:
-      "Production marketing and e-commerce sites for small-business clients: responsive React/Next.js UIs, custom CMS editorial workflows, API integrations, and Vercel deployment — owned end-to-end from discovery through launch.",
-    capability:
-      "Public product engineering: commerce/CMS workflows, responsive UI, API integration, and production ownership on Vercel.",
-    status: "shipped",
-    href: "/projects/calathea",
   },
   {
     slug: "agentic-chat",
@@ -68,4 +75,8 @@ export const projects: Project[] = [
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
+}
+
+export function projectsByStatus(status: ProjectStatus): Project[] {
+  return projects.filter((project) => project.status === status);
 }

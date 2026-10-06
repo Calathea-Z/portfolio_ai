@@ -42,11 +42,18 @@ export function HiringFocus() {
           <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">
             Currently seeking
           </h3>
-          <p className="mt-3 max-w-3xl text-base leading-relaxed text-secondary">
-            Currently looking for frontend and full-stack product engineering roles where I can own
-            complex workflows, build maintainable React/TypeScript systems, and collaborate closely
-            with product, design, and business stakeholders.
-          </p>
+          <div className="mt-3 max-w-3xl space-y-3 text-base leading-relaxed text-secondary">
+            <p>
+              Looking for a full-time product engineering role where I can own a workflow from the
+              interface through the API, and stay with it after it ships.
+            </p>
+            <p>
+              Frontend and full-stack work is home base. I&apos;m also interested in backend-heavy
+              product work, internal tools, and teams that treat reliability as part of the feature.
+              I like partnering with product, design, and the people who use the system. Based in
+              Denver, and open to hybrid or remote.
+            </p>
+          </div>
         </div>
       </div>
     </section>

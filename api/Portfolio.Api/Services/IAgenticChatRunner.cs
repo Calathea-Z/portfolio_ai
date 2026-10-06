@@ -11,6 +11,7 @@ public interface IAgenticChatRunner
         ResumeTools tools,
         Stream responseBody,
         NdjsonStreamFlags flags,
+        string? portfolioSiteOrigin,
         CancellationToken cancellationToken
     );
 }

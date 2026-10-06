@@ -8,6 +8,8 @@ export type ResumePerson = {
   timeZone?: string | null;
   email?: string;
   portfolioSite?: string | null;
+  resumePage?: string | null;
+  resumePdf?: string | null;
   github?: string;
   linkedin?: string;
   freelanceSite?: string;

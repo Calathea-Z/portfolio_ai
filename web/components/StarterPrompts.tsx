@@ -1,7 +1,8 @@
 import {
   BriefcaseIcon,
-  ChartLineUpIcon,
-  RocketIcon,
+  CompassIcon,
+  PathIcon,
+  WalletIcon,
   WrenchIcon,
   type Icon,
 } from "@phosphor-icons/react";
@@ -18,10 +19,11 @@ type Prompt = {
 };
 
 const PROMPTS: Prompt[] = [
-  { icon: RocketIcon,      text: "What did you ship in 2025?",                 hint: "get_role + list_recent_shipped" },
-  { icon: WrenchIcon,      text: "Which projects used .NET?",                   hint: "list_projects_by_skill" },
-  { icon: ChartLineUpIcon, text: "What metrics back your experience claims?",   hint: "get_metrics" },
-  { icon: BriefcaseIcon,   text: "Tell me about your role at Forvis Mazars.",   hint: "get_role" },
+  { icon: WalletIcon,    text: "What are you working on right now?",                    hint: "get_faq current-work" },
+  { icon: BriefcaseIcon, text: "Tell me about your role at Forvis Mazars.",             hint: "get_role" },
+  { icon: PathIcon,      text: "Why did you leave kitchen management for engineering?", hint: "get_narrative" },
+  { icon: CompassIcon,   text: "What kind of role are you looking for next?",           hint: "get_faq next-role" },
+  { icon: WrenchIcon,    text: "Which projects used .NET?",                             hint: "list_projects_by_skill" },
 ];
 
 export function StarterPrompts({ onPick, disabled }: Props) {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { projects, type Project, type ProjectStatus } from "@/lib/projects";
+import { projectsByStatus, type Project, type ProjectStatus } from "@/lib/projects";
 import { sectionIds } from "@/lib/site-config";
 
 const statusCopy: Record<ProjectStatus, string> = {
@@ -50,7 +50,7 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export function FeaturedProjects() {
-  const rows = chunkPairs(projects, 2);
+  const rows = chunkPairs(projectsByStatus("shipped"), 2);
 
   return (
     <section

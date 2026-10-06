@@ -21,15 +21,16 @@ export const siteConfig = {
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL ?? "https://www.linkedin.com/in/zach-sykes/",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "zsykes21@gmail.com",
   portfolio: process.env.NEXT_PUBLIC_PORTFOLIO_SITE_URL ?? "https://www.zachsykes.dev/",
-  freelance: "https://www.calathea.design/",
   resume: {
     href: resumePdfHref,
+    fileName: "Sykes_Zach_Resume.pdf",
     label: "PDF",
   },
 } as const;
 
 export const sectionIds = {
   hero: "top",
+  now: "now",
   about: "about",
   hiring: "hiring",
   chat: "chat",
