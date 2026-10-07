@@ -22,13 +22,14 @@ export type Project = {
 };
 
 const PORTFOLIO_REPO_URL = "https://github.com/Calathea-Z/portfolio_ai";
+const CARDUI_REPO_URL = "https://github.com/Calathea-Z/Cardui";
 
 export const projects: Project[] = [
   {
     slug: "budgeting",
     title: "Budgeting and debt planning",
     blurb:
-      "A personal project I am spending my time on: an app that helps people budget and manage debt from the accounts, paychecks, bills, and balances a household actually has. In progress, and not a public demo.",
+      "A personal project I am spending my time on: an app that helps people budget and manage debt from the accounts, paychecks, bills, and balances a household actually has. In progress, with the source public on GitHub.",
     capability:
       "Next.js and a .NET API over PostgreSQL, with household-scoped sign-in, manual records, CSV import, and optional bank sync.",
     highlights: [
@@ -38,6 +39,7 @@ export const projects: Project[] = [
     ],
     status: "in-progress",
     href: "/projects/budgeting",
+    repoUrl: CARDUI_REPO_URL,
   },
   {
     slug: "planning-poker",

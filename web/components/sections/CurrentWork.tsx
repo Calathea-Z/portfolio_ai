@@ -47,12 +47,24 @@ export function CurrentWork() {
               <p className="mt-5 text-sm leading-relaxed text-secondary">
                 <span className="font-medium text-primary">At a glance:</span> {project.capability}
               </p>
-              <Link
-                href={project.href}
-                className="mt-6 inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)]"
-              >
-                Read the write-up
-              </Link>
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <Link
+                  href={project.href}
+                  className="inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-contrast shadow-[var(--shadow-btn)] transition-all hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)]"
+                >
+                  Read the write-up
+                </Link>
+                {project.repoUrl ? (
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    View on GitHub
+                  </a>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>
