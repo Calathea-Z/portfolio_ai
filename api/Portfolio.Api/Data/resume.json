@@ -67,14 +67,15 @@
       "roleId": null,
       "year": 2026,
       "status": "in-progress",
-      "visibility": "private",
-      "summary": "Personal project I am spending my time on. A private app that helps people budget and manage debt, in progress and not publicly deployed. A Next.js app and ASP.NET Core API over PostgreSQL. Clerk sign-in resolves a household on the server. Manual accounts, transactions, and CSV import work without a bank connection. Optional Plaid linking syncs through a separate one-shot worker; access tokens are encrypted before storage.",
+      "visibility": "public",
+      "repoUrl": "https://github.com/Calathea-Z/Cardui",
+      "summary": "Personal project I am spending my time on. An app that helps people budget and manage debt, in progress. A Next.js app and ASP.NET Core API over PostgreSQL. Clerk sign-in resolves a household on the server. Manual accounts, transactions, and CSV import work without a bank connection. Optional Plaid linking syncs through a separate one-shot worker; access tokens are encrypted before storage. Source is public at https://github.com/Calathea-Z/Cardui.",
       "outcomes": [
         "Screens in the product today: home, accounts, transactions, institutions, categories, budgets, income, bills, and debts.",
         "Income includes sources, paycheck schedules, and scenarios. Bills include recurring suggestions.",
         "Debt summary totals recorded balances, this month's interest, minimums, and utilization of known credit limits. A connected card or loan can be compared with the recorded balance.",
         "Next slice: a manual debt can follow a synced card or loan balance instead of being retyped after each payment. That follow mode is designed and not built yet.",
-        "No public demo or repository. Write-up at https://zachsykes.dev/projects/budgeting"
+        "Source is public at https://github.com/Calathea-Z/Cardui. Write-up at https://zachsykes.dev/projects/budgeting"
       ],
       "tech": ["Next.js", "TypeScript", "React", "Tailwind CSS", "C#", ".NET", "ASP.NET Core", "PostgreSQL", "Entity Framework Core", "Plaid", "Clerk"]
     },
@@ -197,7 +198,7 @@
     {
       "id": "current-work",
       "question": "What are you working on right now?",
-      "answer": "A private personal project I am spending my time on: an app that helps people budget and manage debt. It is in progress: a Next.js app and .NET API over PostgreSQL, with Clerk sign-in, household-scoped records, manual accounts, CSV import, and optional Plaid bank sync. Income, bills, and debts sit next to everyday accounts and transactions. There is no public demo or repository yet. The write-up is at https://zachsykes.dev/projects/budgeting."
+      "answer": "A personal project I am spending my time on: an app that helps people budget and manage debt. It is in progress: a Next.js app and .NET API over PostgreSQL, with Clerk sign-in, household-scoped records, manual accounts, CSV import, and optional Plaid bank sync. Income, bills, and debts sit next to everyday accounts and transactions. The source is public at https://github.com/Calathea-Z/Cardui. The write-up is at https://zachsykes.dev/projects/budgeting."
     },
     {
       "id": "next-role",

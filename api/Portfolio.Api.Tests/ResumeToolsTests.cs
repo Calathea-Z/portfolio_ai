@@ -213,12 +213,18 @@ public class ResumeToolsTests
         var faq = await tools.RunAsync(ResumeToolDefinitions.GetFaq, Input("""{ "id": "current-work" }"""), default);
         Assert.Equal(1, faq.GetProperty("count").GetInt32());
         var answer = faq.GetProperty("items")[0].GetProperty("answer").GetString();
-        Assert.Contains("private", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.NotNull(answer);
         Assert.Contains("personal", answer, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("budgeting", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("https://github.com/Calathea-Z/Cardui", answer, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("Forvis", answer, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("Cardui", answer, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("github.com", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("private", answer, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("no public", answer, StringComparison.OrdinalIgnoreCase);
+        var withoutRepoUrl = answer.Replace(
+            "https://github.com/Calathea-Z/Cardui",
+            "",
+            StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Cardui", withoutRepoUrl, StringComparison.OrdinalIgnoreCase);
     }
 
     [Fact]

@@ -57,8 +57,16 @@ export default function BudgetingProjectPage() {
             </p>
             <p className="mt-2 max-w-3xl text-base leading-relaxed text-secondary">{project.blurb}</p>
             <p className="mt-4 inline-flex rounded-full border border-info-border bg-info-bg px-3 py-1 text-xs font-medium text-info-fg">
-              Private — in progress, no public demo or repository
+              In progress
             </p>
+            <a
+              href={project.repoUrl ?? siteConfig.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
+            >
+              View on GitHub →
+            </a>
           </section>
 
           <section
@@ -71,7 +79,7 @@ export default function BudgetingProjectPage() {
             <p className="mt-3 text-sm leading-relaxed text-secondary">
               A personal project I am spending my time on. It helps people budget and manage debt
               from the same records they use day to day: what is owed, what is coming in, which
-              bills repeat, and what a payment does to the month. It is not a public demo yet.
+              bills repeat, and what a payment does to the month.
             </p>
           </section>
 
@@ -150,7 +158,15 @@ export default function BudgetingProjectPage() {
             <p className="mt-3 text-sm leading-relaxed text-secondary">
               This is the personal project I am spending my time on. It is a workflow-heavy
               application with a typed API, a real database, sign-in, and a careful boundary around
-              bank data. The repository stays private, so this page is the public description.
+              bank data.{" "}
+              <a
+                href={project.repoUrl ?? siteConfig.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                The source is public on GitHub.
+              </a>
             </p>
           </section>
         </main>
