@@ -59,14 +59,6 @@ export default function BudgetingProjectPage() {
             <p className="mt-4 inline-flex rounded-full border border-info-border bg-info-bg px-3 py-1 text-xs font-medium text-info-fg">
               In progress
             </p>
-            <a
-              href={project.repoUrl ?? siteConfig.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex rounded-xl border border-border-soft bg-surface px-4 py-2 text-sm font-medium text-text transition-colors hover:border-border-strong hover:bg-surface-alt"
-            >
-              View on GitHub →
-            </a>
           </section>
 
           <section
@@ -158,15 +150,7 @@ export default function BudgetingProjectPage() {
             <p className="mt-3 text-sm leading-relaxed text-secondary">
               This is the personal project I am spending my time on. It is a workflow-heavy
               application with a typed API, a real database, sign-in, and a careful boundary around
-              bank data.{" "}
-              <a
-                href={project.repoUrl ?? siteConfig.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-primary underline-offset-4 hover:underline"
-              >
-                The source is public on GitHub.
-              </a>
+              bank data.
             </p>
           </section>
         </main>
